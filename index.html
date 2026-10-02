@@ -18,7 +18,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .ball-mini{width:14px;height:14px;border-radius:50%;box-shadow:inset -2px -2px 4px #000,1px 1px 2px rgba(0,0,0,0.5)}
 .rank-badge{background:var(--gold);color:#000;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:bold}
 .rank-icon{color:var(--gold);font-size:14px;vertical-align:middle;margin-left:2px}
-.player-name{font-size:15px;font-weight:900;letter-spacing:-0.4px;flex:1;text-align:center}
+.player-name{font-size:18px;font-weight:900;letter-spacing:-0.4px;flex:1;text-align:center}
 .pts-box{text-align:center;margin:4px 0}
 .pts{font-size:40px;font-weight:900;color:#fff;line-height:1}
 .pts-lbl{font-size:10px;color:#8da497;margin-left:4px}
@@ -51,8 +51,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 const def={"Ignatius":{pts:2,pj:3,v:2,b:"#fff",rac:0,rec:2,duos:{"Marcelo-1-1":"","Bertus-1-1":"","Jorge-1-0":""}},"Marcelo":{pts:2,pj:3,v:2,b:"#f1c40f",rac:1,rec:1,duos:{"Ignatius-1-1":"","Jorge-1-0":"","Bertus-1-1":""}},"Bertus":{pts:2,pj:3,v:2,b:"#95a5a6",rac:2,rec:2,duos:{"Jorge-1-0":"","Ignatius-1-1":"","Marcelo-1-1":""}},"Jorge":{pts:0,pj:3,v:0,b:"#e74c3c",rac:0,rec:0,duos:{"Bertus-1-0":"","Marcelo-1-0":"","Ignatius-1-0":""}}};
 const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},{a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}];
 const icons=["👑","🏆","🏅","🎯"];
-
-// Clave única blindada independiente de versiones previas
 const KEY_DATA = "b_torneo_definitivo";
 
 let store = JSON.parse(localStorage.getItem(KEY_DATA)) || {
@@ -71,7 +69,7 @@ function tab(t,e){document.querySelectorAll('.tab').forEach(x=>x.classList.remov
 function getBestDuo(n){
   let d=store.players[n].duos||{},bName="-",bPct=0,maxV=0;
   Object.entries(d).forEach(([k,v])=>{
-    let parts=k.split("-");if(parts.lengthTrace>=3||parts.length>=3){
+    let parts=k.split("-");if(parts.length>=3){
       let name=parts[0],j=parseInt(parts[1]),win=parseInt(parts[2]);
       let pct=j>0?Math.round(win/j*100):0;
       if(pct>bPct||(pct===bPct&&win>maxV)){bPct=pct;bName=name;maxV=win}
@@ -112,7 +110,7 @@ function render(){
   }
   h=document.getElementById("h-cont");h.innerHTML="";
   let rev=[...store.history].reverse();
-  rev.forEach(m=>{h.innerHTML+="<div class='h-item'><div style='display:flex;align-items:flex-start;gap:4px;flex-direction:column'><b style='color:var(--gold);font-size:13px'>Ronda "+m.r+"</b><div><span style='color:#2ecc71;font-weight:bold'>🏆 "+m.w+"</span><span style='color:#8da497;font-size:11px'> venció a </span><span style='color:#e74c3c;text-decoration:line-through;opacity:0.7'>"+m.l+"</span></div></div><div style='color:#8da497;font-size:11px;font-weight:bold;align-self:flex-end'>"+m.t+ "</div></div>"});
+  rev.forEach(m=>{h.innerHTML+="<div class='h-item'><div style='display:flex;align-items:flex-start;gap:4px;flex-direction:column'><b style='color:var(--gold);font-size:13px'>Ronda "+m.r+"</b><div><span style='color:#2ecc71;font-weight:bold'>🏆 "+m.w+"</span><span style='color:#8da497;font-size:11px'> venció a </span><span style='color:#e74c3c;text-decoration:line-through;opacity:0.7'>"+m.l+"</span></div></div><div style='color:#8da497;font-size:11px;font-weight:bold;align-self:flex-end'>"+m.t+"</div></div>"});
   renderAfinity();
 }
 
@@ -144,7 +142,7 @@ function resetTournament(){
         "Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0,duos:{}},
         "Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:0,duos:{}}
       },
-      matchIdx:0,hist:[]
+      matchIdx:0,history:[]
     };
     save();render();
     window.location.reload();
