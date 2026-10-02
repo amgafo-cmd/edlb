@@ -1,0 +1,150 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>El Equipo de las Bolas</title>
+<style>
+:root{--bg:#06160e;--card:#0b2518;--border:#123d27;--gold:#f1c40f}
+body{font-family:sans-serif;background:var(--bg);color:#fff;margin:0;padding:15px}
+.header-banner{background:linear-gradient(90deg,#2c1307,#1a0b04);border:1px solid #421e0b;border-radius:12px;padding:20px;display:flex;align-items:center;margin-bottom:20px;box-shadow:0 4px 15px rgba(0,0,0,0.5);justify-content:space-between}
+.header-left{display:flex;align-items:center;gap:20px}
+.balls-group{display:flex;gap:8px}
+.b-ball{width:32px;height:32px;border-radius:50%;box-shadow:inset -4px -4px 8px rgba(0,0,0,0.8),2px 4px 6px rgba(0,0,0,0.6)}
+.b-white{background:#fff}.b-yellow{background:#f1c40f}.b-red{background:#dc3545}
+.brand-sub{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;font-weight:bold}
+.brand-title{font-size:26px;font-weight:900;line-height:1.1;margin:3px 0}
+.brand-desc{font-size:12px;color:#8da497;font-weight:bold}
+.btn-reset-top{background:#58131a;color:#f8d7da;border:1px solid #721c24;padding:10px 16px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;text-transform:uppercase}
+.navbar{display:flex;justify-content:center;gap:10px;background:#04100a;padding:8px;border-radius:6px;margin-bottom:20px}
+.nav-item{padding:6px 12px;border-radius:4px;font-size:12px;font-weight:bold;color:#8da497;cursor:pointer;text-transform:uppercase}
+.nav-item.active{background:var(--gold);color:#000}
+.tab{display:none}.tab.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:25px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:15px}
+.ball-mini{width:16px;height:16px;border-radius:50%;box-shadow:inset -2px -2px 4px #000,1px 1px 2px rgba(0,0,0,0.5)}
+.rank-badge{background:var(--gold);color:#000;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold}
+.rank-icon{color:var(--gold);font-size:20px;vertical-align:middle;margin-left:4px}
+.player-name{font-size:20px;font-weight:900;letter-spacing:-0.4px;flex:1;text-align:center}
+.pts-box{text-align:center;margin:10px 0}
+.pts{font-size:64px;font-weight:900;color:#fff;line-height:1}
+.pts-lbl{font-size:12px;color:#8da497;margin-left:4px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);font-size:11px;text-align:center;border-top:1px solid #123d27;padding-top:8px;margin-bottom:10px;color:#8da497}
+.streak-container{display:flex;gap:6px;margin-top:24px;margin-bottom:10px}
+.streak-box{flex:1;padding:6px;border-radius:6px;font-size:11px;font-weight:bold;text-align:center;text-transform:uppercase}
+.s-act{background:#3a141c;color:#ff9ebb;border:1px solid #581d28}
+.s-rec{background:#0e2b1d;color:#a3e2c9;border:1px solid #16422d}
+.best-duo{font-size:12px;color:#8da497;margin-top:6px;text-align:center}
+.best-duo b{color:#a3e2c9}
+.m-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.m-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:15px;text-align:center}
+.m-card.next{border:2px solid var(--gold)}
+.btn-win{width:100%;padding:10px;font-weight:bold;border-radius:6px;border:none;cursor:pointer;margin:5px 0;text-transform:uppercase;font-size:11px}
+.btn-a{background:#f7f5ee;color:#06160e}.btn-b{background:#dc3545;color:#fff}
+.h-item{background:var(--card);border:1px solid var(--border);padding:12px;border-radius:6px;margin-bottom:8px;display:flex;justify-content:space-between;font-size:13px}
+</style></head><body>
+<div class="header-banner">
+  <div class="header-left">
+    <div class="balls-group"><div class="b-ball b-white"></div><div class="b-ball b-yellow"></div><div class="b-ball b-red"></div></div>
+    <div>
+      <div class="brand-sub">Billar Carambola • 3 Bandas</div>
+      <div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div>
+      <div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div>
+    </div>
+  </div>
+  <button onclick="resetTournament()" class="btn-reset-top">⟲ Reiniciar Marcador</button>
+</div>
+<div class="navbar"><div class="nav-item active" onclick="tab('m',event)">Marcador & Citas</div><div class="nav-item" onclick="tab('h',event)">Historial</div></div>
+<div id="t-m" class="tab active">
+  <div class="grid" id="p-cont"></div>
+  <h2 style="font-size:20px;margin-bottom:12px;color:var(--gold)">Próximas 3 Citas</h2><div class="m-grid" id="m-cont"></div>
+</div>
+<div id="t-h" class="tab">
+  <h2>Historial de Partidos</h2><div id="h-cont"></div>
+</div>
+<script>
+const def={
+  "Ignatius":{pts:2,pj:3,v:2,b:"#fff",rac:0,rec:2,duos:{"Marcelo-1-1":"","Bertus-1-1":"","Jorge-1-0":""}},
+  "Marcelo":{pts:2,pj:3,v:2,b:"#f1c40f",rac:1,rec:1,duos:{"Ignatius-1-1":"","Jorge-1-0":"","Bertus-1-1":""}},
+  "Bertus":{pts:2,pj:3,v:2,b:"#95a5a6",rac:2,rec:2,duos:{"Jorge-1-0":"","Ignatius-1-1":"","Marcelo-1-1":""}},
+  "Jorge":{pts:0,pj:3,v:0,b:"#e74c3c",rac:0,rec:0,duos:{"Bertus-1-0":"","Marcelo-1-0":"","Ignatius-1-0":""}}
+};
+const cyc=[
+  {a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},
+  {a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},
+  {a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}
+];
+const icons=["👑","🏆","🏅","🎯"];
+let p=JSON.parse(localStorage.getItem("b_p5"))||structuredClone(def);
+let idx=parseInt(localStorage.getItem("b_i5"));if(isNaN(idx))idx=3;
+let hist=JSON.parse(localStorage.getItem("b_h5"))||[
+  {r:1,w:"Ignatius + Marcelo",l:"Jorge + Bertus",t:"Partida 1"},
+  {r:2,w:"Ignatius + Bertus",l:"Jorge + Marcelo",t:"Partida 2"},
+  {r:3,w:"Marcelo + Bertus",l:"Ignatius + Jorge",t:"Partida 3"}
+];
+function save(){localStorage.setItem("b_p5",JSON.stringify(p));localStorage.setItem("b_i5",idx);localStorage.setItem("b_h5",JSON.stringify(hist))}
+function tab(t,e){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));document.getElementById('t-'+t).classList.add('active');e.target.classList.add('active')}
+function getBestDuo(n){
+  let d=p[n].duos||{},bName="-",bPct=0,maxV=0;
+  Object.entries(d).forEach(([k,v])=>{
+    let parts=k.split("-");if(parts.length>=3){
+      let name=parts[0],j=parseInt(parts[1]),win=parseInt(parts[2]);
+      let pct=j>0?Math.round(win/j*100):0;
+      if(pct>bPct||(pct===bPct&&win>maxV)){bPct=pct;bName=name;maxV=win}
+    }
+  });
+  return bName!=="-"?bName+" ("+bPct+"%)":"Ninguno";
+}
+function render(){
+  let s=Object.entries(p).sort((x,y)=>{
+    if(y[1].pts!==x[1].pts) return y[1].pts-x[1].pts;
+    let pctX=x[1].pj>0?x[1].v/x[1].pj:0;
+    let pctY=y[1].pj>0?y[1].v/y[1].pj:0;
+    return pctY-pctX;
+  });
+  let h=document.getElementById("p-cont");h.innerHTML="";
+  s.forEach(([n,d],i)=>{
+    let iconHTML=icons[i]||"🎯";
+    h.innerHTML+=`<div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="display:flex;align-items:center;width:80%"><span class="rank-badge">${i+1}°</span><span class="rank-icon">${iconHTML}</span><span class="player-name">${n}</span></div>
+        <div class="ball-mini" style="background:${d.b}"></div>
+      </div>
+      <div class="pts-box"><span class="pts">${d.pts}</span><span class="pts-lbl">PTS</span></div>
+      <div class="stats"><div>PJ<br><b style="color:#fff">${d.pj}</b></div><div>V<br><b style="color:#fff">${d.v}</b></div><div style="color:var(--gold)">%V<br><b>${d.pj?Math.round(d.v/d.pj*100):0}%</b></div></div>
+      <div class="streak-container"><div class="streak-box s-act">Racha 🔥 ${d.rac||0}</div><div class="streak-box s-rec">Récord <span style="color:var(--gold)">${d.rec||0}</span></div></div>
+      <div class="best-duo">Mejor dúo: <b>${getBestDuo(n)}</b></div>
+    </div>`
+  });
+  h=document.getElementById("m-cont");h.innerHTML="";
+  for(let i=0;i<3;i++){
+    let c=cyc[(idx+i)%3],n=i===0;
+    h.innerHTML+=`<div class="m-card ${n?'next':''}"><div style="display:flex;justify-content:space-between;font-size:10px;color:#8da497;font-weight:bold"><span>${n?'⚡ SIGUIENTE PARTIDA':'👥 CITA '+(i+1)}</span><span>ROUND ${idx+i+1}</span></div><div style="font-size:9px;color:#8da497;margin-top:8px;text-transform:uppercase">Pareja A</div><div style="font-size:18px;font-weight:bold;margin-bottom:5px">${c.a.join(" - ")}</div>${n?`<button class="btn-win btn-a" onclick="win('A')">Ganó Pareja A</button><div style="color:var(--gold);font-weight:bold;font-size:11px;margin:2px 0">VS</div><button class="btn-win btn-b" onclick="win('B')">Ganó Pareja B</button>`:`<div style="margin:20px 0;color:#4a6356;font-weight:bold;font-size:11px;text-transform:uppercase">— VS —</div>`}<div style="font-size:9px;color:#8da497;text-transform:uppercase">Pareja B</div><div style="font-size:18px;font-weight:bold;margin-top:5px">${c.b.join(" - ")}</div></div>`
+  }
+  h=document.getElementById("h-cont");h.innerHTML="";
+  [...hist].reverse().forEach(m=>{h.innerHTML+=`<div class="h-item"><div><b style="color:var(--gold);margin-right:8px">Ronda ${m.r}</b><span style="color:#2ecc71;font-weight:bold">🏆 ${m.w}</span><span style="color:#8da497;font-size:12px"> venció a </span><span style="color:#e74c3c;text-decoration:line-through;opacity:0.7">${m.l}</span></div><div style="color:#8da497;font-size:11px;font-weight:bold">${m.t}</div></div>`});
+}
+function updateDuo(player,partner,isWin){
+  let d=p[player].duos||{},targetKey=null;
+  Object.keys(d).forEach(k=>{if(k.startsWith(partner+"-"))targetKey=k});
+  let j=0,v=0;if(targetKey){let parts=targetKey.split("-");j=parseInt(parts[1]);v=parseInt(parts[2]);delete d[targetKey]}
+  j++;if(isWin)v++;d[partner+"-"+j+"-"+v]="";p[player].duos=d;
+}
+function win(t){
+  let c=cyc[idx%3],w=t==='A'?c.a:c.b,l=t==='A'?c.b:c.a;
+  [...c.a,...c.b].forEach(n=>p[n].pj++);
+  w.forEach(n=>{p[n].pts++;p[n].v++;p[n].rac=(p[n].rac||0)+1;if(p[n].rac>=(p[n].rec||0))p[n].rec=p[n].rac});
+  l.forEach(n=>p[n].rac=0);
+  updateDuo(w[0],w[1],true);updateDuo(w[1],w[0],true);
+  updateDuo(l[0],l[1],false);updateDuo(l[1],l[0],false);
+  hist.push({r:idx+1,w:w.join(" + "),l:l.join(" + "),t:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});idx++;save();render()
+}
+function resetTournament(){
+  if(confirm("¿Reiniciar marcador? Se perderán todos los datos actuales.")){
+    localStorage.clear();
+    p={
+      "Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:0,duos:{}},
+      "Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:0,duos:{}},
+      "Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0,duos:{}},
+      "Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:0,duos:{}}
+    };
+    idx=0;hist=[];save();render();
+  }
+}
+save();render();
+</script></body></html>
