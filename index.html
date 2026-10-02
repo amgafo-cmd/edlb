@@ -18,7 +18,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .ball-mini{width:14px;height:14px;border-radius:50%;box-shadow:inset -2px -2px 4px #000,1px 1px 2px rgba(0,0,0,0.5)}
 .rank-badge{background:var(--gold);color:#000;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:bold}
 .rank-icon{color:var(--gold);font-size:14px;vertical-align:middle;margin-left:2px}
-.player-name{font-size:18px;font-weight:900;letter-spacing:-0.4px;flex:1;text-align:center}
+.player-name{font-size:15px;font-weight:900;letter-spacing:-0.4px;flex:1;text-align:center}
 .pts-box{text-align:center;margin:4px 0}
 .pts{font-size:40px;font-weight:900;color:#fff;line-height:1}
 .pts-lbl{font-size:10px;color:#8da497;margin-left:4px}
@@ -56,17 +56,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 <div id="t-h" class="tab"><h2>Historial de Partidos</h2><div id="h-cont"></div></div>
 <div id="t-s" class="tab"><h2 style="font-size:18px;margin-bottom:12px;color:var(--gold)">📊 Afinidad de Parejas</h2><div id="s-cont"></div></div>
 
-<!-- Estructura del cuadro flotante de confirmación -->
+<!-- Contenedor del cuadro flotante con botones que cambian de orden -->
 <div class="modal-overlay" id="resetModal">
   <div class="modal-box">
     <div class="modal-msg" id="modalText">¿Estás seguro que quieres borrar todos los datos y empezar nuevo campeonato?</div>
-    <div class="modal-btns">
-      <button class="btn-modal btn-modal-yes" id="modalYesBtn" onclick="handleModalYes()">SÍ</button>
-      <button class="btn-modal btn-modal-cancel" onclick="closeResetModal()">CANCELAR</button>
+    <div class="modal-btns" id="modalBtnsContainer">
+      <!-- Se genera de forma dinámica con JS para alternar las posiciones de los botones -->
     </div>
   </div>
 </div>
-<script>
+
+  <script>
 const def={"Ignatius":{pts:2,pj:3,v:2,b:"#fff",rac:0,rec:2,duos:{"Marcelo-1-1":"","Bertus-1-1":"","Jorge-1-0":""}},"Marcelo":{pts:2,pj:3,v:2,b:"#f1c40f",rac:1,rec:1,duos:{"Ignatius-1-1":"","Jorge-1-0":"","Bertus-1-1":""}},"Bertus":{pts:2,pj:3,v:2,b:"#95a5a6",rac:2,rec:2,duos:{"Jorge-1-0":"","Ignatius-1-1":"","Marcelo-1-1":""}},"Jorge":{pts:0,pj:3,v:0,b:"#e74c3c",rac:0,rec:0,duos:{"Bertus-1-0":"","Marcelo-1-0":"","Ignatius-1-0":""}}};
 const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},{a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}];
 const icons=["👑","🏆","🏅","🎯"];
@@ -87,9 +87,27 @@ let resetStep = 1;
 function save(){localStorage.setItem(KEY_DATA, JSON.stringify(store))}
 function tab(t,e){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));document.getElementById('t-'+t).classList.add('active');e.target.classList.add('active')}
 
+function renderModalButtons(){
+  const container = document.getElementById("modalBtnsContainer");
+  if(resetStep === 1) {
+    // Paso 1: SÍ a la izquierda, CANCELAR a la derecha
+    container.innerHTML = `
+      <button class="btn-modal btn-modal-yes" onclick="handleModalYes()">SÍ</button>
+      <button class="btn-modal btn-modal-cancel" onclick="closeResetModal()">CANCELAR</button>
+    `;
+  } else {
+    // Paso 2: CANCELAR a la izquierda, SÍ a la derecha (Cambio de posición forzado)
+    container.innerHTML = `
+      <button class="btn-modal btn-modal-cancel" onclick="closeResetModal()">CANCELAR</button>
+      <button class="btn-modal btn-modal-yes" onclick="handleModalYes()">SÍ</button>
+    `;
+  }
+}
+
 function openResetModal(){
   resetStep = 1;
   document.getElementById("modalText").innerText = "¿Estás seguro que quieres borrar todos los datos y empezar nuevo campeonato?";
+  renderModalButtons();
   document.getElementById("resetModal").style.display = "flex";
 }
 function closeResetModal(){
@@ -99,6 +117,7 @@ function handleModalYes(){
   if(resetStep === 1){
     resetStep = 2;
     document.getElementById("modalText").innerText = "Asegúrate, porque estos datos se pierden y no se pueden recuperar";
+    renderModalButtons();
   }else if(resetStep === 2){
     executeReset();
   }
@@ -124,7 +143,7 @@ function getBestDuo(n){
   let d=store.players[n].duos||{},bName="-",bPct=0,maxV=0;
   Object.entries(d).forEach(([k,v])=>{
     let parts=k.split("-");if(parts.length>=3){
-      let name=parts[0],j=parseInt(parts[1]),win=parseInt(parts[2]);
+      let name=parts,j=parseInt(parts),win=parseInt(parts);
       let pct=j>0?Math.round(win/j*100):0;
       if(pct>bPct||(pct===bPct&&win>maxV)){bPct=pct;bName=name;maxV=win}
     }
@@ -140,8 +159,8 @@ function renderAfinity(){
     let losPlayers=m.l.split(" + ");if(losPlayers.length==2){let k=losPlayers.sort().join(" + ");if(pairs[k]){pairs[k].j++}}
   });
   let sorted=Object.entries(pairs).sort((x,y)=>{
-    let pctX=x[1].j>0?x[1].v/x[1].j:0;let pctY=y[1].j>0?y[1].v/y[1].j:0;
-    if(pctY!==pctX)return pctY-pctX;return y[1].j-x[1].j;
+    let pctX=x.j>0?x.v/x.j:0;let pctY=y.j>0?y.v/y.j:0;
+    if(pctY!==pctX)return pctY-pctX;return y.j-x.j;
   });
   let sCont=document.getElementById("s-cont");sCont.innerHTML="";
   sorted.forEach(([pair,data],index)=>{
@@ -151,11 +170,11 @@ function renderAfinity(){
 }
 
 function render(){
-  let s=Object.entries(store.players).sort((x,y)=>{if(y[1].pts!=x[1].pts)return y[1].pts-x[1].pts;let pctX=x[1].pj>0?x[1].v/x[1].pj:0,pctY=y[1].pj>0?y[1].v/y[1].pj:0;return pctY-pctX});
+  let s=Object.entries(store.players).sort((x,y)=>{if(y.pts!=x.pts)return y.pts-x.pts;let pctX=x.pj>0?x.v/x.pj:0,pctY=y.pj>0?y.v/y.pj:0;return pctY-pctX});
   let h=document.getElementById("p-cont");h.innerHTML="";
   s.forEach(([n,d],i)=>{
     let iconHTML=icons[i]||"🎯";let activeStreak=d.rac>0?`on`:``;
-    h.innerHTML+="<div class='card'><div style='display:flex;justify-content:space-between;align-items:center'><div style='display:flex;align-items:center;width:85%'><span class='rank-badge'>"+(i+1)+"°</span><span class='rank-icon'>"+iconHTML+"</span><span class='player-name'>"+n+"</span></div><div class='ball-mini' style='background:"+d.b+"'></div></div><div class='pts-box'><span class='pts'>"+d.pts+"</span><span class='pts-lbl'>PTS</span></div><div class='stats'><div>PJ<br><b style='color:#fff'>"+d.pj+"</b></div><div>V<br><b style='color:#fff'>"+d.v+"</b></div><div style='color:var(--gold)'>%V<br><b>"+(d.pj?Math.round(d.v/d.pj*100):0)+"%</b></div></div><div class='streak-container'><div class='streak-box s-act "+activeStreak+"'>Racha 🔥 "+(d.rac||0)+"</div><div class='streak-box s-rec'>Récord "+(d.rec||0)+"</div></div><div class='best-duo'>Dúo: <b>"+getBestDuo(n)+"</b></div></div>"
+    h.innerHTML+="<div class='card'><div style='display:flex;justify-content:space-between;align-items:center'><div style='display:flex;align-items:center;width:85%'><span class='rank-badge'>"+(i+1)+"°</span><span class='rank-icon'>"+iconHTML+"</span><span class='player-name'>"+n+"</span></div><div class='ball-mini' style='background:"+d.b+"'></div></div><div class='pts-box'><span class='pts'>"+d.pts+"</span><span class='pts-lbl'>PTS</span></div><div class='stats'><div>PJ<br><b style='color:#fff'>"+d.pj+"</b></div><div>V<br><b style='color:#fff'>"+d.v+"</b></div><div style='color:var(--gold)'>%V<br><b>"+(store.players[n].pj?Math.round(store.players[n].v/store.players[n].pj*100):0)+"%</b></div></div><div class='streak-container'><div class='streak-box s-act "+activeStreak+"'>Racha 🔥 "+(d.rac||0)+"</div><div class='streak-box s-rec'>Récord "+(d.rec||0)+"</div></div><div class='best-duo'>Dúo: <b>"+getBestDuo(n)+"</b></div></div>"
   });
   h=document.getElementById("m-cont");h.innerHTML="";
   for(let i=0;i<3;i++){
@@ -171,7 +190,7 @@ function render(){
 function updateDuo(player,partner,isWin){
   let d=store.players[player].duos||{},targetKey=null;
   Object.keys(d).forEach(k=>{if(k.startsWith(partner+"-"))targetKey=k});
-  let j=0,v=0;if(targetKey){let parts=targetKey.split("-");j=parseInt(parts[1]);v=parseInt(parts[2]);delete d[targetKey]}
+  let j=0,v=0;if(targetKey){let parts=targetKey.split("-");j=parseInt(parts);v=parseInt(parts);delete d[targetKey]}
   j++;if(isWin)v++;d[partner+"-"+j+"-"+v]="";store.players[player].duos=d;
 }
 
@@ -180,12 +199,10 @@ function win(t){
   [...c.a,...c.b].forEach(n=>store.players[n].pj++);
   w.forEach(n=>{store.players[n].pts++;store.players[n].v++;store.players[n].rac=(store.players[n].rac||0)+1;if(store.players[n].rac>=(store.players[n].rec||0))store.players[n].rec=store.players[n].rac});
   l.forEach(n=>store.players[n].rac=0);
-  updateDuo(w[0],w[1],true);updateDuo(w[1],w[0],true);
-  updateDuo(l[0],l[1],false);updateDuo(l[1],l[0],false);
+  updateDuo(w,w,true);updateDuo(w,w,true);
+  updateDuo(l,l,false);updateDuo(l,l,false);
   store.history.push({r:store.matchIdx+1,w:w.join(" + "),l:l.join(" + "),t:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
   store.matchIdx++;save();render();
 }
 save();render();
 </script></body></html>
-
-  
