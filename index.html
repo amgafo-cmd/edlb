@@ -41,7 +41,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .stat-pct{font-size:14px;font-weight:900;color:var(--gold)}
 .stat-pct.high{color:#2ecc71}
 
-/* Estilos de la ventana flotante de confirmación */
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;padding:20px}
 .modal-box{background:var(--bg-gradient);border:2px solid #721c24;border-radius:12px;padding:20px;max-width:340px;width:100%;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.6)}
 .modal-msg{font-size:15px;font-weight:bold;line-height:1.4;margin-bottom:20px;color:#fff}
@@ -56,17 +55,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 <div id="t-h" class="tab"><h2>Historial de Partidos</h2><div id="h-cont"></div></div>
 <div id="t-s" class="tab"><h2 style="font-size:18px;margin-bottom:12px;color:var(--gold)">📊 Afinidad de Parejas</h2><div id="s-cont"></div></div>
 
-<!-- Contenedor del cuadro flotante con botones que cambian de orden -->
 <div class="modal-overlay" id="resetModal">
   <div class="modal-box">
     <div class="modal-msg" id="modalText">¿Estás seguro que quieres borrar todos los datos y empezar nuevo campeonato?</div>
-    <div class="modal-btns" id="modalBtnsContainer">
-      <!-- Se genera de forma dinámica con JS para alternar las posiciones de los botones -->
-    </div>
+    <div class="modal-btns" id="modalBtnsContainer"></div>
   </div>
 </div>
-
-  <script>
+<script>
 const def={"Ignatius":{pts:2,pj:3,v:2,b:"#fff",rac:0,rec:2,duos:{"Marcelo-1-1":"","Bertus-1-1":"","Jorge-1-0":""}},"Marcelo":{pts:2,pj:3,v:2,b:"#f1c40f",rac:1,rec:1,duos:{"Ignatius-1-1":"","Jorge-1-0":"","Bertus-1-1":""}},"Bertus":{pts:2,pj:3,v:2,b:"#95a5a6",rac:2,rec:2,duos:{"Jorge-1-0":"","Ignatius-1-1":"","Marcelo-1-1":""}},"Jorge":{pts:0,pj:3,v:0,b:"#e74c3c",rac:0,rec:0,duos:{"Bertus-1-0":"","Marcelo-1-0":"","Ignatius-1-0":""}}};
 const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},{a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}];
 const icons=["👑","🏆","🏅","🎯"];
@@ -76,9 +71,9 @@ let store = JSON.parse(localStorage.getItem(KEY_DATA)) || {
   players: structuredClone(def),
   matchIdx: 3,
   history: [
-    {r:1,w:"Ignatius + Marcelo",l:"Jorge + Bertus",t:"Partida 1"},
-    {r:2,w:"Ignatius + Bertus",l:"Jorge + Marcelo",t:"Partida 2"},
-    {r:3,w:"Marcelo + Bertus",l:"Ignatius + Jorge",t:"Partida 3"}
+    {r:1,w:"Ignatius + Marcelo",l:"Jorge + Bertus",t:"03-sep"},
+    {r:2,w:"Ignatius + Bertus",l:"Jorge + Marcelo",t:"16-sep"},
+    {r:3,w:"Marcelo + Bertus",l:"Ignatius + Jorge",t:"30-sep"}
   ]
 };
 
@@ -90,13 +85,11 @@ function tab(t,e){document.querySelectorAll('.tab').forEach(x=>x.classList.remov
 function renderModalButtons(){
   const container = document.getElementById("modalBtnsContainer");
   if(resetStep === 1) {
-    // Paso 1: SÍ a la izquierda, CANCELAR a la derecha
     container.innerHTML = `
       <button class="btn-modal btn-modal-yes" onclick="handleModalYes()">SÍ</button>
       <button class="btn-modal btn-modal-cancel" onclick="closeResetModal()">CANCELAR</button>
     `;
   } else {
-    // Paso 2: CANCELAR a la izquierda, SÍ a la derecha (Cambio de posición forzado)
     container.innerHTML = `
       <button class="btn-modal btn-modal-cancel" onclick="closeResetModal()">CANCELAR</button>
       <button class="btn-modal btn-modal-yes" onclick="handleModalYes()">SÍ</button>
@@ -116,7 +109,7 @@ function closeResetModal(){
 function handleModalYes(){
   if(resetStep === 1){
     resetStep = 2;
-    document.getElementById("modalText").innerText = "Asegúrate, porque estos datos se pierden y no se pueden recuperar";
+    document.getElementById("modalText").innerText = "Asegúrate, because estos datos se pierden y no se pueden recuperar";
     renderModalButtons();
   }else if(resetStep === 2){
     executeReset();
@@ -148,7 +141,7 @@ function getBestDuo(n){
       if(pct>bPct||(pct===bPct&&win>maxV)){bPct=pct;bName=name;maxV=win}
     }
   });
-  return bName!=="-"?bName+" ("+bPct+"%)":"Ninguno";
+  return bName!=="-联合"&&bName!=="-"?bName+" ("+bPct+"%)":"Ninguno";
 }
 
 function renderAfinity(){
@@ -201,7 +194,14 @@ function win(t){
   l.forEach(n=>store.players[n].rac=0);
   updateDuo(w,w,true);updateDuo(w,w,true);
   updateDuo(l,l,false);updateDuo(l,l,false);
-  store.history.push({r:store.matchIdx+1,w:w.join(" + "),l:l.join(" + "),t:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
+  
+  // Captura automática de fecha actual en formato dd-mes
+  let now = new Date();
+  let day = String(now.getDate()).padStart(2, '0');
+  let months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+  let dateStr = day + "-" + months[now.getMonth()];
+
+  store.history.push({r:store.matchIdx+1,w:w.join(" + "),l:l.join(" + "),t:dateStr});
   store.matchIdx++;save();render();
 }
 save();render();
