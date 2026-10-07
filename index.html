@@ -24,7 +24,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .pts-lbl{font-size:10px;color:#8da497;margin-left:4px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);font-size:10px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:6px;margin-bottom:6px;color:#8da497}
 .streak-container{display:flex;flex-direction:column;gap:4px;margin-top:10px;margin-bottom:6px}
-.streak-box{width:100%;padding:4px;border-radius:4px;font-size:9px;font-weight:bold;text-align:center;text-transform:uppercase;border:1px solid rgba(255,255,255,0.05)}
+.streak-box{width:100%;padding:5px;border-radius:4px;font-size:9px;font-weight:bold;text-align:center;text-transform:uppercase;border:1px solid rgba(255,255,255,0.05)}
 .s-act{background:rgba(220,53,69,0.15);color:#ff7686}
 .s-act.on{background:linear-gradient(135deg, #bd2130, #58131a);color:#fff;box-shadow:0 2px 6px rgba(220,53,69,0.3)}
 .s-rec{background:rgba(40,167,69,0.1);color:#73e28f}
@@ -42,20 +42,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .stat-pct{font-size:14px;font-weight:900;color:var(--gold)}
 .stat-pct.high{color:#2ecc71}
 
-/* NUEVOS ESTILOS PARA LAS FICHAS TIPO EA SPORTS FC / TELEVISIÓN */
+/* DISEÑO DE CROMOS VERTICALES CON TEXTOS ADAPTADOS */
 .cards-grid{display:grid;grid-template-columns:1fr;gap:15px}
-.fut-card{background:linear-gradient(135deg, #113020 0%, #05140b 100%);border:2px solid var(--border);border-radius:16px;padding:15px;position:relative;box-shadow:0 8px 20px rgba(0,0,0,0.5);display:flex;align-items:center;gap:15px;overflow:hidden}
-.fut-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle, rgba(241,196,15,0.08) 0%, transparent 70%);pointer-events:none}
+.fut-card{background:linear-gradient(135deg, #113020 0%, #05140b 100%);border:2px solid var(--border);border-radius:16px;padding:15px;position:relative;box-shadow:0 8px 20px rgba(0,0,0,0.5);display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.fut-top-row{display:flex;align-items:center;gap:15px;width:100%}
 .fut-badge-container{text-align:center;min-width:75px;display:flex;flex-direction:column;align-items:center;position:relative}
 .fut-photo{width:70px;height:70px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;background:#030c07;box-shadow:0 4px 10px rgba(0,0,0,0.4)}
-.fut-grl-box{background:var(--gold);color:#000;font-weight:900;font-size:16px;padding:2px 8px;border-radius:10px;position:absolute;top:-8px;left:-4px;box-shadow:0 2px 5px rgba(0,0,0,0.3)}
+.fut-grl-box{background:var(--gold);color:#000;font-weight:900;font-size:15px;padding:1px 6px;border-radius:8px;position:absolute;top:-6px;left:-4px;box-shadow:0 2px 5px rgba(0,0,0,0.3)}
 .fut-ball-indicator{position:absolute;bottom:-4px;right:-4px;width:18px;height:18px;border-radius:50%;border:2px solid #000;box-shadow:0 2px 4px rgba(0,0,0,0.4)}
 .fut-info-container{flex:1}
-.fut-name{font-size:20px;font-weight:900;color:#fff;margin:0 0 8px 0;text-transform:uppercase;letter-spacing:-0.5px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:4px;display:flex;align-items:center;gap:6px}
-.fut-stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-.fut-stat-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:6px;padding:4px 8px;display:flex;justify-content:space-between;align-items:center;font-size:11px}
-.fut-stat-label{color:#8da497;text-transform:uppercase;font-weight:bold;font-size:9px}
-.fut-stat-value{font-weight:900;color:var(--gold)}
+.fut-name{font-size:20px;font-weight:900;color:#fff;margin:0 0 4px 0;text-transform:uppercase;letter-spacing:-0.5px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:4px}
+.fut-desc-block{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:10px;font-size:12px;line-height:1.4;color:#c2d1ca;font-style:italic}
+.fut-details-list{display:flex;flex-direction:column;gap:6px;width:100%}
+.fut-detail-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:6px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.fut-detail-label{color:#8da497;text-transform:uppercase;font-weight:bold;font-size:10px;letter-spacing:0.5px}
+.fut-detail-value{font-weight:900;color:var(--gold)}
 
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;padding:20px}
 .modal-box{background:var(--bg-gradient);border:2px solid #721c24;border-radius:12px;padding:20px;max-width:340px;width:100%;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.6)}
@@ -64,7 +65,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .btn-modal{flex:1;padding:12px;border-radius:6px;font-weight:bold;font-size:13px;text-transform:uppercase;cursor:pointer;border:none}
 .btn-modal-yes{background:#f7f5ee;color:#06160e}.btn-modal-cancel{background:#dc3545;color:#fff}
 @media(min-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:768px){.grid{grid-template-columns:repeat(4,1fr)}.pts{font-size:64px}.m-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}.cards-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:768px){.grid{grid-template-columns:repeat(4,1fr)}.pts{font-size:64px}.m-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
 </style></head><body>
 <div class="header-banner"><div class="header-left"><div class="balls-group"><div class="b-ball b-white"></div><div class="b-ball b-yellow"></div><div class="b-ball b-red"></div></div><div><div class="brand-sub">Billar Carambola • 3 Bandas</div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div>
 <div class="navbar"><div class="nav-item active" onclick="tab('m',event)">Marcador & Citas</div><div class="nav-item" onclick="tab('h',event)">Historial</div><div class="nav-item" onclick="tab('s',event)">Estadísticas</div><div class="nav-item" onclick="tab('f',event)">Fichas</div></div>
@@ -80,10 +81,10 @@ const icons=["👑","🏆","🏅","🎯"];
 const KEY_DATA = "b_liga_final_v10";
 
 const playerProfiles={
-  "Ignatius":{grl:86,efecto:88,tacada:84,defensa:83,sangre:90,vision:85,img:"https://flaticon.com"},
-  "Marcelo":{grl:85,efecto:82,tacada:89,defensa:80,sangre:84,vision:88,img:"https://flaticon.com"},
-  "Bertus":{grl:88,efecto:86,tacada:85,defensa:87,sangre:92,vision:89,img:"https://flaticon.com"},
-  "Jorge":{grl:79,efecto:80,tacada:75,defensa:84,sangre:78,vision:81,img:"https://flaticon.com"}
+  "Marcelo":{grl:89,desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace bolas increíbles.",tiro:"Picado",vision:"Muy buena. Uso frecuente de Muchibandas.",img:"https://ibb.co"},
+  "Ignatius":{grl:85,desc:"Estratega nato de la mesa. Analiza cada ángulo de carambola antes de armar el taco.",tiro:"Corrido largo",vision:"Excelente control en tres bandas.",img:"https://flaticon.com"},
+  "Bertus":{grl:88,desc:"Líder de la regularidad. Capaz de sostener la presión en los rounds definitivos sin pestañear.",tiro:"Amortiguado",vision:"Sobresaliente en situaciones complejas.",img:"https://flaticon.com"},
+  "Jorge":{grl:81,desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es imparable.",tiro:"Retroceso",vision:"Buena lectura de jugadas defensivas.",img:"https://flaticon.com"}
 };
 
 let store = JSON.parse(localStorage.getItem(KEY_DATA)) || {
@@ -105,11 +106,11 @@ function closeResetModal(){document.getElementById("resetModal").style.display="
 function handleModalYes(){if(resetStep===1){resetStep=2;document.getElementById("modalText").innerText="Asegúrate, porque estos datos se pierden y no se pueden recuperar";renderModalButtons()}else{executeReset()}}
 function executeReset(){localStorage.removeItem(KEY_DATA);store={players:{"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:0,duos:{}},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:0,duos:{}},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0,duos:{}},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:0,duos:{}}},matchIdx:0,history:[]};save();closeResetModal();render();window.location.reload()}
 function recalculateAllFromHistory(){
-  let fresh={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:0,duos:{}},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:0,duos:{}},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0,duos:{}},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:0,duos:{}}};
+  let fresh={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1,duos:{}},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0,duos:{}},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:2,duos:{}}};
   store.history.forEach(m=>{
     let w=m.w.split(" + "),l=m.l.split(" + ");[...w,...l].forEach(n=>fresh[n].pj++);
     w.forEach(n=>{fresh[n].pts++;fresh[n].v++;fresh[n].rac++;if(fresh[n].rac>fresh[n].rec)fresh[n].rec=fresh[n].rac});l.forEach(n=>fresh[n].rac=0);
-    [[w[0],w[1],true],[w[1],w[0],true],[l[0],l[1],false],[l[1],l[0],false]].forEach(([p,comp,win])=>{
+    [[w,w,true],[w,w,true],[l,l,false],[l,l,false]].forEach(([p,comp,win])=>{
       let d=fresh[p].duos,tKey=null;Object.keys(d).forEach(k=>{if(k.startsWith(comp+"-"))tKey=k});
       let j=0,v=0;if(tKey){let parts=tKey.split("-");j=parseInt(parts[1]);v=parseInt(parts[2]);delete d[tKey]}
       j++;if(win)v++;d[comp+"-"+j+"-"+v]=""
@@ -120,34 +121,18 @@ function recalculateAllFromHistory(){
 
 function toggleMatchResult(index){if(confirm("¿Quieres cambiar el ganador de esta ronda? Se recalcularán todos los puntos al instante.")){let m=store.history[index];let oldW=m.w;m.w=m.l;m.l=oldW;recalculateAllFromHistory()}}
 function getBestDuo(n){let d=store.players[n].duos||{},bName="-",bPct=0,maxV=0;Object.entries(d).forEach(([k,v])=>{let p=k.split("-");if(p.length>=3){let name=p[0],j=parseInt(p[1]),win=parseInt(p[2]),pct=j>0?Math.round(win/j*100):0;if(pct>bPct||(pct===bPct&&win>maxV)){bPct=pct;bName=name;maxV=win}}});return bName!=="-联合"&&bName!=="-"?bName+" ("+bPct+"%)":"Ninguno"}
+
 function renderAfinity(){
   let pairs={};let names=Object.keys(store.players);for(let i=0;i<names.length;i++){for(let j=i+1;j<names.length;j++){let key=[names[i],names[j]].sort().join(" + ");pairs[key]={v:0,j:0}}}
   store.history.forEach(m=>{let wP=m.w.split(" + ");if(wP.length==2){let k=wP.sort().join(" + ");if(pairs[k]){pairs[k].j++;pairs[k].v++}}let lP=m.l.split(" + ");if(lP.length==2){let k=lP.sort().join(" + ");if(pairs[k]){pairs[k].j++}}});
   let sorted=Object.entries(pairs).sort((x,y)=>{let pctX=x[1].j>0?x[1].v/x[1].j:0;let pctY=y[1].j>0?y[1].v/y[1].j:0;if(pctY!==pctX)return pctY-pctX;return y[1].j-x[1].j});
   let sCont=document.getElementById("s-cont");sCont.innerHTML="";sorted.forEach(([pair,data],index)=>{let pct=data.j>0?Math.round(data.v/data.j*100):0;sCont.innerHTML+="<div class='stat-row'><div><div class='stat-pair'>"+(index+1)+". "+pair+"</div><div class='stat-desc'>"+data.v+" victorias de "+data.j+" partidas</div></div><div class='stat-pct "+(pct>=70?'high':'')+"'>🔥 "+pct+"%</div></div>"});
 }
-
 function renderProfiles(){
   let fCont=document.getElementById("f-cont");fCont.innerHTML="";
-  Object.entries(playerProfiles).forEach(([name,prof])=>{
+  Object.entries(playerProfiles).forEach(([name,prof]) => {
     let ballColor=store.players[name]?store.players[name].b:"#fff";
-    fCont.innerHTML+=`<div class="fut-card">
-      <div class="fut-badge-container">
-        <div class="fut-grl-box">${prof.grl}</div>
-        <img class="fut-photo" src="${prof.img}" alt="${name}">
-        <div class="fut-ball-indicator" style="background:${ballColor}"></div>
-      </div>
-      <div class="fut-info-container">
-        <div class="fut-name">⚡ ${name}</div>
-        <div class="fut-stats-grid">
-          <div class="fut-stat-item"><span class="fut-stat-label">EFE</span><span class="fut-stat-value">${prof.efecto}</span></div>
-          <div class="fut-stat-item"><span class="fut-stat-label">TAC</span><span class="fut-stat-value">${prof.tacada}</span></div>
-          <div class="fut-stat-item"><span class="fut-stat-label">DEF</span><span class="fut-stat-value">${prof.defensa}</span></div>
-          <div class="fut-stat-item"><span class="fut-stat-label">SNG</span><span class="fut-stat-value">${prof.sangre}</span></div>
-          <div class="fut-stat-item" style="grid-column: span 2"><span class="fut-stat-label">VISIÓN CARAMBOLA</span><span class="fut-stat-value">${prof.vision}</span></div>
-        </div>
-      </div>
-    </div>`;
+    fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row"><div class="fut-badge-container"><div class="fut-grl-box">${prof.grl}</div><img class="fut-photo" src="${prof.img}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container"><div class="fut-name">👑 ${name}</div><div class="fut-desc-block">${prof.desc}</div></div></div><div class="fut-details-list"><div class="fut-detail-item"><span class="fut-detail-label">🎯 Mejor tiro</span><span class="fut-detail-value">${prof.tiro}</span></div><div class="fut-detail-item"><span class="fut-detail-label">👁️ Visión de carambola</span><span class="fut-detail-value">${prof.vision}</span></div></div></div>`;
   });
 }
 
