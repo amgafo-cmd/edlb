@@ -80,12 +80,38 @@ const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"
 const icons=["👑","🏆","🏅","🎯"];
 const KEY_DATA = "b_liga_final_v10";
 
+// Perfiles estructurados con la m minúscula oficial para leer marcelo.png
 const playerProfiles={
-  "Marcelo":{grl:89,desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace bolas increíbles.",tiro:"Picado",vision:"Muy buena. Uso frecuente de Muchibandas.",img:"https://ibb.co"},
-  "Ignatius":{grl:85,desc:"Estratega nato de la mesa. Analiza cada ángulo de carambola antes de armar el taco.",tiro:"Corrido largo",vision:"Excelente control en tres bandas.",img:"https://flaticon.com"},
-  "Bertus":{grl:88,desc:"Líder de la regularidad. Capaz de sostener la presión en los rounds definitivos sin pestañear.",tiro:"Amortiguado",vision:"Sobresaliente en situaciones complejas.",img:"https://flaticon.com"},
-  "Jorge":{grl:81,desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es imparable.",tiro:"Retroceso",vision:"Buena lectura de jugadas defensivas.",img:"https://flaticon.com"}
+  "Marcelo":{
+    grl:89,
+    desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace bolas increíbles.",
+    tiro:"Picado",
+    vision:"Muy buena. Uso frecuente de Muchibandas.",
+    img: "marcelo.png"
+  },
+  "Ignatius":{
+    grl:85,
+    desc:"Estratega nato de la mesa. Analiza cada ángulo de carambola antes de armar el taco.",
+    tiro:"Corrido largo",
+    vision:"Excelente control en tres bandas.",
+    img:"https://flaticon.com"
+  },
+  "Bertus":{
+    grl:88,
+    desc:"Líder de la regularidad. Capaz de sostener la presión en los rounds definitivos sin pestañear.",
+    tiro:"Amortiguado",
+    vision:"Sobresaliente en situaciones complejas.",
+    img:"https://flaticon.com"
+  },
+  "Jorge":{
+    grl:81,
+    desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es imparable.",
+    tiro:"Retroceso",
+    vision:"Buena lectura de jugadas defensivas.",
+    img:"https://flaticon.com"
+  }
 };
+
 
 let store = JSON.parse(localStorage.getItem(KEY_DATA)) || {
   players: structuredClone(def),
