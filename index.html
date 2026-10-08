@@ -77,13 +77,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 const def={"Ignatius":{pts:2,pj:4,v:2,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:2,pj:4,v:2,b:"#f1c40f",rac:0,rec:1,duos:{}},"Bertus":{pts:3,pj:4,v:3,b:"#95a5a6",rac:1,rec:2,duos:{}},"Jorge":{pts:1,pj:4,v:1,b:"#e74c3c",rac:1,rec:1,duos:{}}};
 const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},{a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}];
 const icons=["👑","🏆","🏅","🎯"];
-const KEY_DATA = "b_liga_final_v12"; // Subimos a v12 para forzar limpieza de memoria
+const KEY_DATA = "b_liga_final_v15"; // Forzamos base de datos nueva e inmune a la caché
 
 const playerProfiles={
   "Marcelo":{grl:89,desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace bolas increíbles. Se crece en momentos difíciles ante los insultos de sus compañeros.",tiro:"Picados extremos",vision:"Muy buena. Uso frecuente de Muchibandas."},
   "Ignatius":{grl:85,desc:"Estratega nato de la mesa. Analiza cada ángulo de carambola antes de armar el taco. Sin duda, el más salao del equipo",tiro:"Se apoya en banda para intensificar el efecto",vision:"Excelente control en tres bandas."},
   "Bertus":{grl:88,desc:"Destaca su aguante en partidas largas, acechando al contrincante hasta dar el golpe final. Capaz de sostener la presión en los rounds definitivos sin pestañear.",tiro:"Lujo en bolas paralelas a banda",vision:"Sobresaliente en situaciones complejas."},
-  "Jorge":{grl:81,desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es imparable.",tiro:"Redondé",vision:"Buena lectura de jugadas defensivas."}
+  "Jorge":{grl:81,desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es imparable.",tiro:"Retroceso",vision:"Buena lectura de jugadas defensivas."}
 };
 
 let store = JSON.parse(localStorage.getItem(KEY_DATA)) || {
@@ -106,7 +106,7 @@ function closeResetModal(){document.getElementById("resetModal").style.display="
 function handleModalYes(){if(resetStep===1){resetStep=2;document.getElementById("modalText").innerText="Asegúrate, porque estos datos se pierden y no se pueden recuperar";renderModalButtons()}else{executeReset()}}
 function executeReset(){localStorage.removeItem(KEY_DATA);store={players:{"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:0,duos:{}},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:0,duos:{}},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0,duos:{}},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:0,duos:{}}},matchIdx:0,history:[]};save();closeResetModal();render();window.location.reload()}
 function recalculateAllFromHistory(){
-  let fresh={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1,duos:{}},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0,duos:{}},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:2,duos:{}}};
+  let fresh={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1,duos:{}},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:1,duos:{}},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:2,duos:{}}};
   store.history.forEach(m=>{
     let w=m.w.split(" + "),l=m.l.split(" + ");[...w,...l].forEach(n=>fresh[n].pj++);
     w.forEach(n=>{fresh[n].pts++;fresh[n].v++;fresh[n].rac++;if(fresh[n].rac>fresh[n].rec)fresh[n].rec=fresh[n].rac});l.forEach(n=>fresh[n].rac=0);
@@ -133,10 +133,8 @@ function renderProfiles(){
   let fCont=document.getElementById("f-cont");fCont.innerHTML="";
   Object.entries(playerProfiles).forEach(([name,prof]) => {
     let ballColor=store.players[name]?store.players[name].b:"#fff";
-    // El navegador web unirá de forma limpia y directa el nombre del jugador con la extensión .png
-    let realImgSrc = name.toLowerCase() + ".png";
-    
-    fCont.innerHTML+="<div class='fut-card'><div class='fut-top-row'><div class='fut-badge-container'><div class='fut-grl-box'>"+prof.grl+"</div><img class='fut-photo' src='"+realImgSrc+"' alt='"+name+"'><div class='fut-ball-indicator' style='background:"+ballColor+"'></div></div><div class='fut-info-container'><div class='fut-name'>👑 "+name+"</div><div class='fut-desc-block'>"+prof.desc+"</div></div></div><div class='fut-details-list'><div class='fut-detail-item'><span class='fut-detail-label'>🎯 Mejor tiro</span><span class='fut-detail-value'>"+prof.tiro+"</span></div><div class='fut-detail-item'><span class='fut-detail-label'>👁️ Visión de carambola</span><span class='fut-detail-value'>"+prof.vision+"</span></div></div></div>";
+    let realImgSrc = name.toLowerCase() + ".png"; // Conexión nativa indestructible con tus archivos de GitHub
+    fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row"><div class="fut-badge-container"><div class="fut-grl-box">${prof.grl}</div><img class="fut-photo" src="${realImgSrc}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container"><div class="fut-name">👑 ${name}</div><div class="fut-desc-block">${prof.desc}</div></div></div><div class="fut-details-list"><div class="fut-detail-item"><span class="fut-detail-label">🎯 Mejor tiro</span><span class="fut-detail-value">${prof.tiro}</span></div><div class="fut-detail-item"><span class="fut-detail-label">👁️ Visión de carambola</span><span class="fut-detail-value">${prof.vision}</span></div></div></div>`;
   });
 }
 
