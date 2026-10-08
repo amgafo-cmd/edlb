@@ -29,6 +29,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .fut-top-row{display:flex;align-items:center;gap:15px;width:100%}.fut-badge-container{text-align:center;min-width:95px;display:flex;flex-direction:column;align-items:center;position:relative}
 /* AMPLIACIÓN EXCLUSIVA: Círculos Pro un 30% más grandes (90px) para lucir vuestras caras */
 .fut-photo{width:90px;height:90px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;background:#030c07;box-shadow:0 4px 10px rgba(0,0,0,0.4)}
+.fut-details-list{display:flex;flex-direction:column;gap:6px;width:100%}
 .fut-grl-box{background:var(--gold);color:#000;font-weight:900;font-size:15px;padding:1px 6px;border-radius:8px;position:absolute;top:-6px;left:-4px}
 .fut-ball-indicator{position:absolute;bottom:-4px;right:2px;width:18px;height:18px;border-radius:50%;border:2px solid #000}.fut-info-container{flex:1}
 .fut-name{font-size:20px;font-weight:900;color:#fff;margin:0 0 4px 0;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:4px}
@@ -98,18 +99,30 @@ let sorted=Object.entries(pairs).sort((x,y)=>{return (y[1].v/y[1].j) - (x[1].v/x
 }
 function renderProfiles(){
   let fCont=document.getElementById("f-cont");fCont.innerHTML="";
-  // ORDEN ALFABÉTICO REPARADO: Clasifica estrictamente de la A a la Z para las Fichas (Bertus -> Ignatius -> Jorge -> Marcelo)
+  
+  // Datos técnicos recuperados para el renderizado
+  const details={
+    "Bertus":{tiro:"Lujo en bolas paralelas a banda",vision:"Sobresaliente en situaciones complejas"},
+    "Ignatius":{tiro:"Se apoya en banda para intensificar el efecto",vision:"Excelente control en tres bandas"},
+    "Jorge":{tiro:"Retroceso",vision:"Buena lectura de jugadas defensivas"},
+    "Marcelo":{tiro:"Picados extremos",vision:"Muy buena. Uso frecuente de Muchibandas"}
+  };
+
   let sortedProfiles = Object.entries(playerProfiles).sort((x,y)=>{return x[0].localeCompare(y[0])});
+  
   sortedProfiles.forEach(([name,prof]) => {
     let pData=store.players[name]||{v:0,pj:1};
-    // SCORING DINÁMICO: Calcula el rendimiento real sobre base 100 según el % de victorias del torneo
     let dynamicScore=pData.pj>0?Math.round((pData.v/pData.pj)*100):50;
     let ballColor=store.players[name]?store.players[name].b:"#fff";
-    // ENLACE CRUDO INDESTRUCTIBLE: Leemos vuestros rostros directamente desde la rama main de producción unificada
+    
+    // Ruta directa e indestructible a las fotos oficiales de vuestra rama main
     let realImgSrc = "https://githubusercontent.com" + name.toLowerCase() + ".png";
-    fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row"><div class="fut-badge-container"><div class="fut-grl-box">${dynamicScore}</div><img class="fut-photo" src="${realImgSrc}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container"><div class="fut-name">👑 ${name}</div><div class="fut-desc-block">${prof.desc}</div></div></div></div>`;
+    let det = details[name];
+
+    fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row"><div class="fut-badge-container"><div class="fut-grl-box">${dynamicScore}</div><img class="fut-photo" src="${realImgSrc}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container"><div class="fut-name">👑 ${name}</div><div class="fut-desc-block">${prof.desc}</div></div></div><div class="fut-details-list"><div class="fut-detail-item"><span class="fut-detail-label">🎯 Mejor tiro</span><span class="fut-detail-value">${det.tiro}</span></div><div class="fut-detail-item"><span class="fut-detail-label">👁️ Visión de carambola</span><span class="fut-detail-value">${det.vision}</span></div></div></div>`;
   });
 }
+
 function render(){
   // ORDENACIÓN CLAVE POR PUNTOS (PTS): Clasifica estrictamente de mayor a menor puntuación acumulada real. ¡Bertus 1º con 3 PTS!
   let s=Object.entries(store.players).sort((x,y)=>{return y[1].pts - x[1].pts});
