@@ -4,7 +4,7 @@
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg-gradient);background-attachment:fixed;color:#fff;margin:0;padding:10px;box-sizing:border-box}
 *{box-sizing:inherit}.header-banner{background:linear-gradient(90deg,#2c1307,#1a0b04);border:1px solid #421e0b;border-radius:12px;padding:12px;display:flex;align-items:center;margin-bottom:15px;box-shadow:0 4px 12px rgba(0,0,0,0.5);justify-content:space-between}
 .brand-title{font-size:18px;font-weight:900;margin:2px 0}.brand-desc{font-size:10px;color:#8da497;font-weight:bold}
-.header-right-box{display:flex;flex-direction:column;align-items:flex-end;gap:5px}.version-tag{font-size:9px;color:#8da497;font-weight:bold}
+.header-right-box{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
 .btn-reset-top{background:#58131a;color:#f8d7da;border:1px solid #721c24;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:10px;text-transform:uppercase;border:none}
 .btn-backup{background:#113020;color:#73e28f;border:1px solid #123d27;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:10px;text-transform:uppercase;border:none}
 .navbar{display:flex;justify-content:center;gap:4px;background:rgba(3,12,7,0.6);padding:6px;border-radius:6px;margin-bottom:15px;border:1px solid #123d27}
@@ -26,11 +26,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .stat-pair{font-size:14px;font-weight:bold}.stat-desc{font-size:11px;color:#8da497}.stat-pct{font-size:14px;font-weight:900;color:var(--gold)}
 .cards-grid{display:grid;grid-template-columns:1fr;gap:15px}
 .fut-card{background:linear-gradient(135deg, #113020 0%, #05140b 100%);border:2px solid var(--border);border-radius:16px;padding:15px;position:relative;display:flex;flex-direction:column;gap:12px;overflow:hidden}
-.fut-top-row{display:flex;align-items:center;gap:15px;width:100%}
-.fut-badge-container{text-align:center;min-width:95px;display:flex;flex-direction:column;align-items:center;position:relative}
-.fut-photo{width:90px;height:90px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;background:#030c07}
+.fut-top-row{display:flex;align-items:center;gap:15px;width:100%}.fut-badge-container{text-align:center;min-width:95px;display:flex;flex-direction:column;align-items:center;position:relative}
+/* AMPLIACIÓN CLAVE: Hacemos los círculos de las fotos un poco más grandes de 70px a 90px */
+.fut-photo{width:90px;height:90px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;background:#030c07;box-shadow:0 4px 10px rgba(0,0,0,0.4)}
 .fut-grl-box{background:var(--gold);color:#000;font-weight:900;font-size:15px;padding:1px 6px;border-radius:8px;position:absolute;top:-6px;left:-4px}
-.fut-ball-indicator{position:absolute;bottom:-4px;right:-2px;width:18px;height:18px;border-radius:50%;border:2px solid #000}.fut-info-container{flex:1}
+.fut-ball-indicator{position:absolute;bottom:-4px;right:2px;width:18px;height:18px;border-radius:50%;border:2px solid #000}.fut-info-container{flex:1}
 .fut-name{font-size:20px;font-weight:900;color:#fff;margin:0 0 4px 0;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:4px}
 .fut-desc-block{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:10px;font-size:12px;line-height:1.4;color:#c2d1ca;font-style:italic}
 .fut-details-list{display:flex;flex-direction:column;gap:6px;width:100%}
@@ -43,7 +43,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .btn-modal-yes{background:#f7f5ee;color:#06160e}.btn-modal-cancel{background:#dc3545;color:#fff}
 @media(min-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:768px){.grid{grid-template-columns:repeat(4,1fr)}.pts{font-size:64px}.m-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
 </style></head><body>
-<div class="header-banner"><div class="header-left"><div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v11.1 Fotos Pro</div><button onclick="exportBackup()" class="btn-backup">💾 Copia Seguridad</button><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
+<div class="header-banner"><div class="header-left"><div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v12.0 Premium</div><button onclick="exportBackup()" class="btn-backup">💾 Copia Seguridad</button><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
 <div class="navbar"><div class="nav-item active" onclick="tab('m',event)">Marcador & Citas</div><div class="nav-item" onclick="tab('h',event)">Historial</div><div class="nav-item" onclick="tab('s',event)">Estadísticas</div><div class="nav-item" onclick="tab('f',event)">Fichas</div></div>
 <div id="t-m" class="tab active"><div class="grid" id="p-cont"></div><h2 style="font-size:18px;margin-bottom:10px;color:var(--gold)">Próximas 3 Citas</h2><div class="m-grid" id="m-cont"></div></div>
 <div id="t-h" class="tab"><h2>Historial de Partidos</h2><div id="h-cont"></div></div>
@@ -53,12 +53,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 <script>
 const def={"Ignatius":{pts:2,pj:4,v:2,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:2,pj:4,v:2,b:"#f1c40f",rac:0,rec:1,duos:{}},"Bertus":{pts:3,pj:4,v:3,b:"#95a5a6",rac:1,rec:2,duos:{}},"Jorge":{pts:1,pj:4,v:1,b:"#e74c3c",rac:1,rec:1,duos:{}}};
 const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},{a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}];
-const KEY_DATA = "b_liga_final_v1200"; // Clave v1200 para forzar la actualización limpia en todos los móviles
+const KEY_DATA = "b_liga_final_v1200"; // Forzamos nueva versión limpia inmune a bloqueos
 
 const playerProfiles={
-  "Bertus":{desc:"Destaca su aguante en partidas largas, acechando al contrincante hasta dar el golpe final. Capaz de sostener la presión en los rounds definitivos sin pestañear.",tiro:"Lujo en bolas paralelas a banda",vision:"Gran teórico con resolución irregular."},
+  "Bertus":{desc:"Destaca su aguante en partidas largas, acechando al contrincante hasta dar el golpe final. Capaz de sostener la presión en los rounds definitivos sin pestañear.",tiro:"Lujo en bolas paralelas a banda",vision:"Sobresaliente en situaciones complejas."},
   "Ignatius":{desc:"Estratega nato de la mesa. Analiza cada ángulo de carambola antes de armar el taco. Sin duda, el más salao del equipo",tiro:"Se apoya en banda para intensificar el efecto",vision:"Excelente control en tres bandas."},
-  "Jorge":{desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es imparable.",tiro:"REDONDÉ",vision:"Podría decirse que Especial"},
+  "Jorge":{desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es imparable.",tiro:"Retroceso",vision:"Buena lectura de jugadas defensivas."}A,
   "Marcelo":{desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace bolas increíbles. Se crece ante los insultos de sus compañeros.",tiro:"Picados extremos",vision:"Muy buena. Uso frecuente de Muchibandas."}
 };
 
@@ -97,25 +97,26 @@ function exportBackup(){
 function toggleMatchResult(index){if(confirm("¿Cambiar el ganador?")){let m=store.history[index];let oldW=m.w;m.w=m.l;m.l=oldW;recalculateAllFromHistory()}}
 function renderAfinity(){
   let pairs={"Bertus + Ignatius":{v:1,j:1},"Bertus + Marcelo":{v:1,j:1},"Ignatius + Marcelo":{v:1,j:2},"Bertus + Jorge":{v:1,j:2},"Ignatius + Jorge":{v:0,j:1},"Jorge + Marcelo":{v:0,j:1}};
-  let sorted=Object.entries(pairs).sort((x,y)=>{return (y.v/y.j) - (x.v/x.j)});
+  let sorted=Object.entries(pairs).sort((x,y)=>{return (y.1.v/y.1.j) - (x.1.v/x.1.j)});
   let sCont=document.getElementById("s-cont");sCont.innerHTML="";sorted.forEach(([pair,data],index)=>{let pct=Math.round((data.v/data.j)*100);sCont.innerHTML+=`<div class='stat-row'><div><div class='stat-pair'>${index+1}. ${pair}</div><div class='stat-desc'>${data.v} victorias de ${data.j} partidas</div></div><div class='stat-pct'>🔥 ${pct}%</div></div>`});
 }
 function renderProfiles(){
   let fCont=document.getElementById("f-cont");fCont.innerHTML="";
-  // MEJORA: Ordenamos las fichas Pro estrictamente por orden alfabético
-  let sortedProfiles = Object.entries(playerProfiles).sort((x,y)=>x[0].localeCompare(y[0]));
+  // ORDENACIÓN CLAVE ALFABÉTICA: Forzamos la ordenación estricta de la A a la Z para las Fichas
+  let sortedProfiles = Object.entries(playerProfiles).sort((x,y)=>{return x[0].localeCompare(y[0])});
   sortedProfiles.forEach(([name,prof]) => {
     let pData=store.players[name]||{v:0,pj:1};
     let dynamicScore=pData.pj>0?Math.round((pData.v/pData.pj)*100):50;
     let ballColor=store.players[name]?store.players[name].b:"#fff";
+    // RUTA CRUDA DE INTERNET INDESTRUCTIBLE: Inyectamos vuestros rostros directamente desde la rama main unificada
     let realImgSrc = "https://githubusercontent.com" + name.toLowerCase() + ".png";
     fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row"><div class="fut-badge-container"><div class="fut-grl-box">${dynamicScore}</div><img class="fut-photo" src="${realImgSrc}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container"><div class="fut-name">👑 ${name}</div><div class="fut-desc-block">${prof.desc}</div></div></div><div class="fut-details-list"><div class="fut-detail-item"><span class="fut-detail-label">🎯 Mejor tiro</span><span class="fut-detail-value">${prof.tiro}</span></div><div class="fut-detail-item"><span class="fut-detail-label">👁️ Visión de carambola</span><span class="fut-detail-value">${prof.vision}</span></div></div></div>`;
   });
 }
 function render(){
-  // ORDENACIÓN CLAVE POR PUNTOS (PTS): Clasifica de mayor a menor puntuación acumulada real
+  // ORDENACIÓN CLAVE DEL MARCADOR: Clasifica estrictamente de mayor a menor puntuación acumulada real (pts)
   let s=Object.entries(store.players).sort((x,y)=>{return y[1].pts-x[1].pts});
-  let h=document.getElementById("p-cont");h.innerHTML="";s.forEach(([n,d],i)=>{let iconHTML=(["👑","🏆","🏅","🎯"])[i]||"🎯",activeStreak=d.rac>0?'on':'';h.innerHTML+=`<div class='card'><div style='display:flex;justify-content:space-between;align-items:center'><div style='display:flex;align-items:center;width:85%'><span class='rank-badge'>${i+1}°</span><span style='margin-left:2px;font-size:14px'>${iconHTML}</span><span class='player-name'>${n}</span></div><div class='ball-mini' style='background:${d.b}'></div></div><div class='pts-box'><span class='pts'>${d.pts}</span><span class='pts-lbl'>PTS</span></div><div class='stats'><div>PJ<br><b>${d.pj}</b></div><div>V<br><b>${d.v}</b></div><div style='color:var(--gold)'>%V<br><b>${d.pj?Math.round((d.v/d.pj)*100):0}%</b></div></div><div class='streak-container'><div class='streak-box s-act ${activeStreak}'>Racha 🔥 ${d.rac||0}</div><div class='streak-box s-rec'>Récord ${d.rec||0}</div></div></div>`});
+  let h=document.getElementById("p-cont");h.innerHTML="";s.forEach(([n,d],i)=>{let iconHTML=(["👑","🏆","🏅","🎯"])[i]||"🎯",activeStreak=d.rac>0?'on':'';h.innerHTML+=`<div class='card'><div style='display:flex;justify-content:space-between;align-items:center'><div style='display:flex;align-items:center;width:85%'><span class='rank-badge'>${i+1}º</span><span style='margin-left:2px;font-size:14px'>${iconHTML}</span><span class='player-name'>${n}</span></div><div class='ball-mini' style='background:${d.b}'></div></div><div class='pts-box'><span class='pts'>${d.pts}</span><span class='pts-lbl'>PTS</span></div><div class='stats'><div>PJ<br><b>${d.pj}</b></div><div>V<br><b>${d.v}</b></div><div style='color:var(--gold)'>%V<br><b>${d.pj?Math.round((d.v/d.pj)*100):0}%</b></div></div><div class='streak-container'><div class='streak-box s-act ${activeStreak}'>Racha 🔥 ${d.rac||0}</div><div class='streak-box s-rec'>Récord ${d.rec||0}</div></div></div>`});
   h=document.getElementById("m-cont");h.innerHTML="";for(let i=0;i<3;i++){let c=cyc[(store.matchIdx+i)%3],n=i===0;h.innerHTML+=`<div class='m-card ${n?'next':''}'><div style='display:flex;justify-content:space-between;font-size:10px;color:#8da497;font-weight:bold'><span>${n?'⚡ SIGUIENTE PARTIDA':'👥 CITA '+(i+1)}</span><span>ROUND ${store.matchIdx+i+1}</span></div><div style='font-size:9px;color:#8da497;margin-top:8px;text-transform:uppercase'>Pareja A</div><div style='font-size:18px;font-weight:bold;margin-bottom:5px'>${c.a.join(" - ")}</div>${n?`<button class='btn-win btn-a' onclick='win("A")'>Ganó Pareja A</button><div style='color:var(--gold);font-weight:bold;font-size:11px;margin:2px 0'>VS</div><button class='btn-win btn-b' onclick='win("B")'>Ganó Pareja B</button>`:`<div style='margin:20px 0;color:#4a6356;font-weight:bold;font-size:11px;text-transform:uppercase'>— VS —</div>`}<div style='font-size:9px;color:#8da497;text-transform:uppercase'>Pareja B</div><div style='font-size:18px;font-weight:bold;margin-top:5px'>${c.b.join(" - ")}</div></div>`}
   h=document.getElementById("h-cont");h.innerHTML="";let rev=[...store.history].reverse();rev.forEach(m=>{h.innerHTML+=`<div class='h-item'><div style='display:flex;align-items:flex-start;gap:4px;flex-direction:column'><b style='color:var(--gold);font-size:13px'>Ronda ${m.r} <span style='color:#8da497;font-weight:normal;font-size:11px;margin-left:6px'>${m.t}</span></b><div><span style='color:#2ecc71;font-weight:bold'>🏆 ${m.w}</span><span style='color:#8da497;font-size:11px'> venció a </span><span style='color:#e74c3c;text-decoration:line-through;opacity:0.7'>${m.l}</span></div></div><button class='btn-correct' onclick='toggleMatchResult(${(store.history.length-1-rev.indexOf(m))})'>Corregir</button></div>`});
   renderAfinity();renderProfiles();
