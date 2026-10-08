@@ -62,7 +62,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 const def={"Ignatius":{pts:2,pj:4,v:2,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:2,pj:4,v:2,b:"#f1c40f",rac:0,rec:1,duos:{}},"Bertus":{pts:3,pj:4,v:3,b:"#95a5a6",rac:1,rec:2,duos:{}},"Jorge":{pts:1,pj:4,v:1,b:"#e74c3c",rac:1,rec:1,duos:{}}};
 const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},{a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}];
 const icons=["👑","🏆","🏅","🎯"];
-const KEY_DATA = "b_liga_definitiva_v90"; // Nueva clave para forzar limpieza total
+const KEY_DATA = "b_liga_final_v99"; // Cambiamos la clave para forzar la inyección limpia
 
 const playerProfiles={
   "Marcelo":{grl:89,desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace bolas increíbles. Se crece en momentos difíciles ante los insultos de sus compañeros.",tiro:"Picados extremos",vision:"Muy buena. Uso frecuente de Muchibandas."},
@@ -71,7 +71,7 @@ const playerProfiles={
   "Jorge":{grl:81,desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es imparable.",tiro:"Retroceso",vision:"Buena lectura de jugadas defensivas."}
 };
 
-let store = JSON.parse(localStorage.getItem(KEY_DATA)) || {
+let store = {
   players: structuredClone(def),
   matchIdx: 4,
   history: [
@@ -89,7 +89,7 @@ function renderModalButtons(){const c=document.getElementById("modalBtnsContaine
 function openResetModal(){resetStep=1;document.getElementById("modalText").innerText="¿Estás seguro que quieres borrar todos los datos y empezar nuevo campeonato?";renderModalButtons();document.getElementById("resetModal").style.display="flex"}
 function closeResetModal(){document.getElementById("resetModal").style.display="none"}
 function handleModalYes(){if(resetStep===1){resetStep=2;document.getElementById("modalText").innerText="Asegúrate, porque estos datos se pierden y no se pueden recuperar";renderModalButtons()}else{executeReset()}}
-function executeReset(){localStorage.removeItem(KEY_DATA);store={players:{"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:0,duos:{}},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:0,duos:{}},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0,duos:{}},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:0,duos:{}}},matchIdx:0,history:[]};save();closeResetModal();recalculateAllFromHistory();window.location.reload()}
+function executeReset(){localStorage.removeItem(KEY_DATA);store={players:{"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:0,duos:{}},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:0,duos:{}},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0,duos:{}},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:0,duos:{}}},matchIdx:0,history:[]};save();recalculateAllFromHistory();window.location.reload()}
 function recalculateAllFromHistory(){
   let fresh={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1,duos:{}},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:1,duos:{}},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:2,duos:{}}};
   store.history.forEach(m=>{
