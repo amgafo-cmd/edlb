@@ -105,12 +105,18 @@ function renderAfinity(){
 }
 function renderProfiles(){
   let fCont=document.getElementById("f-cont");fCont.innerHTML="";
+  
+  // Calculamos la dirección raíz de tu web automáticamente para evitar pérdidas
+  let rootUrl = window.location.origin + "/edlb/";
+  
   Object.entries(playerProfiles).forEach(([name,prof]) => {
     let ballColor=store.players[name]?store.players[name].b:"#fff";
-    let realImgSrc = "./" + name.toLowerCase() + ".png";
+    let realImgSrc = rootUrl + name.toLowerCase() + ".png";
+    
     fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row"><div class="fut-badge-container"><div class="fut-grl-box">${prof.grl}</div><img class="fut-photo" src="${realImgSrc}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container"><div class="fut-name">👑 ${name}</div><div class="fut-desc-block">${prof.desc}</div></div></div><div class="fut-details-list"><div class="fut-detail-item"><span class="fut-detail-label">🎯 Mejor tiro</span><span class="fut-detail-value">${prof.tiro}</span></div><div class="fut-detail-item"><span class="fut-detail-label">👁️ Visión de carambola</span><span class="fut-detail-value">${prof.vision}</span></div></div></div>`;
   });
 }
+
 function render(){
   let s=Object.entries(store.players).sort((x,y)=>{if(y.pts!=x.pts)return y.pts-x.pts;return y.v-x.v});
   let h=document.getElementById("p-cont");h.innerHTML="";s.forEach(([n,d],i)=>{let iconHTML=(["👑","🏆","🏅","🎯"])[i]||"🎯",activeStreak=d.rac>0?'on':'';h.innerHTML+="<div class='card'><div style='display:flex;justify-content:space-between;align-items:center'><div style='display:flex;align-items:center;width:85%'><span class='rank-badge'>"+(i+1)+"°</span><span style='margin-left:2px;font-size:14px'>"+iconHTML+"</span><span class='player-name'>"+n+"</span></div><div class='ball-mini' style='background:"+d.b+"'></div></div><div class='pts-box'><span class='pts'>"+d.pts+"</span><span class='pts-lbl'>PTS</span></div><div class='stats'><div>PJ<br><b>"+d.pj+"</b></div><div>V<br><b>"+d.v+"</b></div><div style='color:var(--gold)'>%V<br><b>"+(d.pj?Math.round(d.v/d.pj*100):0)+"%</b></div></div><div class='streak-container'><div class='streak-box s-act "+activeStreak+"'>Racha 🔥 "+(d.rac||0)+"</div><div class='streak-box s-rec'>Récord "+(d.rec||0)+"</div></div></div>"});
