@@ -42,7 +42,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .btn-modal-yes{background:#f7f5ee;color:#06160e}.btn-modal-cancel{background:#dc3545;color:#fff}
 @media(min-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:768px){.grid{grid-template-columns:repeat(4,1fr)}.pts{font-size:64px}.m-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
 </style></head><body>
-<div class="header-banner"><div class="header-left"><div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v13.6 Premium Final</div><button onclick="exportBackup()" class="btn-backup">💾 Copia Seguridad</button><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
+<div class="header-banner"><div class="header-left"><div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v14 Premium Final</div><button onclick="exportBackup()" class="btn-backup">💾 Copia Seguridad</button><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
 <div class="navbar"><div class="nav-item active" onclick="tab('m',event)">Marcador & Citas</div><div class="nav-item" onclick="tab('h',event)">Historial</div><div class="nav-item" onclick="tab('s',event)">Estadísticas</div><div class="nav-item" onclick="tab('f',event)">Fichas</div></div>
 <div id="t-m" class="tab active"><div class="grid" id="p-cont"></div><h2 style="font-size:18px;margin-bottom:10px;color:var(--gold)">Próximas 3 Citas</h2><div class="m-grid" id="m-cont"></div></div>
 <div id="t-h" class="tab"><h2>Historial de Partidos</h2><div id="h-cont"></div></div>
@@ -115,7 +115,8 @@ function renderProfiles(){
     let pData=store.players[name]||{v:0,pj:1};
     let dynamicScore=pData.pj>0?Math.round((pData.v/pData.pj)*100):50;
     let ballColor=store.players[name]?store.players[name].b:"#fff";
-    let realImgSrc = "https://githubusercontent.com" + name.toLowerCase() + ".png";
+    let realImgSrc = "https://raw.githubusercontent.com/amgafo-cmd/edlb/main/" + name.toLowerCase() + ".png?v=" + new Date().getTime();
+//    let realImgSrc = "https://raw.githubusercontent.com/amgafo-cmd/edlb/main/" + name.toLowerCase() + ".png"?v=" + new Date().getTime();
     let det = details[name];
 
     fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row"><div class="fut-badge-container"><div class="fut-grl-box">${dynamicScore}</div><img class="fut-photo" src="${realImgSrc}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container"><div class="fut-name">👑 ${name}</div><div class="fut-desc-block">${prof.desc}</div></div></div><div class="fut-details-list"><div class="fut-detail-item"><span class="fut-detail-label">🎯 Mejor tiro</span><span class="fut-detail-value">${det.tiro}</span></div><div class="fut-detail-item"><span class="fut-detail-label">👁️ Visión de carambola</span><span class="fut-detail-value">${det.vision}</span></div></div></div>`;
