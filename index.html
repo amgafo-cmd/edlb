@@ -98,7 +98,7 @@ const playerProfiles={
   "Bertus":{
     grl:88,
     desc:"Destaca su aguante en partidas largas, acechando al contrincante hasta dar el golpe final. Capaz de sostener la presión en los rounds definitivos sin pestañear.",
-    tiro:"Amortiguado",
+    tiro:"Lujo en bolas paralelas a banda",
     vision:"Sobresaliente en situaciones complejas.",
     img: baseUrl + "ber" + "tus" + ".png"
   },
@@ -158,7 +158,9 @@ function renderProfiles(){
   let fCont=document.getElementById("f-cont");fCont.innerHTML="";
   Object.entries(playerProfiles).forEach(([name,prof]) => {
     let ballColor=store.players[name]?store.players[name].b:"#fff";
-    fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row"><div class="fut-badge-container"><div class="fut-grl-box">${prof.grl}</div><img class="fut-photo" src="${prof.img}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container"><div class="fut-name">👑 ${name}</div><div class="fut-desc-block">${prof.desc}</div></div></div><div class="fut-details-list"><div class="fut-detail-item"><span class="fut-detail-label">🎯 Mejor tiro</span><span class="fut-detail-value">${prof.tiro}</span></div><div class="fut-detail-item"><span class="fut-detail-label">👁️ Visión de carambola</span><span class="fut-detail-value">${prof.vision}</span></div></div></div>`;
+    // Forzamos al navegador a leer la ruta de la imagen uniendo las piezas de forma directa
+    let realImgSrc = name.toLowerCase() + ".png";
+    fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row"><div class="fut-badge-container"><div class="fut-grl-box">${prof.grl}</div><img class="fut-photo" src="${realImgSrc}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container"><div class="fut-name">👑 ${name}</div><div class="fut-desc-block">${prof.desc}</div></div></div><div class="fut-details-list"><div class="fut-detail-item"><span class="fut-detail-label">🎯 Mejor tiro</span><span class="fut-detail-value">${prof.tiro}</span></div><div class="fut-detail-item"><span class="fut-detail-label">👁️ Visión de carambola</span><span class="fut-detail-value">${prof.vision}</span></div></div></div>`;
   });
 }
 
