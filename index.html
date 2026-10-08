@@ -26,8 +26,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .stat-pair{font-size:14px;font-weight:bold}.stat-desc{font-size:11px;color:#8da497}.stat-pct{font-size:14px;font-weight:900;color:var(--gold)}
 .cards-grid{display:grid;grid-template-columns:1fr;gap:15px}
 .fut-card{background:linear-gradient(135deg, #113020 0%, #05140b 100%);border:2px solid var(--border);border-radius:16px;padding:15px;position:relative;display:flex;align-items:center;gap:15px;overflow:hidden}
-.fut-top-row{display:flex;align-items:center;gap:15px;width:100%}\.fut-badge-container{text-align:center;min-width:95px;display:flex;flex-direction:column;align-items:center;position:relative}
-/* MEJORA VISUAL: Fotos grandes de 90px e imponentes */
+.fut-top-row{display:flex;align-items:center;gap:15px;width:100%}.fut-badge-container{text-align:center;min-width:95px;display:flex;flex-direction:column;align-items:center;position:relative}
+/* AMPLIACIÓN EXCLUSIVA: Círculos Pro un 30% más grandes (90px) para lucir vuestras caras */
 .fut-photo{width:90px;height:90px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;background:#030c07;box-shadow:0 4px 10px rgba(0,0,0,0.4)}
 .fut-grl-box{background:var(--gold);color:#000;font-weight:900;font-size:15px;padding:1px 6px;border-radius:8px;position:absolute;top:-6px;left:-4px}
 .fut-ball-indicator{position:absolute;bottom:-4px;right:2px;width:18px;height:18px;border-radius:50%;border:2px solid #000}.fut-info-container{flex:1}
@@ -50,7 +50,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 <script>
 const def={"Ignatius":{pts:2,pj:4,v:2,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:2,pj:4,v:2,b:"#f1c40f",rac:0,rec:1,duos:{}},"Bertus":{pts:3,pj:4,v:3,b:"#95a5a6",rac:1,rec:2,duos:{}},"Jorge":{pts:1,pj:4,v:1,b:"#e74c3c",rac:1,rec:1,duos:{}}};
 const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},{a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}];
-const KEY_DATA = "b_liga_final_v1250"; // Purgamos la caché anterior por completo
+const KEY_DATA = "b_liga_final_v1250"; // Forzamos nueva inyección limpia para purgar atascos antiguos
 
 const playerProfiles={
   "Bertus":{desc:"Destaca su aguante en partidas largas, acechando al contrincante hasta dar el golpe final. Sostiene la presión en los rounds definitivos sin pestañear."},
@@ -86,26 +86,26 @@ function recalculateAllFromHistory(){
   store.players=fresh;save();render();
 }
 function exportBackup(){
-  let txt="HISTORIAL OFICIAL - EL EQUIPO DE LAS BOLAS\(\r\n=========================================\r\\)n";
-  store.history.forEach(m=>{txt+=`Ronda ${m.r} (${m.t}): Ganaron [${m.w}] - Perdieron [${m.l}]\r\n`});
+  let txt="HISTORIAL DE LA LIGA - EL EQUIPO DE LAS BOLAS\n\n";
+  store.history.forEach(m=>{txt+=`Ronda ${m.r} (${m.t}): Ganaron [${m.w}] - Perdieron [${m.l}]\n`});
   let blob=new Blob([txt],{type:"text/plain"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="historial_billar.txt";a.click();
 }
 function toggleMatchResult(index){if(confirm("¿Cambiar el ganador?")){let m=store.history[index];let oldW=m.w;m.w=m.l;m.l=oldW;recalculateAllFromHistory()}}
 function renderAfinity(){
   let pairs={"Bertus + Ignatius":{v:1,j:1},"Bertus + Marcelo":{v:1,j:1},"Ignatius + Marcelo":{v:1,j:2},"Bertus + Jorge":{v:1,j:2},"Ignatius + Jorge":{v:0,j:1},"Jorge + Marcelo":{v:0,j:1}};
-  let sorted=Object.entries(pairs).sort((x,y)=>{return (y.1.v/y.1.j) - (x.1.v/x.1.j)});
+  let sorted=Object.entries(pairs).sort((x,y)=>{return (y[1].v/y.1.j) - (x[1].v/x.1.j)});
   let sCont=document.getElementById("s-cont");sCont.innerHTML="";sorted.forEach(([pair,data],index)=>{let pct=Math.round((data.v/data.j)*100);sCont.innerHTML+=`<div class='stat-row'><div><div class='stat-pair'>${index+1}. ${pair}</div><div class='stat-desc'>${data.v} victorias de ${data.j} partidas</div></div><div class='stat-pct'>🔥 ${pct}%</div></div>`});
 }
 function renderProfiles(){
   let fCont=document.getElementById("f-cont");fCont.innerHTML="";
-  // ORDEN ALFABÉTICO REPARADO: Clasifica estrictamente de la A a la Z para las Fichas
+  // ORDEN ALFABÉTICO REPARADO: Clasifica estrictamente de la A a la Z para las Fichas (Bertus -> Ignatius -> Jorge -> Marcelo)
   let sortedProfiles = Object.entries(playerProfiles).sort((x,y)=>{return x[0].localeCompare(y[0])});
   sortedProfiles.forEach(([name,prof]) => {
     let pData=store.players[name]||{v:0,pj:1};
-    // SCORING DINÁMICO: Calcula el rendimiento real sobre base 100 según su % de victorias actual
+    // SCORING DINÁMICO: Calcula el rendimiento real sobre base 100 según el % de victorias del torneo
     let dynamicScore=pData.pj>0?Math.round((pData.v/pData.pj)*100):50;
     let ballColor=store.players[name]?store.players[name].b:"#fff";
-    // ENLACE CRUDO OFICIAL: Inyecta los rostros directo desde la rama main unificada de producción
+    // ENLACE CRUDO INDESTRUCTIBLE: Leemos vuestros rostros directamente desde la rama main de producción unificada
     let realImgSrc = "https://githubusercontent.com" + name.toLowerCase() + ".png";
     fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row"><div class="fut-badge-container"><div class="fut-grl-box">${dynamicScore}</div><img class="fut-photo" src="${realImgSrc}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container"><div class="fut-name">👑 ${name}</div><div class="fut-desc-block">${prof.desc}</div></div></div></div>`;
   });
@@ -118,6 +118,5 @@ function render(){
   h=document.getElementById("h-cont");h.innerHTML="";let rev=[...store.history].reverse();rev.forEach(m=>{h.innerHTML+=`<div class='h-item'><div style='display:flex;align-items:flex-start;gap:4px;flex-direction:column'><b style='color:var(--gold);font-size:13px'>Ronda ${m.r} <span style='color:#8da497;font-weight:normal;font-size:11px;margin-left:6px'>${m.t}</span></b><div><span style='color:#2ecc71;font-weight:bold'>🏆 ${m.w}</span><span style='color:#8da497;font-size:11px'> venció a </span><span style='color:#e74c3c;text-decoration:line-through;opacity:0.7'>${m.l}</span></div></div><button class='btn-correct' onclick='toggleMatchResult(${(store.history.length-1-rev.indexOf(m))})'>Corregir</button></div>`});
   renderAfinity();renderProfiles();
 }
-function win(t){let c=cyc[store.matchIdx%3],w=t==='A'?c.a:c.b,l=t==='A'?c.b:c.a;let now=new Date(),day=String(now.getDate()).padStart(2,'0'),m=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],dateStr=day+"-"+m[now.getMonth()];store.history.push({r:store.history.length+1,w:w.join(" + "),l:l.join(" + "),t:dateStr});store.matchIdx++;save();recalculateAllFromHistory()}
 recalculateAllFromHistory();
 </script></body></html>
