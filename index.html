@@ -26,7 +26,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg
 .cards-grid{display:grid;grid-template-columns:1fr;gap:15px}
 .fut-card{background:linear-gradient(135deg, #113020 0%, #05140b 100%);border:2px solid var(--border);border-radius:16px;padding:15px;position:relative;display:flex;flex-direction:column;gap:12px;overflow:hidden}
 .fut-top-row{display:flex;align-items:center;gap:15px;width:100%}.fut-badge-container{text-align:center;min-width:75px;display:flex;flex-direction:column;align-items:center;position:relative}
-.fut-photo{width:70px;height:70px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;background:#030c07}
+.fut-photo{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    border:2px solid var(--gold);
+    object-fit:cover;
+    object-position:center 30%;
+    background:#030c07;
+    display:block;
+}
 .fut-grl-box{background:var(--gold);color:#000;font-weight:900;font-size:15px;padding:1px 6px;border-radius:8px;position:absolute;top:-6px;left:-4px}
 .fut-ball-indicator{position:absolute;bottom:-4px;right:-4px;width:18px;height:18px;border-radius:50%;border:2px solid #000}.fut-info-container{flex:1}
 .fut-name{font-size:20px;font-weight:900;color:#fff;margin:0 0 4px 0;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:4px}
@@ -98,7 +107,7 @@ function renderProfiles(){
   let fCont=document.getElementById("f-cont");fCont.innerHTML="";
   Object.entries(playerProfiles).forEach(([name,prof]) => {
     let ballColor=store.players[name]?store.players[name].b:"#fff";
-    let realImgSrc = name.toLowerCase() + ".png";
+    let realImgSrc = "./" + name.toLowerCase() + ".png";
     fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row"><div class="fut-badge-container"><div class="fut-grl-box">${prof.grl}</div><img class="fut-photo" src="${realImgSrc}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container"><div class="fut-name">👑 ${name}</div><div class="fut-desc-block">${prof.desc}</div></div></div><div class="fut-details-list"><div class="fut-detail-item"><span class="fut-detail-label">🎯 Mejor tiro</span><span class="fut-detail-value">${prof.tiro}</span></div><div class="fut-detail-item"><span class="fut-detail-label">👁️ Visión de carambola</span><span class="fut-detail-value">${prof.vision}</span></div></div></div>`;
   });
 }
