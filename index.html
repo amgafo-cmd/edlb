@@ -74,51 +74,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 <div id="t-f" class="tab"><h2 style="font-size:18px;margin-bottom:12px;color:var(--gold)">🎴 Fichas Técnicas Pro</h2><div class="cards-grid" id="f-cont"></div></div>
 <div class="modal-overlay" id="resetModal"><div class="modal-box"><div class="modal-msg" id="modalText">¿Estás seguro?</div><div class="modal-btns" id="modalBtnsContainer"></div></div></div>
 <script>
-const def={"Ignatius":{pts:2,pj:3,v:2,b:"#fff",rac:0,rec:2,duos:{"Marcelo-1-1":"","Bertus-1-1":"","Jorge-1-0":""}},"Marcelo":{pts:2,pj:3,v:2,b:"#f1c40f",rac:1,rec:1,duos:{"Ignatius-1-1":"","Jorge-1-0":"","Bertus-1-1":""}},"Bertus":{pts:2,pj:3,v:2,b:"#95a5a6",rac:2,rec:2,duos:{"Jorge-1-0":"","Ignatius-1-1":"","Marcelo-1-1":""}},"Jorge":{pts:0,pj:3,v:0,b:"#e74c3c",rac:0,rec:0,duos:{"Bertus-1-0":"","Marcelo-1-0":"","Ignatius-1-0":""}}};
+const def={"Ignatius":{pts:2,pj:4,v:2,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:2,pj:4,v:2,b:"#f1c40f",rac:0,rec:1,duos:{}},"Bertus":{pts:3,pj:4,v:3,b:"#95a5a6",rac:1,rec:2,duos:{}},"Jorge":{pts:1,pj:4,v:1,b:"#e74c3c",rac:1,rec:1,duos:{}}};
 const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},{a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}];
 const icons=["👑","🏆","🏅","🎯"];
-const KEY_DATA = "b_liga_final_v10";
+const KEY_DATA = "b_liga_final_v12"; // Subimos a v12 para forzar limpieza de memoria
 
-const baseUrl = window.location.origin + "/edlb/";
 const playerProfiles={
-  "Marcelo":{
-    grl:89,
-    desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace bolas increíbles. Se crece en momentos difíciles ante los insultos de sus compañeros.",
-    tiro:"Picados extremos",
-    vision:"Muy buena. Uso frecuente de Muchibandas.",
-    img: baseUrl + "mar" + "celo" + ".png"
-  },
-  "Ignatius":{
-    grl:85,
-    desc:"Estratega nato de la mesa. Analiza cada ángulo de carambola antes de armar el taco. Sin duda, el más salao del equipo",
-    tiro:"Se apoya en banda para intensificar el efecto",
-    vision:"Excelente control en tres bandas.",
-    img: baseUrl + "igna" + "tius" + ".png"
-  },
-  "Bertus":{
-    grl:88,
-    desc:"Destaca su aguante en partidas largas, acechando al contrincante hasta dar el golpe final. Capaz de sostener la presión en los rounds definitivos sin pestañear.",
-    tiro:"Lujo en bolas paralelas a banda",
-    vision:"Sobresaliente en situaciones complejas.",
-    img: baseUrl + "ber" + "tus" + ".png"
-  },
-  "Jorge":{
-    grl:81,
-    desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es imparable.",
-    tiro:"Redondé",
-    vision:"Buena lectura de jugadas defensivas.",
-    img: baseUrl + "jor" + "ge" + ".png"
-  }
+  "Marcelo":{grl:89,desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace bolas increíbles. Se crece en momentos difíciles ante los insultos de sus compañeros.",tiro:"Picados extremos",vision:"Muy buena. Uso frecuente de Muchibandas."},
+  "Ignatius":{grl:85,desc:"Estratega nato de la mesa. Analiza cada ángulo de carambola antes de armar el taco. Sin duda, el más salao del equipo",tiro:"Se apoya en banda para intensificar el efecto",vision:"Excelente control en tres bandas."},
+  "Bertus":{grl:88,desc:"Destaca su aguante en partidas largas, acechando al contrincante hasta dar el golpe final. Capaz de sostener la presión en los rounds definitivos sin pestañear.",tiro:"Lujo en bolas paralelas a banda",vision:"Sobresaliente en situaciones complejas."},
+  "Jorge":{grl:81,desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es imparable.",tiro:"Redondé",vision:"Buena lectura de jugadas defensivas."}
 };
-
 
 let store = JSON.parse(localStorage.getItem(KEY_DATA)) || {
   players: structuredClone(def),
-  matchIdx: 3,
+  matchIdx: 4,
   history: [
     {r:1,w:"Ignatius + Marcelo",l:"Jorge + Bertus",t:"03-sep"},
     {r:2,w:"Ignatius + Bertus",l:"Jorge + Marcelo",t:"16-sep"},
-    {r:3,w:"Marcelo + Bertus",l:"Ignatius + Jorge",t:"30-sep"}
+    {r:3,w:"Marcelo + Bertus",l:"Ignatius + Jorge",t:"30-sep"},
+    {r:4,w:"Jorge + Bertus",l:"Ignatius + Marcelo",t:"07-oct"}
   ]
 };
 
@@ -158,22 +133,18 @@ function renderProfiles(){
   let fCont=document.getElementById("f-cont");fCont.innerHTML="";
   Object.entries(playerProfiles).forEach(([name,prof]) => {
     let ballColor=store.players[name]?store.players[name].b:"#fff";
-    // El navegador web unirá el nombre del jugador en minúsculas con el formato .png de forma limpia y directa
     let realImgSrc = name.toLowerCase() + ".png";
-    
-    fCont.innerHTML+="<div class='fut-card'><div class='fut-top-row'><div class='fut-badge-container'><div class='fut-grl-box'>"+prof.grl+"</div><img class='fut-photo' src='"+realImgSrc+"' alt='"+name+"'><div class='fut-ball-indicator' style='background:"+ballColor+"'></div></div><div class='fut-info-container'><div class='fut-name'>👑 "+name+"</div><div class='fut-desc-block'>"+prof.desc+"</div></div></div><div class='fut-details-list'><div class='fut-detail-item'><span class='fut-detail-label'>🎯 Mejor tiro</span><span class='fut-detail-value'>"+prof.tiro+"</span></div><div class='fut-detail-item'><span class='fut-detail-label'>👁️ Visión de carambola</span><span class='fut-detail-value'>"+prof.vision+"</span></div></div></div>";
+    fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row"><div class="fut-badge-container"><div class="fut-grl-box">${prof.grl}</div><img class="fut-photo" src="${realImgSrc}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container"><div class="fut-name">👑 ${name}</div><div class="fut-desc-block">${prof.desc}</div></div></div><div class="fut-details-list"><div class="fut-detail-item"><span class="fut-detail-label">🎯 Mejor tiro</span><span class="fut-detail-value">${prof.tiro}</span></div><div class="fut-detail-item"><span class="fut-detail-label">👁️ Visión de carambola</span><span class="fut-detail-value">${prof.vision}</span></div></div></div>`;
   });
 }
 
 function render(){
-  let s=Object.entries(store.players).sort((x,y)=>{if(y[1].pts!=x[1].pts)return y[1].pts-x[1].pts;let pctX=x[1].pj>0?x[1].v/x[1].pj:0,pctY=y[1].pj>0?y[1].v/y[1].pj:0;return pctY-pctX});
-  let h=document.getElementById("p-cont");h.innerHTML="";
-  s.forEach(([n,d],i)=>{let iconHTML=icons[i]||"🎯",activeStreak=d.rac>0?'on':'';h.innerHTML+="<div class='card'><div style='display:flex;justify-content:space-between;align-items:center'><div style='display:flex;align-items:center;width:85%'><span class='rank-badge'>"+(i+1)+"°</span><span class='rank-icon'>"+iconHTML+"</span><span class='player-name'>"+n+"</span></div><div class='ball-mini' style='background:"+d.b+"'></div></div><div class='pts-box'><span class='pts'>"+d.pts+"</span><span class='pts-lbl'>PTS</span></div><div class='stats'><div>PJ<br><b style='color:#fff'>"+d.pj+"</b></div><div>V<br><b style='color:#fff'>"+d.v+"</b></div><div style='color:var(--gold)'>%V<br><b>"+(d.pj?Math.round(d.v/d.pj*100):0)+"%</b></div></div><div class='streak-container'><div class='streak-box s-act "+activeStreak+"'>Racha 🔥 "+(d.rac||0)+"</div><div class='streak-box s-rec'>Récord "+(d.rec||0)+"</div></div><div class='best-duo'>Dúo: <b>"+getBestDuo(n)+"</b></div></div>"});
+  let s=Object.entries(store.players).sort((x,y)=>{if(y.pts!=x.pts)return y.pts-x.pts;let pctX=x.pj>0?x.v/x.pj:0,pctY=y.pj>0?y.v/y.pj:0;return pctY-pctX});
+  let h=document.getElementById("p-cont");h.innerHTML="";s.forEach(([n,d],i)=>{let iconHTML=icons[i]||"🎯",activeStreak=d.rac>0?'on':'';h.innerHTML+="<div class='card'><div style='display:flex;justify-content:space-between;align-items:center'><div style='display:flex;align-items:center;width:85%'><span class='rank-badge'>"+(i+1)+"°</span><span class='rank-icon'>"+iconHTML+"</span><span class='player-name'>"+n+"</span></div><div class='ball-mini' style='background:"+d.b+"'></div></div><div class='pts-box'><span class='pts'>"+d.pts+"</span><span class='pts-lbl'>PTS</span></div><div class='stats'><div>PJ<br><b style='color:#fff'>"+d.pj+"</b></div><div>V<br><b style='color:#fff'>"+d.v+"</b></div><div style='color:var(--gold)'>%V<br><b>"+(d.pj?Math.round(d.v/d.pj*100):0)+"%</b></div></div><div class='streak-container'><div class='streak-box s-act "+activeStreak+"'>Racha 🔥 "+(d.rac||0)+"</div><div class='streak-box s-rec'>Récord "+(d.rec||0)+"</div></div><div class='best-duo'>Dúo: <b>"+getBestDuo(n)+"</b></div></div>"});
   h=document.getElementById("m-cont");h.innerHTML="";for(let i=0;i<3;i++){let c=cyc[(store.matchIdx+i)%3],n=i===0;h.innerHTML+="<div class='m-card "+(n?'next':'')+"'><div style='display:flex;justify-content:space-between;font-size:10px;color:#8da497;font-weight:bold'><span>"+(n?'⚡ SIGUIENTE PARTIDA':'👥 CITA '+(i+1))+"</span><span>ROUND "+(store.matchIdx+i+1)+"</span></div><div style='font-size:9px;color:#8da497;margin-top:8px;text-transform:uppercase'>Pareja A</div><div style='font-size:18px;font-weight:bold;margin-bottom:5px'>"+c.a.join(" - ")+"</div>"+(n?"<button class='btn-win btn-a' onclick='win(\"A\")'>Ganó Pareja A</button><div style='color:var(--gold);font-weight:bold;font-size:11px;margin:2px 0'>VS</div><button class='btn-win btn-b' onclick='win(\"B\")'>Ganó Pareja B</button>":"<div style='margin:20px 0;color:#4a6356;font-weight:bold;font-size:11px;text-transform:uppercase'>— VS —</div>")+"<div style='font-size:9px;color:#8da497;text-transform:uppercase'>Pareja B</div><div style='font-size:18px;font-weight:bold;margin-top:5px'>"+c.b.join(" - ")+"</div></div>"}
   h=document.getElementById("h-cont");h.innerHTML="";let rev=[...store.history].reverse();rev.forEach(m=>{h.innerHTML+="<div class='h-item'><div style='display:flex;align-items:flex-start;gap:4px;flex-direction:column'><b style='color:var(--gold);font-size:13px'>Ronda "+m.r+" <span style='color:#8da497;font-weight:normal;font-size:11px;margin-left:6px'>"+m.t+"</span></b><div><span style='color:#2ecc71;font-weight:bold'>🏆 "+m.w+"</span><span style='color:#8da497;font-size:11px'> venció a </span><span style='color:#e74c3c;text-decoration:line-through;opacity:0.7'>"+m.l+"</span></div></div><button class='btn-correct' onclick='toggleMatchResult("+(store.history.length-1-rev.indexOf(m))+")'>Corregir</button></div>"});
   renderAfinity();renderProfiles();
 }
-
 
 function updateDuo(player,partner,isWin){let d=store.players[player].duos||{},tKey=null;Object.keys(d).forEach(k=>{if(k.startsWith(partner+"-"))tKey=k});let j=0,v=0;if(tKey){let parts=tKey.split("-");j=parseInt(parts);v=parseInt(parts);delete d[tKey]}j++;if(isWin)v++;d[partner+"-"+j+"-"+v]="";store.players[player].duos=d}
 function win(t){let c=cyc[store.matchIdx%3],w=t==='A'?c.a:c.b,l=t==='A'?c.b:c.a;let now=new Date(),day=String(now.getDate()).padStart(2,'0'),months=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],dateStr=day+"-"+months[now.getMonth()];store.history.push({r:store.history.length+1,w:w.join(" + "),l:l.join(" + "),t:dateStr});store.matchIdx++;recalculateAllFromHistory()}
