@@ -131,16 +131,10 @@ function renderAfinity(){
 
 function renderProfiles(){
   let fCont=document.getElementById("f-cont");fCont.innerHTML="";
-  
-  // El código calculará la ruta de tu web actual de forma automática sin usar enlaces largos
-  let currentWebPath = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
-
   Object.entries(playerProfiles).forEach(([name,prof]) => {
     let ballColor=store.players[name]?store.players[name].b:"#fff";
-    let key = name.toLowerCase();
-    
-    // Unimos las piezas de forma limpia para buscar la imagen local en tu repositorio
-    let realImgSrc = currentWebPath + key + ".png";
+    // El navegador web unirá de forma limpia y directa el nombre del jugador con la extensión .png
+    let realImgSrc = name.toLowerCase() + ".png";
     
     fCont.innerHTML+="<div class='fut-card'><div class='fut-top-row'><div class='fut-badge-container'><div class='fut-grl-box'>"+prof.grl+"</div><img class='fut-photo' src='"+realImgSrc+"' alt='"+name+"'><div class='fut-ball-indicator' style='background:"+ballColor+"'></div></div><div class='fut-info-container'><div class='fut-name'>👑 "+name+"</div><div class='fut-desc-block'>"+prof.desc+"</div></div></div><div class='fut-details-list'><div class='fut-detail-item'><span class='fut-detail-label'>🎯 Mejor tiro</span><span class='fut-detail-value'>"+prof.tiro+"</span></div><div class='fut-detail-item'><span class='fut-detail-label'>👁️ Visión de carambola</span><span class='fut-detail-value'>"+prof.vision+"</span></div></div></div>";
   });
