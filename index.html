@@ -9,7 +9,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .brand-sub{font-size:8px;color:var(--gold);text-transform:uppercase;letter-spacing:0.5px;font-weight:bold}
 .brand-title{font-size:18px;font-weight:900;line-height:1.1;margin:2px 0}
 .brand-desc{font-size:10px;color:#8da497;font-weight:bold}
-.btn-reset-top{background:#58131a;color:#f8d7da;border:1px solid #721c24;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:10px;text-transform:uppercase}
+.header-right-box{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.version-tag{font-size:9px;color:#8da497;font-weight:bold;background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:4px;border:1px solid rgba(255,255,255,0.05)}
+.btn-reset-top{background:#58131a;color:#f8d7da;border:1px solid #721c24;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:10px;text-transform:uppercase;border:none}
 .navbar{display:flex;justify-content:center;gap:4px;background:rgba(3,12,7,0.6);padding:6px;border-radius:6px;margin-bottom:15px;border:1px solid #123d27}
 .nav-item{padding:8px 6px;border-radius:4px;font-size:10px;font-weight:bold;color:#8da497;cursor:pointer;text-transform:uppercase;flex:1;text-align:center;transition:all 0.2s}
 .nav-item.active{background:var(--gold);color:#000}.tab{display:none}.tab.active{display:block}
@@ -66,7 +68,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 @media(min-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:768px){.grid{grid-template-columns:repeat(4,1fr)}.pts{font-size:64px}.m-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
 </style></head><body>
-<div class="header-banner"><div class="header-left"><div class="balls-group"><div class="b-ball b-white"></div><div class="b-ball b-yellow"></div><div class="b-ball b-red"></div></div><div><div class="brand-sub">Billar Carambola • 3 Bandas</div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div>
+<div class="header-banner"><div class="header-left"><div class="balls-group"><div class="b-ball b-white"></div><div class="b-ball b-yellow"></div><div class="b-ball b-red"></div></div><div><div class="brand-sub">Billar Carambola • 3 Bandas</div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v2.0 (08/10 12:50)</div><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
 <div class="navbar"><div class="nav-item active" onclick="tab('m',event)">Marcador & Citas</div><div class="nav-item" onclick="tab('h',event)">Historial</div><div class="nav-item" onclick="tab('s',event)">Estadísticas</div><div class="nav-item" onclick="tab('f',event)">Fichas</div></div>
 <div id="t-m" class="tab active"><div class="grid" id="p-cont"></div><h2 style="font-size:18px;margin-bottom:10px;color:var(--gold)">Próximas 3 Citas</h2><div class="m-grid" id="m-cont"></div></div>
 <div id="t-h" class="tab"><h2>Historial de Partidos</h2><div id="h-cont"></div></div>
@@ -77,7 +79,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 const def={"Ignatius":{pts:2,pj:4,v:2,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:2,pj:4,v:2,b:"#f1c40f",rac:0,rec:1,duos:{}},"Bertus":{pts:3,pj:4,v:3,b:"#95a5a6",rac:1,rec:2,duos:{}},"Jorge":{pts:1,pj:4,v:1,b:"#e74c3c",rac:1,rec:1,duos:{}}};
 const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},{a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}];
 const icons=["👑","🏆","🏅","🎯"];
-const KEY_DATA = "b_liga_final_v21"; // Subimos a v21 para forzar la limpieza definitiva de la memoria
+const KEY_DATA = "b_liga_final_v30";
 
 const playerProfiles={
   "Marcelo":{grl:89,desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace bolas increíbles. Se crece en momentos difíciles ante los insultos de sus compañeros.",tiro:"Picados extremos",vision:"Muy buena. Uso frecuente de Muchibandas."},
@@ -104,7 +106,7 @@ function renderModalButtons(){const c=document.getElementById("modalBtnsContaine
 function openResetModal(){resetStep=1;document.getElementById("modalText").innerText="¿Estás seguro que quieres borrar todos los datos y empezar nuevo campeonato?";renderModalButtons();document.getElementById("resetModal").style.display="flex"}
 function closeResetModal(){document.getElementById("resetModal").style.display="none"}
 function handleModalYes(){if(resetStep===1){resetStep=2;document.getElementById("modalText").innerText="Asegúrate, porque estos datos se pierden y no se pueden recuperar";renderModalButtons()}else{executeReset()}}
-function executeReset(){localStorage.removeItem(KEY_DATA);store={players:{"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:0,duos:{}},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:0,duos:{}},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0,duos:{}},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:0,duos:{}}},matchIdx:0,history:[]};save();closeResetModal();render();window.location.reload()}
+function executeReset(){localStorage.removeItem(KEY_DATA);store={players:{"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:0,duos:{}},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:0,duos:{}},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0,duos:{}},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:0,duos:{}}},matchIdx:0,history:[]};save();closeResetModal();recalculateAllFromHistory();window.location.reload()}
 function recalculateAllFromHistory(){
   let fresh={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1,duos:{}},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:1,duos:{}},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:2,duos:{}}};
   store.history.forEach(m=>{
@@ -121,7 +123,6 @@ function recalculateAllFromHistory(){
 
 function toggleMatchResult(index){if(confirm("¿Quieres cambiar el ganador de esta ronda? Se recalcularán todos los puntos al instante.")){let m=store.history[index];let oldW=m.w;m.w=m.l;m.l=oldW;recalculateAllFromHistory()}}
 function getBestDuo(n){let d=store.players[n].duos||{},bName="-",bPct=0,maxV=0;Object.entries(d).forEach(([k,v])=>{let p=k.split("-");if(p.length>=3){let name=p,j=parseInt(p),win=parseInt(p),pct=j>0?Math.round(win/j*100):0;if(pct>bPct||(pct===bPct&&win>maxV)){bPct=pct;bName=name;maxV=win}}});return bName!=="-联合"&&bName!=="-"?bName+" ("+bPct+"%)":"Ninguno"}
-
 function renderAfinity(){
   let pairs={};let names=Object.keys(store.players);for(let i=0;i<names.length;i++){for(let j=i+1;j<names.length;j++){let key=[names[i],names[j]].sort().join(" + ");pairs[key]={v:0,j:0}}}
   store.history.forEach(m=>{let wP=m.w.split(" + ");if(wP.length==2){let k=wP.sort().join(" + ");if(pairs[k]){pairs[k].j++;pairs[k].v++}}let lP=m.l.split(" + ");if(lP.length==2){let k=lP.sort().join(" + ");if(pairs[k]){pairs[k].j++}}});
@@ -146,7 +147,7 @@ function render(){
   renderAfinity();renderProfiles();
 }
 
-function updateDuo(player,partner,isWin){let d=store.players[player].duos||{},tKey=null;Object.keys(d).forEach(k=>{if(k.startsWith(partner+"-"))tKey=k});let j=0,v=0;if(tKey){let parts=tKey.split("-");j=parseInt(parts[1]);v=parseInt(parts[2]);delete d[tKey]}j++;if(isWin)v++;d[partner+"-"+j+"-"+v]="";store.players[player].duos=d}
+function updateDuo(player,partner,isWin){let d=store.players[player].duos;let tKey=null;Object.keys(d).forEach(k=>{if(k.startsWith(partner+"-"))tKey=k});let j=0,v=0;if(tKey){let parts=tKey.split("-");j=parseInt(parts);v=parseInt(parts);delete d[tKey]}j++;if(isWin)v++;d[partner+"-"+j+"-"+v]=""}
 function win(t){let c=cyc[store.matchIdx%3],w=t==='A'?c.a:c.b,l=t==='A'?c.b:c.a;let now=new Date(),day=String(now.getDate()).padStart(2,'0'),months=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],dateStr=day+"-"+months[now.getMonth()];store.history.push({r:store.history.length+1,w:w.join(" + "),l:l.join(" + "),t:dateStr});store.matchIdx++;save();recalculateAllFromHistory()}
-save();recalculateAllFromHistory();
+recalculateAllFromHistory();
 </script></body></html>
