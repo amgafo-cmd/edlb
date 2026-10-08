@@ -21,7 +21,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .rank-badge{background:var(--gold);color:#000;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:bold}
 .rank-icon{color:var(--gold);font-size:14px;vertical-align:middle;margin-left:2px}
 .player-name{font-size:18px;font-weight:900;letter-spacing:-0.4px;flex:1;text-align:center}
-<style>
 .pts-box{text-align:center;margin:4px 0}.pts{font-size:40px;font-weight:900;color:#fff;line-height:1}.pts-lbl{font-size:10px;color:#8da497;margin-left:4px}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);font-size:10px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:6px;margin-bottom:6px;color:#8da497}
 .streak-container{display:flex;flex-direction:column;gap:4px;margin-top:10px;margin-bottom:6px}
@@ -47,11 +46,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .fut-detail-label{color:#8da497;text-transform:uppercase;font-weight:bold;font-size:10px;letter-spacing:0.5px}.fut-detail-value{font-weight:900;color:var(--gold)}
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;padding:20px}
 .modal-box{background:var(--bg-gradient);border:2px solid #721c24;border-radius:12px;padding:20px;max-width:340px;width:100%;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.6)}
-.modal-msg{font-size:15px;font-weight:bold;line-height:1.4;margin-bottom:20px;color:#fff}.modal-btns{display:flex;gap:10px}.btn-modal{flex:1;padding:12px;border-radius:6px;font-weight:bold;font-size:13px;text-transform:uppercase;cursor:pointer;border:none}
+.modal-msg{font-size:15px;font-weight:bold;line-height:1.4;margin-bottom:20px;color:#fff}.modal-btns{display:flex;gap:10px}
+.btn-modal{flex:1;padding:12px;border-radius:6px;font-weight:bold;font-size:13px;text-transform:uppercase;cursor:pointer;border:none}
 .btn-modal-yes{background:#f7f5ee;color:#06160e}.btn-modal-cancel{background:#dc3545;color:#fff}
 @media(min-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:768px){.grid{grid-template-columns:repeat(4,1fr)}.pts{font-size:64px}.m-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
 </style></head><body>
-<div class="header-banner"><div class="header-left"><div class="balls-group"><div class="b-ball b-white"></div><div class="b-ball b-yellow"></div><div class="b-ball b-red"></div></div><div><div class="brand-sub">Billar Carambola • 3 Bandas</div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v2.0 (08/10 12:55)</div><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
+<div class="header-banner"><div class="header-left"><div class="balls-group"><div class="b-ball b-white"></div><div class="b-ball b-yellow"></div><div class="b-ball b-red"></div></div><div><div class="brand-sub">Billar Carambola • 3 Bandas</div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v3.0 (Estable)</div><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
 <div class="navbar"><div class="nav-item active" onclick="tab('m',event)">Marcador & Citas</div><div class="nav-item" onclick="tab('h',event)">Historial</div><div class="nav-item" onclick="tab('s',event)">Estadísticas</div><div class="nav-item" onclick="tab('f',event)">Fichas</div></div>
 <div id="t-m" class="tab active"><div class="grid" id="p-cont"></div><h2 style="font-size:18px;margin-bottom:10px;color:var(--gold)">Próximas 3 Citas</h2><div class="m-grid" id="m-cont"></div></div>
 <div id="t-h" class="tab"><h2>Historial de Partidos</h2><div id="h-cont"></div></div>
@@ -62,7 +62,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 const def={"Ignatius":{pts:2,pj:4,v:2,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:2,pj:4,v:2,b:"#f1c40f",rac:0,rec:1,duos:{}},"Bertus":{pts:3,pj:4,v:3,b:"#95a5a6",rac:1,rec:2,duos:{}},"Jorge":{pts:1,pj:4,v:1,b:"#e74c3c",rac:1,rec:1,duos:{}}};
 const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},{a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}];
 const icons=["👑","🏆","🏅","🎯"];
-const KEY_DATA = "b_liga_final_v50"; // Nueva versión blindada para borrar la caché
+const KEY_DATA = "b_liga_definitiva_v90"; // Nueva clave para forzar limpieza total
 
 const playerProfiles={
   "Marcelo":{grl:89,desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace bolas increíbles. Se crece en momentos difíciles ante los insultos de sus compañeros.",tiro:"Picados extremos",vision:"Muy buena. Uso frecuente de Muchibandas."},
