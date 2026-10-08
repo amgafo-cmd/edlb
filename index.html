@@ -42,12 +42,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .btn-modal-yes{background:#f7f5ee;color:#06160e}.btn-modal-cancel{background:#dc3545;color:#fff}
 @media(min-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:768px){.grid{grid-template-columns:repeat(4,1fr)}.pts{font-size:64px}.m-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
 </style></head><body>
-<div class="header-banner"><div class="header-left"><div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v14 Premium Final</div><button onclick="exportBackup()" class="btn-backup">💾 Copia Seguridad</button><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
+<div class="header-banner"><div class="header-left"><div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v2.1 Final</div><button onclick="exportBackup()" class="btn-backup">💾 Copia Seguridad</button><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
 <div class="navbar"><div class="nav-item active" onclick="tab('m',event)">Marcador & Citas</div><div class="nav-item" onclick="tab('h',event)">Historial</div><div class="nav-item" onclick="tab('s',event)">Estadísticas</div><div class="nav-item" onclick="tab('f',event)">Fichas</div></div>
 <div id="t-m" class="tab active"><div class="grid" id="p-cont"></div><h2 style="font-size:18px;margin-bottom:10px;color:var(--gold)">Próximas 3 Citas</h2><div class="m-grid" id="m-cont"></div></div>
 <div id="t-h" class="tab"><h2>Historial de Partidos</h2><div id="h-cont"></div></div>
 <div id="t-s" class="tab"><h2 style="font-size:18px;margin-bottom:12px;color:var(--gold)">📊 Afinidad de Parejas (Mayor a Menor)</h2><div id="s-cont"></div></div>
-<div id="t-f" class="tab"><h2 style="font-size:18px;margin-bottom:12px;color:var(--gold)">🎴 Fichas Técnicas Pro (Orden Alfabético)</h2><div class="cards-grid" id="f-cont"></div></div>
+<div id="t-f" class="tab"><h2 style="font-size:18px;margin-bottom:12px;color:var(--gold)">🎴 Fichas Técnicas (Orden Alfabético)</h2><div class="cards-grid" id="f-cont"></div></div>
 <div class="modal-overlay" id="resetModal"><div class="modal-box"><div class="modal-msg" id="modalText">¿Estás seguro?</div><div class="modal-btns" id="modalBtnsContainer"></div></div></div>
 <script>
 const def={"Ignatius":{pts:2,pj:4,v:2,b:"#fff",rac:0,rec:2},"Marcelo":{pts:2,pj:4,v:2,b:"#f1c40f",rac:0,rec:1},"Bertus":{pts:3,pj:4,v:3,b:"#95a5a6",rac:1,rec:2},"Jorge":{pts:1,pj:4,v:1,b:"#e74c3c",rac:1,rec:1}};
