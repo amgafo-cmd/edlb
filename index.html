@@ -25,33 +25,34 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .stat-row{background:var(--bg-gradient);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
 .stat-pair{font-size:14px;font-weight:bold}.stat-desc{font-size:11px;color:#8da497}.stat-pct{font-size:14px;font-weight:900;color:var(--gold)}
 .cards-grid{display:grid;grid-template-columns:1fr;gap:15px}
-.fut-card{background:linear-gradient(135deg, #113020 0%, #05140b 100%);border:2px solid var(--border);border-radius:16px;padding:15px;position:relative;display:flex;align-items:center;gap:15px;overflow:hidden}
+.fut-card{background:linear-gradient(135deg, #113020 0%, #05140b 100%);border:2px solid var(--border);border-radius:16px;padding:15px;position:relative;display:flex;flex-direction:column;gap:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,0.5)}
 .fut-top-row{display:flex;align-items:center;gap:15px;width:100%}.fut-badge-container{text-align:center;min-width:95px;display:flex;flex-direction:column;align-items:center;position:relative}
-/* AMPLIACIÓN EXCLUSIVA: Círculos Pro un 30% más grandes (90px) para lucir vuestras caras */
 .fut-photo{width:90px;height:90px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;background:#030c07;box-shadow:0 4px 10px rgba(0,0,0,0.4)}
-.fut-details-list{display:flex;flex-direction:column;gap:6px;width:100%}
-.fut-grl-box{background:var(--gold);color:#000;font-weight:900;font-size:15px;padding:1px 6px;border-radius:8px;position:absolute;top:-6px;left:-4px}
+.fut-grl-box{background:var(--gold);color:#000;font-weight:900;font-size:15px;padding:1px 6px;border-radius:8px;position:absolute;top:-6px;left:-4px;box-shadow:0 2px 5px rgba(0,0,0,0.3)}
 .fut-ball-indicator{position:absolute;bottom:-4px;right:2px;width:18px;height:18px;border-radius:50%;border:2px solid #000}.fut-info-container{flex:1}
 .fut-name{font-size:20px;font-weight:900;color:#fff;margin:0 0 4px 0;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:4px}
 .fut-desc-block{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:10px;font-size:12px;line-height:1.4;color:#c2d1ca;font-style:italic}
+.fut-details-list{display:flex;flex-direction:column;gap:6px;width:100%}
+.fut-detail-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:6px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.fut-detail-label{color:#8da497;text-transform:uppercase;font-weight:bold;font-size:10px;letter-spacing:0.5px}.fut-detail-value{font-weight:900;color:var(--gold)}
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;padding:20px}
 .modal-box{background:var(--bg-gradient);border:2px solid #721c24;border-radius:12px;padding:20px;max-width:340px;width:100%;text-align:center}
-.modal-msg{font-size:15px;font-weight:bold;line-height:1.4;margin-bottom:20px}.modal-btns{display:flex;gap:10px}
-.btn-modal{flex:1;padding:12px;border-radius:6px;font-weight:bold;font-size:13px;text-transform:uppercase;cursor:pointer;border:none}
+.modal-msg{font-size:15px;font-weight:bold;line-height:1.4;margin-bottom:20px;color:#fff}
+.modal-btns{display:flex;gap:10px}.btn-modal{flex:1;padding:12px;border-radius:6px;font-weight:bold;font-size:13px;text-transform:uppercase;cursor:pointer;border:none}
 .btn-modal-yes{background:#f7f5ee;color:#06160e}.btn-modal-cancel{background:#dc3545;color:#fff}
 @media(min-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:768px){.grid{grid-template-columns:repeat(4,1fr)}.pts{font-size:64px}.m-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
 </style></head><body>
-<div class="header-banner"><div class="header-left"><div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v12.81 Premium</div><button onclick="exportBackup()" class="btn-backup">💾 Copia Seguridad</button><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
+<div class="header-banner"><div class="header-left"><div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v13.5 Premium Final</div><button onclick="exportBackup()" class="btn-backup">💾 Copia Seguridad</button><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
 <div class="navbar"><div class="nav-item active" onclick="tab('m',event)">Marcador & Citas</div><div class="nav-item" onclick="tab('h',event)">Historial</div><div class="nav-item" onclick="tab('s',event)">Estadísticas</div><div class="nav-item" onclick="tab('f',event)">Fichas</div></div>
 <div id="t-m" class="tab active"><div class="grid" id="p-cont"></div><h2 style="font-size:18px;margin-bottom:10px;color:var(--gold)">Próximas 3 Citas</h2><div class="m-grid" id="m-cont"></div></div>
 <div id="t-h" class="tab"><h2>Historial de Partidos</h2><div id="h-cont"></div></div>
-<div id="t-s" class="tab"><h2 style="font-size:18px;margin-bottom:12px;color:var(--gold)">📊 Afinidad de Parejas (Ordenada de Mayor a Menor)</h2><div id="s-cont"></div></div>
-<div id="t-f" class="tab"><h2 style="font-size:18px;margin-bottom:12px;color:var(--gold)">🎴 Fichas Técnicas (Orden Alfabético)</h2><div class="cards-grid" id="f-cont"></div></div>
+<div id="t-s" class="tab"><h2 style="font-size:18px;margin-bottom:12px;color:var(--gold)">📊 Afinidad de Parejas (Mayor a Menor)</h2><div id="s-cont"></div></div>
+<div id="t-f" class="tab"><h2 style="font-size:18px;margin-bottom:12px;color:var(--gold)">🎴 Fichas Técnicas Pro (Orden Alfabético)</h2><div class="cards-grid" id="f-cont"></div></div>
 <div class="modal-overlay" id="resetModal"><div class="modal-box"><div class="modal-msg" id="modalText">¿Estás seguro?</div><div class="modal-btns" id="modalBtnsContainer"></div></div></div>
 <script>
-const def={"Ignatius":{pts:2,pj:4,v:2,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:2,pj:4,v:2,b:"#f1c40f",rac:0,rec:1,duos:{}},"Bertus":{pts:3,pj:4,v:3,b:"#95a5a6",rac:1,rec:2,duos:{}},"Jorge":{pts:1,pj:4,v:1,b:"#e74c3c",rac:1,rec:1,duos:{}}};
+const def={"Ignatius":{pts:2,pj:4,v:2,b:"#fff",rac:0,rec:2},"Marcelo":{pts:2,pj:4,v:2,b:"#f1c40f",rac:0,rec:1},"Bertus":{pts:3,pj:4,v:3,b:"#95a5a6",rac:1,rec:2},"Jorge":{pts:1,pj:4,v:1,b:"#e74c3c",rac:1,rec:1}};
 const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},{a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}];
-const KEY_DATA = "b_liga_final_v1250"; // Forzamos nueva inyección limpia para purgar atascos antiguos
+const KEY_DATA = "b_liga_final_v1350"; // Forzamos nueva inyección limpia para purgar cualquier bloqueo
 
 const playerProfiles={
   "Bertus":{desc:"Destaca su aguante en partidas largas, acechando al contrincante hasta dar el golpe final. Sostiene la presión en los rounds definitivos sin pestañear."},
@@ -77,9 +78,9 @@ function renderModalButtons(){const c=document.getElementById("modalBtnsContaine
 function openResetModal(){resetStep=1;document.getElementById("modalText").innerText="¿Borrar campeonato?";renderModalButtons();document.getElementById("resetModal").style.display="flex"}
 function closeResetModal(){document.getElementById("resetModal").style.display="none"}
 function handleModalYes(){if(resetStep===1){resetStep=2;document.getElementById("modalText").innerText="¿Seguro?";renderModalButtons()}else{executeReset()}}
-function executeReset(){localStorage.removeItem(KEY_DATA);store={players:{"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:0,duos:{}},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:0,duos:{}},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0,duos:{}},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:0,duos:{}}},matchIdx:0,history:[]};save();closeResetModal();recalculateAllFromHistory();window.location.reload()}
+function executeReset(){localStorage.removeItem(KEY_DATA);store={players:{"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:0},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:0},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:0}},matchIdx:0,history:[]};save();closeResetModal();recalculateAllFromHistory();window.location.reload()}
 function recalculateAllFromHistory(){
-  let fresh={"Ignatius":{pts:0,pj:4,v:2,b:"#fff",rac:0,rec:2,duos:{}},"Marcelo":{pts:0,pj:4,v:2,b:"#f1c40f",rac:0,rec:1,duos:{}},"Jorge":{pts:0,pj:4,v:1,b:"#e74c3c",rac:0,rec:1,duos:{}},"Bertus":{pts:0,pj:4,v:3,b:"#95a5a6",rac:0,rec:2,duos:{}}};
+  let fresh={"Ignatius":{pts:0,pj:4,v:2,b:"#fff",rac:0,rec:2},"Marcelo":{pts:0,pj:4,v:2,b:"#f1c40f",rac:0,rec:1},"Jorge":{pts:0,pj:4,v:1,b:"#e74c3c",rac:0,rec:1},"Bertus":{pts:0,pj:4,v:3,b:"#95a5a6",rac:0,rec:2}};
   store.history.forEach(m=>{
     let w=m.w.split(" + "),l=m.l.split(" + ");
     w.forEach(n=>{fresh[n].pts++;fresh[n].v++;fresh[n].rac++;if(fresh[n].rac>fresh[n].rec)fresh[n].rec=fresh[n].rac});l.forEach(n=>fresh[n].rac=0);
@@ -94,38 +95,34 @@ function exportBackup(){
 function toggleMatchResult(index){if(confirm("¿Cambiar el ganador?")){let m=store.history[index];let oldW=m.w;m.w=m.l;m.l=oldW;recalculateAllFromHistory()}}
 function renderAfinity(){
   let pairs={"Bertus + Ignatius":{v:1,j:1},"Bertus + Marcelo":{v:1,j:1},"Ignatius + Marcelo":{v:1,j:2},"Bertus + Jorge":{v:1,j:2},"Ignatius + Jorge":{v:0,j:1},"Jorge + Marcelo":{v:0,j:1}};
-let sorted=Object.entries(pairs).sort((x,y)=>{return (y[1].v/y[1].j) - (x[1].v/x[1].j)});
+  let sorted=Object.entries(pairs).sort((x,y)=>{return (y.1.v/y.1.j) - (x.1.v/x.1.j)});
   let sCont=document.getElementById("s-cont");sCont.innerHTML="";sorted.forEach(([pair,data],index)=>{let pct=Math.round((data.v/data.j)*100);sCont.innerHTML+=`<div class='stat-row'><div><div class='stat-pair'>${index+1}. ${pair}</div><div class='stat-desc'>${data.v} victorias de ${data.j} partidas</div></div><div class='stat-pct'>🔥 ${pct}%</div></div>`});
 }
 function renderProfiles(){
   let fCont=document.getElementById("f-cont");fCont.innerHTML="";
   
-  // Datos técnicos recuperados para el renderizado
+  // PARÁMETROS SOLICITADOS ASIGNADOS: Vuestros nuevos textos técnicos en el motor dinámico
   const details={
-    "Bertus":{tiro:"Lujo en bolas paralelas a banda",vision:"Sobresaliente en situaciones complejas"},
+    "Bertus":{tiro:"Lujo en bolas paralelas a banda",vision:"Buena, pero irregular en puntería"},
     "Ignatius":{tiro:"Se apoya en banda para intensificar el efecto",vision:"Excelente control en tres bandas"},
-    "Jorge":{tiro:"Retroceso",vision:"Buena lectura de jugadas defensivas"},
+    "Jorge":{tiro:"REDONDé",vision:"Se podría decir que.... ¿especial?"},
     "Marcelo":{tiro:"Picados extremos",vision:"Muy buena. Uso frecuente de Muchibandas"}
   };
 
-  let sortedProfiles = Object.entries(playerProfiles).sort((x,y)=>{return x[0].localeCompare(y[0])});
-  
-  sortedProfiles.forEach(([name,prof]) => {
+  let sortedProfiles = Object.keys(playerProfiles).sort((x,y)=>{return x.localeCompare(y)});
+  sortedProfiles.forEach(name => {
+    let prof = playerProfiles[name];
     let pData=store.players[name]||{v:0,pj:1};
     let dynamicScore=pData.pj>0?Math.round((pData.v/pData.pj)*100):50;
     let ballColor=store.players[name]?store.players[name].b:"#fff";
-    
-    // Ruta directa e indestructible a las fotos oficiales de vuestra rama main
     let realImgSrc = "https://githubusercontent.com" + name.toLowerCase() + ".png";
     let det = details[name];
 
     fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row"><div class="fut-badge-container"><div class="fut-grl-box">${dynamicScore}</div><img class="fut-photo" src="${realImgSrc}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container"><div class="fut-name">👑 ${name}</div><div class="fut-desc-block">${prof.desc}</div></div></div><div class="fut-details-list"><div class="fut-detail-item"><span class="fut-detail-label">🎯 Mejor tiro</span><span class="fut-detail-value">${det.tiro}</span></div><div class="fut-detail-item"><span class="fut-detail-label">👁️ Visión de carambola</span><span class="fut-detail-value">${det.vision}</span></div></div></div>`;
   });
 }
-
 function render(){
-  // ORDENACIÓN CLAVE POR PUNTOS (PTS): Clasifica estrictamente de mayor a menor puntuación acumulada real. ¡Bertus 1º con 3 PTS!
-  let s=Object.entries(store.players).sort((x,y)=>{return y[1].pts - x[1].pts});
+  let s=Object.entries(store.players).sort((x,y)=>{return y.1.pts-x.1.pts});
   let h=document.getElementById("p-cont");h.innerHTML="";s.forEach(([n,d],i)=>{let iconHTML=(["👑","🏆","🏅","🎯"])[i]||"🎯",activeStreak=d.rac>0?'on':'';h.innerHTML+=`<div class='card'><div style='display:flex;justify-content:space-between;align-items:center'><div style='display:flex;align-items:center;width:85%'><span class='rank-badge'>${i+1}º</span><span style='margin-left:2px;font-size:14px'>${iconHTML}</span><span class='player-name'>${n}</span></div><div class='ball-mini' style='background:${d.b}'></div></div><div class='pts-box'><span class='pts'>${d.pts}</span><span class='pts-lbl'>PTS</span></div><div class='stats'><div>PJ<br><b>${d.pj}</b></div><div>V<br><b>${d.v}</b></div><div style='color:var(--gold)'>%V<br><b>${d.pj?Math.round((d.v/d.pj)*100):0}%</b></div></div><div class='streak-container'><div class='streak-box s-act ${activeStreak}'>Racha 🔥 ${d.rac||0}</div><div class='streak-box s-rec'>Récord ${d.rec||0}</div></div></div>`});
   h=document.getElementById("m-cont");h.innerHTML="";for(let i=0;i<3;i++){let c=cyc[(store.matchIdx+i)%3],n=i===0;h.innerHTML+=`<div class='m-card ${n?'next':''}'><div style='display:flex;justify-content:space-between;font-size:10px;color:#8da497;font-weight:bold'><span>${n?'⚡ SIGUIENTE PARTIDA':'👥 CITA '+(i+1)}</span><span>ROUND ${store.matchIdx+i+1}</span></div><div style='font-size:9px;color:#8da497;margin-top:8px;text-transform:uppercase'>Pareja A</div><div style='font-size:18px;font-weight:bold;margin-bottom:5px'>${c.a.join(" - ")}</div>${n?`<button class='btn-win btn-a' onclick='win("A")'>Ganó Pareja A</button><div style='color:var(--gold);font-weight:bold;font-size:11px;margin:2px 0'>VS</div><button class='btn-win btn-b' onclick='win("B")'>Ganó Pareja B</button>`:`<div style='margin:20px 0;color:#4a6356;font-weight:bold;font-size:11px;text-transform:uppercase'>— VS —</div>`}<div style='font-size:9px;color:#8da497;text-transform:uppercase'>Pareja B</div><div style='font-size:18px;font-weight:bold;margin-top:5px'>${c.b.join(" - ")}</div></div>`}
   h=document.getElementById("h-cont");h.innerHTML="";let rev=[...store.history].reverse();rev.forEach(m=>{h.innerHTML+=`<div class='h-item'><div style='display:flex;align-items:flex-start;gap:4px;flex-direction:column'><b style='color:var(--gold);font-size:13px'>Ronda ${m.r} <span style='color:#8da497;font-weight:normal;font-size:11px;margin-left:6px'>${m.t}</span></b><div><span style='color:#2ecc71;font-weight:bold'>🏆 ${m.w}</span><span style='color:#8da497;font-size:11px'> venció a </span><span style='color:#e74c3c;text-decoration:line-through;opacity:0.7'>${m.l}</span></div></div><button class='btn-correct' onclick='toggleMatchResult(${(store.history.length-1-rev.indexOf(m))})'>Corregir</button></div>`});
