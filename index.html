@@ -118,7 +118,7 @@ function renderProfiles(){
     let prof = playerProfiles[name];let pData=store.players[name]||{v:0,pj:1};
     let dynamicScore=pData.pj>0?Math.round((pData.v/pData.pj)*100):0;
     let ballColor=store.players[name]?store.players[name].b:"#fff";
-    let realImgSrc = "https://githubusercontent.com" + name.toLowerCase() + ".png?v=" + new Date().getTime();
+    let realImgSrc = name.toLowerCase() + ".png?v=" + new Date().getTime();
     let det = details[name];
     fCont.innerHTML+=`<div class="fut-card"><div class="fut-top-row" style="display:flex;align-items:center;gap:15px;width:100%;margin-bottom:10px"><div class="fut-badge-container" style="position:relative;min-width:95px"><div class="fut-grl-box">${dynamicScore}</div><img class="fut-photo" src="${realImgSrc}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container" style="flex:1"><div class="fut-name" style="font-size:22px;font-weight:900;color:var(--gold)">👑 ${name}</div><div class="fut-desc-block" style="font-size:12px;color:#c2d1ca;margin-top:5px;line-height:1.4">${prof.desc}</div></div></div><div class="fut-details-list" style="width:100%;display:flex;flex-direction:column;gap:6px"><div class="fut-detail-item"><span class="fut-detail-label">🎯 Mejor tiro</span><span class="fut-detail-value" style="color:var(--gold)">${det.tiro}</span></div><div class="fut-detail-item"><span class="fut-detail-label">👁️ Visión de carambola</span><span class="fut-detail-value" style="color:#fff">${det.vision}</span></div></div></div>`;
   });
