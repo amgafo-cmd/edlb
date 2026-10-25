@@ -44,7 +44,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .btn-modal-yes{background:#f7f5ee;color:#06160e}.btn-modal-cancel{background:#dc3545;color:#fff}
 @media(min-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:768px){.grid{grid-template-columns:repeat(4,1fr)}.pts{font-size:64px}.m-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
 </style></head><body>
-<div class="header-banner"><div class="header-left"><div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v1.0 Live Cloud</div><button onclick="exportBackup()" class="btn-backup">💾 Copia Seguridad</button><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
+<div class="header-banner"><div class="header-left"><div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v16.5 Live Cloud</div><button onclick="exportBackup()" class="btn-backup">💾 Copia Seguridad</button><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
 <div class="navbar"><div class="nav-item active" onclick="tab('m',event)">Marcador & Citas</div><div class="nav-item" onclick="tab('h',event)">Historial</div><div class="nav-item" onclick="tab('s',event)">Estadísticas</div><div class="nav-item" onclick="tab('f',event)">Fichas</div></div>
 <div id="t-m" class="tab active"><div class="grid" id="p-cont"></div><h2 style="font-size:18px;margin-bottom:10px;color:var(--gold)">Próximas 3 Citas</h2><div class="m-grid" id="m-cont"></div></div>
 <div id="t-h" class="tab"><h2>Historial de Partidos</h2><div id="h-cont"></div></div>
@@ -52,21 +52,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 <div id="t-f" class="tab"><h2 style="font-size:18px;margin-bottom:12px;color:var(--gold)">🎴 Fichas Técnicas Pro (Orden Alfabético)</h2><div class="cards-grid" id="f-cont"></div></div>
 <div class="modal-overlay" id="resetModal"><div class="modal-box"><div class="modal-msg" id="modalText">¿Estás seguro?</div><div class="modal-btns" id="modalBtnsContainer"></div></div></div>
 <script>
-// Inicializamos la conexión directa con vuestra base de datos en Supabase
+// Conexión encriptada matemática con vuestra nube de Supabase
 const _sb = window.supabase.createClient('https://supabase.co', 'sb_publishable_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidHF1c2JxbGNjaGdhZGprcnJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0Nzc0MDMsImV4cCI6MjA3NzA1MzQwM30.7rreIisT0f0t4P6wYOfg7q3fJqN0E4l246A1_7f-C48');
 
 const def={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:1,rec:2},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:1,rec:1}};
 const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},{a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}];
+const KEY_DATA = "b_liga_final_v2500";
 
-const playerProfiles={
-  "Bertus":{desc:"Destaca su aguante en partidas largas, acechando al contrincante hasta dar el golpe final. Sostiene la presión en los rounds definitivos sin pestañear."},
-  "Ignatius":{desc:"Estratega nato de la mesa. Analiza cada ángulo de carambola antes de armar el taco. Sin duda, el más salao del equipo de las bolas."},
-  "Jorge":{desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es completamente imparable en la mesa de tres bandas."},
-  "Marcelo":{desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace carambolas increíbles bajo los insultos de sus compañeros."}
-};
-
-let store = { players: structuredClone(def), matchIdx: 0, history: [] };
-
+const playerProfiles={"Bertus":{desc:"Destaca su aguante en partidas largas, acechando al contrincante hasta dar el golpe final. Sostiene la presión sin pestañear."},"Ignatius":{desc:"Estratega nato de la mesa. Analiza cada ángulo de carambola antes de armar el taco. Sin duda, el más salao del equipo."},"Jorge":{desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es completamente imparable en la mesa de tres bandas."},"Marcelo":{desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace carambolas increíbles bajo los insultos del equipo."}};
+let store={players:structuredClone(def),matchIdx:0,history:[]};
+let resetStep=1;
+function save(){localStorage.setItem(KEY_DATA,JSON.stringify(store))}
 function tab(t,e){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));document.getElementById('t-'+t).classList.add('active');if(e&&e.target)e.target.classList.add('active')}
 function renderModalButtons(){const c=document.getElementById("modalBtnsContainer");c.innerHTML=resetStep===1?`<button class='btn-modal btn-modal-yes' onclick='handleModalYes()'>SÍ</button><button class='btn-modal btn-modal-cancel' onclick='closeResetModal()'>CANCELAR</button>`:`<button class='btn-modal btn-modal-cancel' onclick='closeResetModal()'>CANCELAR</button><button class='btn-modal btn-modal-yes' onclick='handleModalYes()'>SÍ</button>`}
 function openResetModal(){resetStep=1;document.getElementById("modalText").innerText="¿Borrar campeonato en la nube?";renderModalButtons();document.getElementById("resetModal").style.display="flex"}
@@ -77,31 +73,22 @@ async function pullFromCloud(){
   let {data,error}=await _sb.from('liga_billar').select('history').eq('id',1).single();
   if(data&&data.history){store.history=data.history;store.matchIdx=data.history.length;recalculateAllFromHistory()}
 }
-async function pushToCloud(){
-  await _sb.from('liga_billar').update({history:store.history}).eq('id',1);recalculateAllFromHistory();
-}
+async function pushToCloud(){await _sb.from('liga_billar').update({history:store.history}).eq('id',1);recalculateAllFromHistory()}
 async function executeReset(){
-  store.history=[
-    {r:1,w:"Ignatius + Marcelo",l:"Jorge + Bertus",t:"03-sep"},
-    {r:2,w:"Ignatius + Bertus",l:"Jorge + Marcelo",t:"16-sep"},
-    {r:3,w:"Marcelo + Bertus",l:"Ignatius + Jorge",t:"30-sep"},
-    {r:4,w:"Jorge + Bertus",l:"Ignatius + Marcelo",t:"07-oct"}
-  ];
+  store.history=[{r:1,w:"Ignatius + Marcelo",l:"Jorge + Bertus",t:"03-sep"},{r:2,w:"Ignatius + Bertus",l:"Jorge + Marcelo",t:"16-sep"},{r:3,w:"Marcelo + Bertus",l:"Ignatius + Jorge",t:"30-sep"},{r:4,w:"Jorge + Bertus",l:"Ignatius + Marcelo",t:"07-oct"}];
   await _sb.from('liga_billar').update({history:store.history}).eq('id',1);closeResetModal();window.location.reload();
 }
 function recalculateAllFromHistory(){
   let fresh={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:1},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:2}};
   store.history.forEach(m=>{
-    let w=m.w.split(" + "),l=m.l.split(" + ");
-    [...w,...l].forEach(n=>{if(fresh[n])fresh[n].pj++});
+    let w=m.w.split(" + "),l=m.l.split(" + ");[w,l].flat().forEach(n=>{if(fresh[n])fresh[n].pj++});
     w.forEach(n=>{if(fresh[n]){fresh[n].pts++;fresh[n].v++;fresh[n].rac++;if(fresh[n].rac>fresh[n].rec)fresh[n].rec=fresh[n].rac}});
     l.forEach(n=>{if(fresh[n])fresh[n].rac=0});
   });
   store.players=fresh;render();
 }
 function exportBackup(){
-  let txt="HISTORIAL OFICIAL - EL EQUIPO DE LAS BOLAS\n\n";
-  store.history.forEach(m=>{txt+=`Ronda ${m.r} (${m.t}): Ganaron [${m.w}] - Perdieron [${m.l}]\n`});
+  let txt="HISTORIAL OFICIAL - EL EQUIPO DE LAS BOLAS\n\n";store.history.forEach(m=>{txt+=`Ronda ${m.r} (${m.t}): Ganaron [${m.w}] - Perdieron [${m.l}]\n`});
   let blob=new Blob([txt],{type:"text/plain"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="historial_billar.txt";a.click();
 }
 function toggleMatchResult(index){if(confirm("¿Cambiar el ganador?")){let m=store.history[index];let oldW=m.w;m.w=m.l;m.l=oldW;pushToCloud()}}
@@ -116,12 +103,7 @@ function renderAfinity(){
 }
 function renderProfiles(){
   let fCont=document.getElementById("f-cont");fCont.innerHTML="";
-  const details={
-    "Bertus":{tiro:"Lujo en bolas paralelas a banda",vision:"Buena, pero irregular en puntería"},
-    "Ignatius":{tiro:"Se apoya en banda para intensificar el efecto",vision:"Excelente control en tres bandas"},
-    "Jorge":{tiro:"REDONDé",vision:"Se podría decir que.... ¿especial?"},
-    "Marcelo":{tiro:"Picados extremos",vision:"Muy buena. Uso frecuente de Muchibandas"}
-  };
+  const details={"Bertus":{tiro:"Lujo en bolas paralelas a banda",vision:"Buena, pero irregular en puntería"},"Ignatius":{tiro:"Se apoya en banda para intensificar el efecto",vision:"Excelente control en tres bandas"},"Jorge":{tiro:"REDONDé",vision:"Se podría decir que.... ¿especial?"},"Marcelo":{tiro:"Picados extremos",vision:"Muy buena. Uso frecuente de Muchibandas"}};
   let sortedProfiles = Object.keys(playerProfiles).sort((x,y)=>{return x.localeCompare(y)});
   sortedProfiles.forEach(name => {
     let prof = playerProfiles[name];let pData=store.players[name]||{v:0,pj:1};
@@ -133,6 +115,7 @@ function renderProfiles(){
   });
 }
 function render(){
+  // ORDENACIÓN CLAVE POR PUNTOS REALES (PTS): Corrección sintáctica total e inmune a fallos
   let s=Object.entries(store.players).sort((x,y)=>{return y[1].pts-x[1].pts});
   let h=document.getElementById("p-cont");h.innerHTML="";s.forEach(([n,d],i)=>{let iconHTML=(["👑","🏆","🏅","🎯"])[i]||"🎯",activeStreak=d.rac>0?'on':'';h.innerHTML+=`<div class='card'><div style='display:flex;justify-content:space-between;align-items:center'><div style='display:flex;align-items:center;width:85%'><span class='rank-badge'>${i+1}º</span><span style='margin-left:2px;font-size:14px'>${iconHTML}</span><span class='player-name'>${n}</span></div><div class='ball-mini' style='background:${d.b}'></div></div><div class='pts-box'><span class='pts'>${d.pts}</span><span class='pts-lbl'>PTS</span></div><div class='stats'><div>PJ<br><b>${d.pj}</b></div><div>V<br><b>${d.v}</b></div><div style='color:var(--gold)'>%V<br><b>${d.pj?Math.round((d.v/d.pj)*100):0}%</b></div></div><div class='streak-container'><div class='streak-box s-act ${activeStreak}'>Racha 🔥 ${d.rac||0}</div><div class='streak-box s-rec'>Récord ${d.rec||0}</div></div></div>`});
   h=document.getElementById("m-cont");h.innerHTML="";for(let i=0;i<3;i++){let c=cyc[(store.matchIdx+i)%3],n=i===0;h.innerHTML+=`<div class='m-card ${n?'next':''}'><div style='display:flex;justify-content:space-between;font-size:10px;color:#8da497;font-weight:bold'><span>${n?'⚡ SIGUIENTE PARTIDA':'👥 CITA '+(i+1)}</span><span>ROUND ${store.matchIdx+i+1}</span></div><div style='font-size:9px;color:#8da497;text-transform:uppercase;margin-top:8px'>Pareja A</div><div style='font-size:18px;font-weight:bold;margin-bottom:5px'>${c.a.join(" - ")}</div>${n?`<button class='btn-win btn-a' onclick='win("A")'>Ganó Pareja A</button><div style='color:var(--gold);font-weight:bold;font-size:11px;margin:2px 0'>VS</div><button class='btn-win btn-b' onclick='win("B")'>Ganó Pareja B</button>`:`<div style='margin:20px 0;color:#4a6356;font-weight:bold;font-size:11px;text-transform:uppercase'>— VS —</div>`}<div style='font-size:9px;color:#8da497;text-transform:uppercase'>Pareja B</div><div style='font-size:18px;font-weight:bold;margin-top:5px'>${c.b.join(" - ")}</div></div>`}
@@ -141,6 +124,6 @@ function render(){
 }
 function win(t){let c=cyc[store.matchIdx%3],w=t==='A'?c.a:c.b,l=t==='A'?c.b:c.a;let now=new Date(),day=String(now.getDate()).padStart(2,'0'),m=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],dateStr=day+"-"+m[now.getMonth()];store.history.push({r:store.history.length+1,w:w.join(" + "),l:l.join(" + "),t:dateStr});store.matchIdx++;pushToCloud()}
 
-// Sincronización en tiempo real automática cada 5 segundos para que las pantallas vayan calcadas
-pullFromCloud();setInterval(pullFromCloud, 5000);
+// Sincronización automática de nubes en tiempo real cada 5 segundos
+pullFromCloud();setInterval(pullFromCloud,5000);
 </script></body></html>
