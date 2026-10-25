@@ -43,7 +43,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .btn-modal-yes{background:#f7f5ee;color:#06160e}.btn-modal-cancel{background:#dc3545;color:#fff}
 @media(min-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:768px){.grid{grid-template-columns:repeat(4,1fr)}.pts{font-size:64px}.m-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
 </style></head><body>
-<div class="header-banner"><div class="header-left"><div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v2.1 FINAL</div><button onclick="exportBackup()" class="btn-backup">💾 Copia Seguridad</button><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
+<div class="header-banner"><div class="header-left"><div><div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div><div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div></div></div><div class="header-right-box"><div class="version-tag">v2.9 FINAL</div><button onclick="exportBackup()" class="btn-backup">💾 Copia Seguridad</button><button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button></div></div>
 <div class="navbar"><div class="nav-item active" onclick="tab('m',event)">Marcador & Citas</div><div class="nav-item" onclick="tab('h',event)">Historial</div><div class="nav-item" onclick="tab('s',event)">Estadísticas</div><div class="nav-item" onclick="tab('f',event)">Fichas</div></div>
 <div id="t-m" class="tab active"><div class="grid" id="p-cont"></div><h2 style="font-size:18px;margin-bottom:10px;color:var(--gold)">Próximas 3 Citas</h2><div class="m-grid" id="m-cont"></div></div>
 <div id="t-h" class="tab"><h2>Historial de Partidos</h2><div id="h-cont"></div></div>
@@ -80,8 +80,15 @@ function renderModalButtons(){const c=document.getElementById("modalBtnsContaine
 function openResetModal(){resetStep=1;document.getElementById("modalText").innerText="¿Borrar campeonato?";renderModalButtons();document.getElementById("resetModal").style.display="flex"}
 function closeResetModal(){document.getElementById("resetModal").style.display="none"}
 function handleModalYes(){if(resetStep===1){resetStep=2;document.getElementById("modalText").innerText="¿Seguro?";renderModalButtons()}else{executeReset()}}
-function executeReset(){localStorage.removeItem(KEY_DATA);store={players:{"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:0},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:0},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:0},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:0}},matchIdx:0,history:[]};save();closeResetModal();recalculateAllFromHistory();window.location.reload()}
-function recalculateAllFromHistory(){
+function executeReset(){
+  localStorage.removeItem(KEY_DATA);
+  store={players:structuredClone(def),matchIdx:5,history:[]};
+  save();
+  closeResetModal();
+  // Forzamos al navegador a recargar la página limpia al instante con los datos de GitHub
+  window.location.href = window.location.origin + window.location.pathname + "?v=" + new Date().getTime();
+}
+  function recalculateAllFromHistory(){
   let fresh={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:1},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:2}};
   store.history.forEach(m=>{
     let w=m.w.split(" + "),l=m.l.split(" + ");
