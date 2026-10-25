@@ -41,11 +41,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .btn-modal{flex:1;padding:12px;border-radius:6px;font-weight:bold;font-size:13px;text-transform:uppercase;cursor:pointer;border:none}
 .btn-modal-yes{background:#f7f5ee;color:#06160e}.btn-modal-cancel{background:#dc3545;color:#fff}
 @media(min-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:768px){.grid{grid-template-columns:repeat(4,1fr)}.pts{font-size:64px}.m-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
-.brand-logo-img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:1px solid var(--gold);box-shadow:0 2px 6px rgba(0,0,0,0.4)}
+.brand-logo-img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:0px solid var(--gold);box-shadow:0 2px 6px rgba(0,0,0,0.4)}
 .brand-title-container{display:flex;align-items:center;gap:12px;max-width:65%}
 /* BOTONES REDIMENSIONADOS: Forzamos a ambos botones a tener el mismo tamaño Pro exacto */
-.btn-reset-top{background:#58131a;color:#f8d7da;border:1px solid #721c24;padding:8px 10px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:10px;text-transform:uppercase;width:125px;text-align:center}
-.btn-backup{background:#113020;color:#73e28f;border:1px solid #123d27;padding:8px 10px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:10px;text-transform:uppercase;width:125px;text-align:center}
+.btn-reset-top{background:#58131a;color:#f8d7da;border:1px solid #721c24;padding:8px 10px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:10px;text-transform:uppercase;width:105px;text-align:center}
+.btn-backup{background:#113020;color:#73e28f;border:1px solid #123d27;padding:8px 10px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:10px;text-transform:uppercase;width:105px;text-align:center}
 
 </style></head><body>
 <div class="header-banner">
@@ -57,7 +57,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
     </div>
   </div>
   <div class="header-right-box">
-    <div class="version-tag">v1.1 FINAL</div>
+    <div class="version-tag">v2.1 FINAL</div>
     <button onclick="exportBackup()" class="btn-backup">💾 Respaldar</button>
     <button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button>
   </div>
