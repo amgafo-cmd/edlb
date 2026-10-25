@@ -103,7 +103,12 @@ function renderAfinity(){
 }
 function renderProfiles(){
   let fCont=document.getElementById("f-cont");fCont.innerHTML="";
-  const details={"Bertus":{tiro:"Lujo en bolas paralelas a banda",vision:"Buena, pero irregular en puntería"},"Ignatius":{tiro:"Se apoya en banda para intensificar el efecto",vision:"Excelente control en tres bandas"},"Jorge":{tiro:"REDONDé",vision:"Se podría decir que.... ¿especial?"},"Marcelo":{tiro:"Picados extremos",vision:"Muy buena. Uso frecuente de Muchibandas"}};
+  const details={
+    "Bertus":{tiro:"Lujo en bolas paralelas a banda",vision:"Buena, pero irregular en puntería"},
+    "Ignatius":{tiro:"Se apoya en banda para intensificar el efecto",vision:"Excelente control en tres bandas"},
+    "Jorge":{tiro:"REDONDé",vision:"Se podría decir que.... ¿especial?"},
+    "Marcelo":{tiro:"Picados extremos",vision:"Muy buena. Uso frecuente de Muchibandas"}
+  };
   let sortedProfiles = Object.keys(playerProfiles).sort((x,y)=>{return x.localeCompare(y)});
   sortedProfiles.forEach(name => {
     let prof = playerProfiles[name];let pData=store.players[name]||{v:0,pj:1};
