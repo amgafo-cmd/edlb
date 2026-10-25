@@ -57,7 +57,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
     </div>
   </div>
   <div class="header-right-box">
-    <div class="version-tag">v18.0 Premium</div>
+    <div class="version-tag">v2.1 FINAL</div>
     <button onclick="exportBackup()" class="btn-backup">💾 Respaldar</button>
     <button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button>
   </div>
@@ -152,5 +152,6 @@ function render(){
   renderAfinity();renderProfiles();
 }
 function win(t){let c=cyc[store.matchIdx%3],w=t==='A'?c.a:c.b,l=t==='A'?c.b:c.a;let now=new Date(),day=String(now.getDate()).padStart(2,'0'),m=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],dateStr=day+"-"+m[now.getMonth()];store.history.push({r:store.history.length+1,w:w.join(" + "),l:l.join(" + "),t:dateStr});store.matchIdx++;recalculateAllFromHistory()}
+document.getElementById("main-logo-asset").src = "bolas.png?v=" + new Date().getTime();
 recalculateAllFromHistory();
 </script></body></html>
