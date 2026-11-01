@@ -12,7 +12,6 @@ jobs:
     steps:
       - name: Realizar consulta de actividad a Supabase
         run: |
-        run: |
           curl -X POST "${{secrets.SUPABASE_URL}}/rest/v1/rpc/keep_alive_ping" \
           -H "apikey: ${{secrets.SUPABASE_ANON_KEY}}" \
           -H "Authorization: Bearer ${{secrets.SUPABASE_ANON_KEY}}" \
