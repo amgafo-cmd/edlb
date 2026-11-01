@@ -4,7 +4,7 @@ on:
   schedule:
     # Se ejecuta cada 3 días a las 00:00 UTC
     - cron: '0 0 */3 * *'
-  workflow_dispatch: # Permite ejecutarlo manualmente desde GitHub si quieres probarlo
+    workflow_dispatch: # Permite ejecutarlo manualmente desde GitHub si quieres probarlo
 
 jobs:
   ping-db:
