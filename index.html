@@ -142,44 +142,46 @@ function renderProfiles(){
     let realImgSrc = name.toLowerCase() + ".png?v=" + new Date().getTime();
     let det = details[name];
     
-    // MAQUETACIÓN CORREGIDA: Nombre arriba e independiente. Columnas inferiores fijas y alineadas con Ignatius
-    fCont.innerHTML+=`<div class="fut-card" style="padding:15px;margin-bottom:12px;">
+    // REESTRUCTURACIÓN ABSOLUTA: Forzamos una caja en bloque vertical limpia e independiente
+    fCont.innerHTML+=`<div class="fut-card" style="display:block; padding:15px; margin-bottom:15px; box-sizing:border-box; width:100%;">
       
-      <!-- 1. NOMBRE ARRIBA DEL TODO DEL CROMO -->
-      <div class="fut-name" style="font-size:22px;font-weight:900;color:var(--gold);margin-bottom:12px;width:100%;text-align:left;letter-spacing:0.5px;">👑 ${name}</div>
+      <!-- FILA 1: EL NOMBRE EN LÍNEA SUPERIOR PROPIA (NUNCA MÁS EN COLUMNA LATERAL) -->
+      <div style="display:block; width:100%; font-size:24px; font-weight:900; color:var(--gold); margin-bottom:12px; text-transform:uppercase; text-align:left; letter-spacing:0.5px;">👑 ${name}</div>
       
-      <!-- 2. CONTENEDOR CENTRAL EN COLUMNAS FIJAS -->
-      <div class="fut-top-row" style="display:flex;align-items:flex-start;gap:15px;width:100%;margin-bottom:12px;">
+      <!-- FILA 2: CONTENEDOR DE FOTO Y DESCRIPCIÓN EN DOS COLUMNAS ALINEADAS -->
+      <div style="display:flex; align-items:flex-start; gap:15px; width:100%; margin-bottom:15px; box-sizing:border-box;">
         
-        <!-- Columna Izquierda: Foto fija -->
-        <div class="fut-badge-container" style="position:relative;min-width:85px;width:85px;display:flex;justify-content:center;flex-shrink:0;">
+        <!-- Columna Izquierda Fija: Contenedor de la Foto -->
+        <div class="fut-badge-container" style="position:relative; min-width:85px; width:85px; display:flex; justify-content:center; flex-shrink:0; box-sizing:border-box;">
           <div class="fut-grl-box">${dynamicScore}</div>
           <img class="fut-photo" src="${realImgSrc}" alt="${name}">
           <div class="fut-ball-indicator" style="background:${ballColor}"></div>
         </div>
         
-        <!-- Columna Derecha: Descripción elástica que copia el tamaño de Ignatius para todos -->
-        <div class="fut-info-container" style="flex:1;min-width:0;">
-          <div class="fut-desc-block" style="font-size:12px;color:#c2d1ca;line-height:1.4;font-style:italic;margin:0;text-align:left;">${prof.desc}</div>
+        <!-- Columna Derecha Elástica: Bloque de la Descripción (Simétrica a Ignatius) -->
+        <div style="flex:1; min-width:0; box-sizing:border-box;">
+          <div style="font-size:12px; color:#c2d1ca; line-height:1.4; font-style:italic; text-align:left; margin:0;">${prof.desc}</div>
         </div>
         
       </div>
       
-      <!-- 3. LISTADO TÉCNICO INFERIOR -->
-      <div class="fut-details-list" style="width:100%;display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(255,255,255,0.08);padding-top:10px;">
-        <div class="fut-detail-item" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:6px;">
-          <span class="fut-detail-label" style="font-size:10px;color:#8da497;">🎯 MEJOR TIRO</span>
-          <span class="fut-detail-value" style="font-size:13px;color:var(--gold);font-weight:bold;line-height:1.2;">${det.tiro}</span>
+      <!-- FILA 3: LISTADO TÉCNICO INFERIOR EXTENDIDO (A ANCHO COMPLETO HORIZONTAL) -->
+      <div style="display:flex; flex-direction:column; gap:8px; width:100%; border-top:1px solid rgba(255,255,255,0.08); padding-top:12px; box-sizing:border-box;">
+        
+        <div style="display:flex; flex-direction:column; align-items:flex-start; gap:2px; background:rgba(255,255,255,0.02); padding:8px 12px; border-radius:6px; width:100%; box-sizing:border-box;">
+          <span style="font-size:10px; color:#8da497; font-weight:bold; letter-spacing:0.5px;">🎯 MEJOR TIRO</span>
+          <span style="font-size:13px; color:var(--gold); font-weight:bold; line-height:1.2; text-align:left;">${det.tiro}</span>
         </div>
-        <div class="fut-detail-item" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:6px;">
-          <span class="fut-detail-label" style="font-size:10px;color:#8da497;">👁️ VISIÓN DE CARAMBOLA</span>
-          <span class="fut-detail-value" style="font-size:13px;color:#fff;font-weight:bold;line-height:1.2;">${det.vision}</span>
+        
+        <div style="display:flex; flex-direction:column; align-items:flex-start; gap:2px; background:rgba(255,255,255,0.02); padding:8px 12px; border-radius:6px; width:100%; box-sizing:border-box;">
+          <span style="font-size:10px; color:#8da497; font-weight:bold; letter-spacing:0.5px;">👁️ VISIÓN DE CARAMBOLA</span>
+          <span style="font-size:13px; color:#fff; font-weight:bold; line-height:1.2; text-align:left;">${det.vision}</span>
         </div>
+        
       </div>
     </div>`;
   });
 }
-
 
 function render(){
   let s=Object.entries(store.players).sort((x,y)=>{return y[1].pts-x[1].pts});
