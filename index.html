@@ -142,10 +142,44 @@ function renderProfiles(){
     let realImgSrc = name.toLowerCase() + ".png?v=" + new Date().getTime();
     let det = details[name];
     
-    // MAQUETACIÓN ELÁSTICA PRO: Forzamos filas completas abajo para eliminar cortes y truncados
-    fCont.innerHTML+=`<div class="fut-card" style="padding:15px;margin-bottom:12px;"><div class="fut-top-row" style="display:flex;align-items:center;gap:15px;width:100%;margin-bottom:12px;"><div class="fut-badge-container" style="position:relative;min-width:85px;display:flex;justify-content:center;"><div class="fut-grl-box">${dynamicScore}</div><img class="fut-photo" src="${realImgSrc}" alt="${name}"><div class="fut-ball-indicator" style="background:${ballColor}"></div></div><div class="fut-info-container" style="flex:1;"><div class="fut-name" style="font-size:22px;font-weight:900;color:var(--gold);margin-bottom:4px;">👑 ${name}</div><div class="fut-desc-block" style="font-size:12px;color:#c2d1ca;line-height:1.4;font-style:italic;">${prof.desc}</div></div></div><div class="fut-details-list" style="width:100%;display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(255,255,255,0.08);padding-top:10px;"><div class="fut-detail-item" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:6px;"><span class="fut-detail-label" style="font-size:10px;color:#8da497;">🎯 MEJOR TIRO</span><span class="fut-detail-value" style="font-size:13px;color:var(--gold);font-weight:bold;line-height:1.2;">${det.tiro}</span></div><div class="fut-detail-item" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:6px;"><span class="fut-detail-label" style="font-size:10px;color:#8da497;">👁️ VISIÓN DE CARAMBOLA</span><span class="fut-detail-value" style="font-size:13px;color:#fff;font-weight:bold;line-height:1.2;">${det.vision}</span></div></div></div>`;
+    // MAQUETACIÓN CORREGIDA: Nombre arriba e independiente. Columnas inferiores fijas y alineadas con Ignatius
+    fCont.innerHTML+=`<div class="fut-card" style="padding:15px;margin-bottom:12px;">
+      
+      <!-- 1. NOMBRE ARRIBA DEL TODO DEL CROMO -->
+      <div class="fut-name" style="font-size:22px;font-weight:900;color:var(--gold);margin-bottom:12px;width:100%;text-align:left;letter-spacing:0.5px;">👑 ${name}</div>
+      
+      <!-- 2. CONTENEDOR CENTRAL EN COLUMNAS FIJAS -->
+      <div class="fut-top-row" style="display:flex;align-items:flex-start;gap:15px;width:100%;margin-bottom:12px;">
+        
+        <!-- Columna Izquierda: Foto fija -->
+        <div class="fut-badge-container" style="position:relative;min-width:85px;width:85px;display:flex;justify-content:center;flex-shrink:0;">
+          <div class="fut-grl-box">${dynamicScore}</div>
+          <img class="fut-photo" src="${realImgSrc}" alt="${name}">
+          <div class="fut-ball-indicator" style="background:${ballColor}"></div>
+        </div>
+        
+        <!-- Columna Derecha: Descripción elástica que copia el tamaño de Ignatius para todos -->
+        <div class="fut-info-container" style="flex:1;min-width:0;">
+          <div class="fut-desc-block" style="font-size:12px;color:#c2d1ca;line-height:1.4;font-style:italic;margin:0;text-align:left;">${prof.desc}</div>
+        </div>
+        
+      </div>
+      
+      <!-- 3. LISTADO TÉCNICO INFERIOR -->
+      <div class="fut-details-list" style="width:100%;display:flex;flex-direction:column;gap:8px;border-top:1px solid rgba(255,255,255,0.08);padding-top:10px;">
+        <div class="fut-detail-item" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:6px;">
+          <span class="fut-detail-label" style="font-size:10px;color:#8da497;">🎯 MEJOR TIRO</span>
+          <span class="fut-detail-value" style="font-size:13px;color:var(--gold);font-weight:bold;line-height:1.2;">${det.tiro}</span>
+        </div>
+        <div class="fut-detail-item" style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:6px;">
+          <span class="fut-detail-label" style="font-size:10px;color:#8da497;">👁️ VISIÓN DE CARAMBOLA</span>
+          <span class="fut-detail-value" style="font-size:13px;color:#fff;font-weight:bold;line-height:1.2;">${det.vision}</span>
+        </div>
+      </div>
+    </div>`;
   });
 }
+
 
 function render(){
   let s=Object.entries(store.players).sort((x,y)=>{return y[1].pts-x[1].pts});
