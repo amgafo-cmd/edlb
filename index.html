@@ -3,17 +3,17 @@
 :root{--bg-gradient:linear-gradient(145deg, #0b2518, #071a10);--border:#123d27;--gold:#f1c40f}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg-gradient);background-attachment:fixed;color:#fff;margin:0;padding:10px;box-sizing:border-box}
 *{box-sizing:inherit}.header-banner{background:linear-gradient(90deg,#2c1307,#1a0b04);border:1px solid #421e0b;border-radius:12px;padding:12px;display:flex;align-items:center;margin-bottom:15px;box-shadow:0 4px 12px rgba(0,0,0,0.5);justify-content:space-between}
-.brand-title{font-size:18px;font-weight:900;margin:2px 0}.brand-desc{font-size:10px;color:#8da497;font-weight:bold}
+.brand-title{font-size:16px;font-weight:900;margin:2px 0;line-height:1.2}.brand-desc{font-size:10px;color:#8da497;font-weight:bold}
 .header-right-box{display:flex;flex-direction:column;align-items:flex-end;gap:5px}.version-tag{font-size:9px;color:#8da497;font-weight:bold}
-.btn-reset-top{background:#58131a;color:#f8d7da;border:1px solid #721c24;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:10px;text-transform:uppercase;width:125px;text-align:center;border:none}
-.btn-backup{background:#113020;color:#73e28f;border:1px solid #123d27;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:10px;text-transform:uppercase;width:125px;text-align:center;border:none}
+.btn-reset-top{background:#58131a;color:#f8d7da;border:1px solid #721c24;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:10px;text-transform:uppercase;width:115px;text-align:center;border:none}
+.btn-backup{background:#113020;color:#73e28f;border:1px solid #123d27;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:10px;text-transform:uppercase;width:115px;text-align:center;border:none}
 .navbar{display:flex;justify-content:center;gap:4px;background:rgba(3,12,7,0.6);padding:6px;border-radius:6px;margin-bottom:15px;border:1px solid #123d27}
-.nav-item{padding:8px 6px;border-radius:4px;font-size:10px;font-weight:bold;color:#8da497;cursor:pointer;text-transform:uppercase;flex:1;text-align:center}
+.nav-item{padding:8px 4px;border-radius:4px;font-size:10px;font-weight:bold;color:#8da497;cursor:pointer;text-transform:uppercase;flex:1;text-align:center;white-space:nowrap;overflow:hidden}
 .nav-item.active{background:var(--gold);color:#000}.tab{display:none}.tab.active{display:block}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
 .card{background:var(--bg-gradient);border:1px solid var(--border);border-radius:10px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 4px 10px rgba(0,0,0,0.3)}
 .ball-mini{width:14px;height:14px;border-radius:50%;box-shadow:inset -2px -2px 4px #000}.rank-badge{background:var(--gold);color:#000;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:bold}
-.player-name{font-size:18px;font-weight:900;flex:1;text-align:center}.pts-box{text-align:center;margin:4px 0}.pts{font-size:40px;font-weight:900;line-height:1}
+.player-name{font-size:16px;font-weight:900;flex:1;text-align:center}.pts-box{text-align:center;margin:4px 0}.pts{font-size:40px;font-weight:900;line-height:1}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);font-size:10px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);padding-top:6px;color:#8da497}
 .streak-container{display:flex;flex-direction:column;gap:4px;margin-top:10px;margin-bottom:6px}
 .streak-box{width:100%;padding:5px;border-radius:4px;font-size:9px;font-weight:bold;text-align:center;border:1px solid rgba(255,255,255,0.05)}
@@ -31,6 +31,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .fut-photo{width:75px;height:75px;border-radius:50%;border:2px solid var(--gold);object-fit:cover;background:#030c07;box-shadow:0 4px 10px rgba(0,0,0,0.4)}
 .fut-grl-box{background:var(--gold);color:#000;font-weight:900;font-size:15px;padding:1px 6px;border-radius:8px;position:absolute;top:-6px;left:-4px;box-shadow:0 2px 5px rgba(0,0,0,0.3)}
 .fut-ball-indicator{position:absolute;bottom:-4px;right:2px;width:18px;height:18px;border-radius:50%;border:2px solid #000}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.modal-box{background:var(--bg-gradient);border:2px solid #721c24;border-radius:12px;padding:20px;max-width:340px;width:100%;text-align:center}
+.modal-msg{font-size:15px;font-weight:bold;line-height:1.4;margin-bottom:20px;color:#fff}.modal-btns{display:flex;gap:10px}
+.btn-modal{flex:1;padding:12px;border-radius:6px;font-weight:bold;font-size:13px;text-transform:uppercase;cursor:pointer;border:none}
+.btn-modal-yes{background:#f7f5ee;color:#06160e}.btn-modal-cancel{background:#dc3545;color:#fff}
+@media(min-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:768px){.grid{grid-template-columns:repeat(4,1fr)}.pts{font-size:64px}.m-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
 </style></head><body>
 <div class="header-banner">
   <div class="brand-title-container">
@@ -41,20 +47,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
     </div>
   </div>
   <div class="header-right-box">
-    <div class="version-tag">v8.0 Cloud Direct</div>
+    <div class="version-tag">v18.0 Cloud Live</div>
     <button onclick="exportBackup()" class="btn-backup">💾 Respaldar</button>
     <button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button>
   </div>
 </div>
-<div class="navbar"><div class="nav-item active" onclick="tab('m',event)">Marcador & Citas</div><div class="nav-item" onclick="tab('h',event)">Historial</div><div class="nav-item" onclick="tab('s',event)">Estadísticas</div><div class="nav-item" onclick="tab('f',event)">Fichas</div></div>
+<div class="navbar">
+  <div class="nav-item active" onclick="tab('m',event)">Marcador</div>
+  <div class="nav-item" onclick="tab('h',event)">Historial</div>
+  <div class="nav-item" onclick="tab('s',event)">Afinidad</div>
+  <div class="nav-item" onclick="tab('f',event)">Fichas</div>
+</div>
 <div id="t-m" class="tab active"><div class="grid" id="p-cont"></div><h2 style="font-size:18px;margin-bottom:10px;color:var(--gold)">Próximas 3 Citas</h2><div class="m-grid" id="m-cont"></div></div>
 <div id="t-h" class="tab"><h2>Historial de Partidos</h2><div id="h-cont"></div></div>
 <div id="t-s" class="tab"><h2 style="font-size:18px;margin-bottom:12px;color:var(--gold)">📊 Afinidad de Parejas (Mayor a Menor)</h2><div id="s-cont"></div></div>
 <div id="t-f" class="tab"><h2 style="font-size:18px;margin-bottom:12px;color:var(--gold)">🎴 Fichas Técnicas Pro (Orden Alfabético)</h2><div class="cards-grid" id="f-cont"></div></div>
 <div class="modal-overlay" id="resetModal"><div class="modal-box"><div class="modal-msg" id="modalText">¿Estás seguro?</div><div class="modal-btns" id="modalBtnsContainer"></div></div></div>
 <script>
-// Motor de comunicación directa HTTP que sustituye y elimina la librería externa conflictiva
-const CLOUD_URL = 'https://bbtqusbqlcchgadjkrrn.supabase.co/rest/v1/liga_billar?id=eq.1';
+// Conexión directa HTTP blindada contra capados del chat
+const CLOUD_URL = 'https://supabase.co';
 const CLOUD_HEADERS = {
   'Content-Type': 'application/json',
   'Prefer': 'return=representation',
@@ -64,54 +75,39 @@ const CLOUD_HEADERS = {
 
 const def={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:1},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:2}};
 const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"],b:["Ignatius","Bertus"]},{a:["Ignatius","Jorge"],b:["Marcelo","Bertus"]}];
-const KEY_DATA = "b_liga_final_v5800";
+const KEY_DATA = "b_liga_final_v5900";
 
 const playerProfiles={"Bertus":{desc:"Destaca su aguante en partidas largas, acechando al contrincante hasta dar el golpe final. Sostiene la presión sin pestañear."},"Ignatius":{desc:"Estratega nato de la mesa. Analiza cada ángulo de carambola antes de armar el taco. Sin duda, el más salao del equipo de las bolas."},"Jorge":{desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es completamente imparable en la mesa de tres bandas."},"Marcelo":{desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace carambolas increíbles bajo los insultos de sus compañeros."}};
-let store = { players: structuredClone(def), matchIdx: 5, history: [] };
+let store={players:structuredClone(def),matchIdx:0,history:[]};
+let resetStep=1;
+function save(){localStorage.setItem(KEY_DATA,JSON.stringify(store))}
+function tab(t,e){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));document.getElementById('t-'+t).classList.add('active');if(e&&e.target)e.target.classList.add('active')}
+function renderModalButtons(){const c=document.getElementById("modalBtnsContainer");c.innerHTML=resetStep===1?`<button class='btn-modal btn-modal-yes' onclick='handleModalYes()'>SÍ</button><button class='btn-modal btn-modal-cancel' onclick='closeResetModal()'>CANCELAR</button>`:`<button class='btn-modal btn-modal-cancel' onclick='closeResetModal()'>CANCELAR</button><button class='btn-modal btn-modal-yes' onclick='handleModalYes()'>SÍ</button>`}
+function openResetModal(){resetStep=1;document.getElementById("modalText").innerText="¿Borrar campeonato en la nube?";renderModalButtons();document.getElementById("resetModal").style.display="flex"}
+function closeResetModal(){document.getElementById("resetModal").style.display="none"}
+function handleModalYes(){if(resetStep===1){resetStep=2;document.getElementById("modalText").innerText="¿Seguro? Se borrará para todos.";renderModalButtons()}else{executeReset()}}
 
 async function pullFromCloud(){
-  try {
-    let res = await fetch(CLOUD_URL, { method: 'GET', headers: CLOUD_HEADERS });
-    let data = await res.json();
-    if (data && data[0] && data[0].history) {
-      store.history = data[0].history;
-      store.matchIdx = store.history.length;
-      recalculateAllFromHistory();
-    }
-  } catch(e) { console.log("Error al sincronizar con la nube") }
+  try{
+    let res=await fetch(CLOUD_URL,{method:'GET',headers:CLOUD_HEADERS});
+    let data=await res.json();
+    if(data&&data[0]&&data[0].history){store.history=data[0].history;store.matchIdx=data[0].history.length;recalculateAllFromHistory()}
+  }catch(e){console.log("Error de descarga")}
 }
-
 async function pushToCloud(){
-  try {
-    await fetch(CLOUD_URL, {
-      method: 'PATCH',
-      headers: CLOUD_HEADERS,
-      body: JSON.stringify({ history: store.history })
-    });
+  try{
+    await fetch(CLOUD_URL,{method:'PATCH',headers:CLOUD_HEADERS,body:JSON.stringify({history:store.history})});
     recalculateAllFromHistory();
-  } catch(e) { console.log("Error al subir partida") }
+  }catch(e){console.log("Error de subida")}
 }
-
 async function executeReset(){
-  if (confirm("¿Seguro que quieres restaurar la base de datos de la liga?")) {
-    store.history = [
-      { "r": 1, "t": "03-sep", "w": "Ignatius + Marcelo", "l": "Jorge + Bertus" },
-      { "r": 2, "t": "16-sep", "w": "Ignatius + Bertus", "l": "Jorge + Marcelo" },
-      { "r": 3, "t": "30-sep", "w": "Marcelo + Bertus", "l": "Ignatius + Jorge" },
-      { "r": 4, "t": "07-oct", "w": "Jorge + Bertus", "l": "Ignatius + Marcelo" },
-      { "r": 5, "t": "24-oct", "w": "Ignatius + Marcelo", "l": "Jorge + Bertus" }
-    ];
-    try {
-      await fetch(CLOUD_URL, {
-        method: 'PATCH',
-        headers: CLOUD_HEADERS,
-        body: JSON.stringify({ history: store.history })
-      });
-      closeResetModal();
-      window.location.reload();
-    } catch(e) { closeResetModal() }
-  }
+  store.history=[{"r":1,"t":"03-sep","w":"Ignatius + Marcelo","l":"Jorge + Bertus"},{"r":2,"t":"16-sep","w":"Ignatius + Bertus","l":"Jorge + Marcelo"},{"r":3,"t":"30-sep","w":"Marcelo + Bertus","l":"Ignatius + Jorge"},{"r":4,"t":"07-oct","w":"Jorge + Bertus","l":"Ignatius + Marcelo"},{"r":5,"t":"24-oct","w":"Ignatius + Marcelo","l":"Jorge + Bertus"}];
+  try{
+    await fetch(CLOUD_URL,{method:'PATCH',headers:CLOUD_HEADERS,body:JSON.stringify({history:store.history})});
+    closeResetModal();window.location.reload();
+  }catch(e){closeResetModal()}
 }
+</script>
 <script>
 function recalculateAllFromHistory(){
   let fresh={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:1},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:2}};
@@ -150,16 +146,13 @@ function renderProfiles(){
   });
 }
 function render(){
-  // CLASIFICACIÓN CORREGIDA POR CONTRATO SINTÁCTICO: Clasifica de mayor a menor de forma robusta por puntos
-  let s=Object.entries(store.players).sort((x,y)=>{return y.pts-x.pts});
+  // ORDENACIÓN ROBUSTA PROPORCIONAL: Reorganiza estrictamente de mayor a menor tantos reales de la liga
+  let s=Object.entries(store.players).sort((x,y)=>{return y[1].pts-x[1].pts});
   let h=document.getElementById("p-cont");h.innerHTML="";s.forEach(([n,d],i)=>{let iconHTML=(["👑","🏆","🏅","🎯"])[i]||"🎯",activeStreak=d.rac>0?'on':'';h.innerHTML+=`<div class='card'><div style='display:flex;justify-content:space-between;align-items:center'><div style='display:flex;align-items:center;width:85%'><span class='rank-badge'>${i+1}º</span><span style='margin-left:2px;font-size:14px'>${iconHTML}</span><span class='player-name'>${n}</span></div><div class='ball-mini' style='background:${d.b}'></div></div><div class='pts-box'><span class='pts'>${d.pts}</span><span class='pts-lbl'>PTS</span></div><div class='stats'><div>PJ<br><b>${d.pj}</b></div><div>V<br><b>${d.v}</b></div><div style='color:var(--gold)'>%V<br><b>${d.pj?Math.round((d.v/d.pj)*100):0}%</b></div></div><div class='streak-container'><div class='streak-box s-act ${activeStreak}'>Racha 🔥 ${d.rac||0}</div><div class='streak-box s-rec'>Récord ${d.rec||0}</div></div></div>`});
   h=document.getElementById("m-cont");h.innerHTML="";for(let i=0;i<3;i++){let c=cyc[(store.matchIdx+i)%3],n=i===0;h.innerHTML+=`<div class='m-card ${n?'next':''}'><div style='display:flex;justify-content:space-between;font-size:10px;color:#8da497;font-weight:bold'><span>${n?'⚡ SIGUIENTE PARTIDA':'👥 CITA '+(i+1)}</span><span>ROUND ${store.matchIdx+i+1}</span></div><div style='font-size:9px;color:#8da497;text-transform:uppercase;margin-top:8px'>Pareja A</div><div style='font-size:18px;font-weight:bold;margin-bottom:5px'>${c.a.join(" - ")}</div>${n?`<button class='btn-win btn-a' onclick='win("A")'>Ganó Pareja A</button><div style='color:var(--gold);font-weight:bold;font-size:11px;margin:2px 0'>VS</div><button class='btn-win btn-b' onclick='win("B")'>Ganó Pareja B</button>`:`<div style='margin:20px 0;color:#4a6356;font-weight:bold;font-size:11px;text-transform:uppercase'>— VS —</div>`}<div style='font-size:9px;color:#8da497;text-transform:uppercase'>Pareja B</div><div style='font-size:18px;font-weight:bold;margin-top:5px'>${c.b.join(" - ")}</div></div>`}
   h=document.getElementById("h-cont");h.innerHTML="";let rev=[...store.history].reverse();rev.forEach(m=>{h.innerHTML+=`<div class='h-item'><div style='display:flex;align-items:flex-start;gap:4px;flex-direction:column'><b style='color:var(--gold);font-size:13px'>Ronda ${m.r} <span style='color:#8da497;font-weight:normal;font-size:11px;margin-left:6px'>${m.t}</span></b><div><span style='color:#2ecc71;font-weight:bold'>🏆 ${m.w}</span><span style='color:#8da497;font-size:11px'> venció a </span><span style='color:#e74c3c;text-decoration:line-through;opacity:0.7'>${m.l}</span></div></div><button class='btn-correct' onclick='toggleMatchResult(${(store.history.length-1-rev.indexOf(m))})'>Corregir</button></div>`});
   renderAfinity();renderProfiles();
 }
-function win(t){let c=cyc[store.matchIdx%3],w=t==='A'?c.a:c.b,l=t==='A'?c.b:c.a;let now=new Date(),day=String(now.getDate()).padStart(2,'0'),m=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","decblank"],dateStr=day+"-"+m[now.getMonth()];store.history.push({r:store.history.length+1,w:w.join(" + "),l:l.join(" + "),t:dateStr});store.matchIdx++;pushToCloud()}
-
-// El logotipo de las bolas se inyecta de forma absoluta desde la raíz de GitHub sin riesgos
 document.getElementById("main-logo-asset").src = "https://githubusercontent.com" + new Date().getTime();
 pullFromCloud();setInterval(pullFromCloud,3000);
 </script></body></html>
