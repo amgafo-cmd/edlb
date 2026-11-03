@@ -34,14 +34,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 </style></head><body>
 <div class="header-banner">
   <div class="brand-title-container">
-    <img class="bolas.png" id="main-logo-asset" alt="Logo">
+    <img class="brand-logo-img" id="main-logo-asset" alt="Logo">
     <div>
       <div class="brand-title">EL EQUIPO <span style="color:var(--gold)">DE LAS BOLAS</span></div>
       <div class="brand-desc">Ignatius • Marcelo • Jorge • Bertus</div>
     </div>
   </div>
   <div class="header-right-box">
-    <div class="version-tag">v18.0 Cloud Direct</div>
+    <div class="version-tag">v8.0 Cloud Direct</div>
     <button onclick="exportBackup()" class="btn-backup">💾 Respaldar</button>
     <button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button>
   </div>
@@ -67,36 +67,51 @@ const cyc=[{a:["Ignatius","Marcelo"],b:["Jorge","Bertus"]},{a:["Marcelo","Jorge"
 const KEY_DATA = "b_liga_final_v5800";
 
 const playerProfiles={"Bertus":{desc:"Destaca su aguante en partidas largas, acechando al contrincante hasta dar el golpe final. Sostiene la presión sin pestañear."},"Ignatius":{desc:"Estratega nato de la mesa. Analiza cada ángulo de carambola antes de armar el taco. Sin duda, el más salao del equipo de las bolas."},"Jorge":{desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es completamente imparable en la mesa de tres bandas."},"Marcelo":{desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace carambolas increíbles bajo los insultos de sus compañeros."}};
-let store={players:structuredClone(def),matchIdx:0,history:[]};
-let resetStep=1;
-function save(){localStorage.setItem(KEY_DATA,JSON.stringify(store))}
-function tab(t,e){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));document.getElementById('t-'+t).classList.add('active');if(e&&e.target)e.target.classList.add('active')}
-function renderModalButtons(){const c=document.getElementById("modalBtnsContainer");c.innerHTML=resetStep===1?`<button class='btn-modal btn-modal-yes' onclick='handleModalYes()'>SÍ</button><button class='btn-modal btn-modal-cancel' onclick='closeResetModal()'>CANCELAR</button>`:`<button class='btn-modal btn-modal-cancel' onclick='closeResetModal()'>CANCELAR</button><button class='btn-modal btn-modal-yes' onclick='handleModalYes()'>SÍ</button>`}
-function openResetModal(){resetStep=1;document.getElementById("modalText").innerText="¿Borrar campeonato en la nube?";renderModalButtons();document.getElementById("resetModal").style.display="flex"}
-function closeResetModal(){document.getElementById("resetModal").style.display="none"}
-function handleModalYes(){if(resetStep===1){resetStep=2;document.getElementById("modalText").innerText="¿Seguro? Se borrará para todos.";renderModalButtons()}else{executeReset()}}
+let store = { players: structuredClone(def), matchIdx: 5, history: [] };
 
 async function pullFromCloud(){
-  try{
-    let res=await fetch(CLOUD_URL,{method:'GET',headers:CLOUD_HEADERS});
-    let data=await res.json();
-    if(data&&data[0]&&data[0].history){store.history=data[0].history;store.matchIdx=data[0].history.length;recalculateAllFromHistory()}
-  }catch(e){console.log("Error de descarga")}
+  try {
+    let res = await fetch(CLOUD_URL, { method: 'GET', headers: CLOUD_HEADERS });
+    let data = await res.json();
+    if (data && data[0] && data[0].history) {
+      store.history = data[0].history;
+      store.matchIdx = store.history.length;
+      recalculateAllFromHistory();
+    }
+  } catch(e) { console.log("Error al sincronizar con la nube") }
 }
+
 async function pushToCloud(){
-  try{
-    await fetch(CLOUD_URL,{method:'PATCH',headers:CLOUD_HEADERS,body:JSON.stringify({history:store.history})});
+  try {
+    await fetch(CLOUD_URL, {
+      method: 'PATCH',
+      headers: CLOUD_HEADERS,
+      body: JSON.stringify({ history: store.history })
+    });
     recalculateAllFromHistory();
-  }catch(e){console.log("Error de subida")}
+  } catch(e) { console.log("Error al subir partida") }
 }
+
 async function executeReset(){
-  store.history=[{"r":1,"t":"03-sep","w":"Ignatius + Marcelo","l":"Jorge + Bertus"},{"r":2,"t":"16-sep","w":"Ignatius + Bertus","l":"Jorge + Marcelo"},{"r":3,"t":"30-sep","w":"Marcelo + Bertus","l":"Ignatius + Jorge"},{"r":4,"t":"07-oct","w":"Jorge + Bertus","l":"Ignatius + Marcelo"},{"r":5,"t":"24-oct","w":"Ignatius + Marcelo","l":"Jorge + Bertus"}];
-  try{
-    await fetch(CLOUD_URL,{method:'PATCH',headers:CLOUD_HEADERS,body:JSON.stringify({history:store.history})});
-    closeResetModal();window.location.reload();
-  }catch(e){closeResetModal()}
+  if (confirm("¿Seguro que quieres restaurar la base de datos de la liga?")) {
+    store.history = [
+      { "r": 1, "t": "03-sep", "w": "Ignatius + Marcelo", "l": "Jorge + Bertus" },
+      { "r": 2, "t": "16-sep", "w": "Ignatius + Bertus", "l": "Jorge + Marcelo" },
+      { "r": 3, "t": "30-sep", "w": "Marcelo + Bertus", "l": "Ignatius + Jorge" },
+      { "r": 4, "t": "07-oct", "w": "Jorge + Bertus", "l": "Ignatius + Marcelo" },
+      { "r": 5, "t": "24-oct", "w": "Ignatius + Marcelo", "l": "Jorge + Bertus" }
+    ];
+    try {
+      await fetch(CLOUD_URL, {
+        method: 'PATCH',
+        headers: CLOUD_HEADERS,
+        body: JSON.stringify({ history: store.history })
+      });
+      closeResetModal();
+      window.location.reload();
+    } catch(e) { closeResetModal() }
+  }
 }
-</script>
 <script>
 function recalculateAllFromHistory(){
   let fresh={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:1},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:2}};
