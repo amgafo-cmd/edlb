@@ -41,7 +41,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
     </div>
   </div>
   <div class="header-right-box">
-    <div class="version-tag">v1.0 Premium</div>
+    <div class="version-tag">v3.0 Premium</div>
     <button onclick="exportBackup()" class="btn-backup">💾 Respaldar</button>
     <button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button>
   </div>
@@ -78,8 +78,22 @@ let resetStep = 1;
 function save(){localStorage.setItem(KEY_DATA, JSON.stringify(store))}
 function tab(t,e){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));document.getElementById('t-'+t).classList.add('active');if(e&&e.target)e.target.classList.add('active')}
 function renderModalButtons(){const c=document.getElementById("modalBtnsContainer");c.innerHTML=resetStep===1?`<button class='btn-modal btn-modal-yes' onclick='handleModalYes()'>SÍ</button><button class='btn-modal btn-modal-cancel' onclick='closeResetModal()'>CANCELAR</button>`:`<button class='btn-modal btn-modal-cancel' onclick='closeResetModal()'>CANCELAR</button><button class='btn-modal btn-modal-yes' onclick='handleModalYes()'>SÍ</button>`}
-function openResetModal(){resetStep=1;document.getElementById("modalText").innerText="¿Borrar campeonato?";renderModalButtons();document.getElementById("resetModal").style.display="flex"}
-function closeResetModal(){document.getElementById("resetModal").style.display="none"}
+function openResetModal() {
+  resetStep = 1;
+  // Forzamos el texto inicial limpio en la caja flotante
+  document.getElementById("modalText").innerText = "¿Borrar campeonato en la nube?";
+  
+  // Dibujamos los botones de SÍ y CANCELAR de forma interactiva
+  renderModalButtons();
+  
+  // ENCENDIDO SEGURO: Buscamos el ID exacto del HTML y lo mostramos en pantalla
+  document.getElementById("resetModal").style.display = "flex";
+}
+
+function closeResetModal() {
+  // APAGADO SEGURO: Escondemos el cartel flotante de inmediato
+  document.getElementById("resetModal").style.display = "none";
+}
 function handleModalYes(){if(resetStep===1){resetStep=2;document.getElementById("modalText").innerText="¿Seguro? Se borrarán vuestros datos locales.";renderModalButtons()}else{executeReset()}}
 function executeReset(){localStorage.removeItem(KEY_DATA);window.location.reload()}
 function recalculateAllFromHistory(){
