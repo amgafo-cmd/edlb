@@ -41,7 +41,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
     </div>
   </div>
   <div class="header-right-box">
-    <div class="version-tag">v1.0 Premium</div>
+    <div class="version-tag">v100.0 Premium</div>
     <button onclick="exportBackup()" class="btn-backup">💾 Respaldar</button>
     <button onclick="openResetModal(); event.stopPropagation();" class="btn-reset-top" style="cursor:pointer; z-index:9999; position:relative;">⟲ Reiniciar</button>  </div>
 </div>
@@ -83,20 +83,20 @@ function handleModalYes(){if(resetStep===1){resetStep=2;document.getElementById(
 
 async function pullFromCloud(){
   try{
-    let res = await fetch(CLOUD_URL, { method: 'GET', headers: CLOUD_HEADERS });
-    let data = await res.json();
+    let res=await fetch(CLOUD_URL,{method:'GET',headers:CLOUD_HEADERS});
+    let data=await res.json();
     
     // CORRECCIÓN MATEMÁTICA: Extraemos la primera fila de la lista de Supabase de forma segura
     if (data && Array.isArray(data) && data[0] && data[0].history) {
-      store.history = data[0].history;
-      store.matchIdx = store.history.length;
+      store.history=data[0].history;
+      store.matchIdx=store.history.length;
       recalculateAllFromHistory();
     } else if (data && data.history) {
-      store.history = data.history;
-      store.matchIdx = store.history.length;
+      store.history=data.history;
+      store.matchIdx=store.history.length;
       recalculateAllFromHistory();
     }
-  } catch(e) { console.log("Error de descarga") }
+  } catch(e) {console.log("Error de descarga")}
 }
 
   async function pushToCloud(){
@@ -111,7 +111,7 @@ async function executeReset(){
     closeResetModal();
     await pullFromCloud();
     recalculateAllFromHistory();
-  } catch(e) { closeResetModal() }
+  } catch(e) {closeResetModal()}
 }
 
 
