@@ -85,8 +85,8 @@ async function pullFromCloud(){
   try{
     let res=await fetch(CLOUD_URL,{method:'GET',headers:CLOUD_HEADERS});
     let data=await res.json();
-    let raw = Array.isArray(data) ? data : data;
-    if(raw && raw.history){store.history=raw.history;store.matchIdx=store.history.length;recalculateAllFromHistory()}
+    let raw=Array.isArray(data)?data:data;
+    if(raw&&raw.history){store.history=raw.history;store.matchIdx=store.history.length;recalculateAllFromHistory()}
   }catch(e){console.log("Error de descarga")}
 }
 async function pushToCloud(){
@@ -178,6 +178,6 @@ function render(){
   h=document.getElementById("h-cont");h.innerHTML="";let rev=[...store.history].reverse();rev.forEach(m=>{h.innerHTML+=`<div class='h-item'><div style='display:flex;align-items:flex-start;gap:4px;flex-direction:column'><b style='color:var(--gold);font-size:13px'>Ronda ${m.r} <span style='color:#8da497;font-weight:normal;font-size:11px;margin-left:6px'>${m.t}</span></b><div><span style='color:#2ecc71;font-weight:bold'>🏆 ${m.w}</span><span style='color:#8da497;font-size:11px'> venció a </span><span style='color:#e74c3c;text-decoration:line-through;opacity:0.7'>${m.l}</span></div></div><button class='btn-correct' onclick='toggleMatchResult(${(store.history.length-1-rev.indexOf(m))})'>Corregir</button></div>`});
   renderAfinity();renderProfiles();
 }
-document.getElementById("main-logo-asset").src = "https://githubusercontent.com" + new Date().getTime();
+document.getElementById("main-logo-asset").src="https://raw.githubusercontent.com/amgafo-cmd/edlb/main/bolas.png?v="+new Date().getTime();
 pullFromCloud();setInterval(pullFromCloud,3000);
 </script></body></html>
