@@ -102,7 +102,23 @@ function closeResetModal() {
   document.getElementById("resetModal").style.display = "none";
 }
 function handleModalYes(){if(resetStep===1){resetStep=2;document.getElementById("modalText").innerText="¿Seguro? Se borrarán vuestros datos locales.";renderModalButtons()}else{executeReset()}}
-function executeReset(){localStorage.removeItem(KEY_DATA);window.location.reload()}
+async function executeReset() {
+  try {
+    // 1. Limpiamos las pruebas del almacenamiento del teléfono
+    localStorage.removeItem(KEY_DATA);
+    
+    // 2. Cerramos la ventana de confirmación
+    closeResetModal();
+    
+    // 3. Obligamos a la web a bajarse vuestro JSON real e intacto de Supabase
+    await pullFromCloud();
+    
+    alert("¡Historial sincronizado! Se han descargado los partidos reales de Supabase.");
+  } catch(e) {
+    closeResetModal();
+  }
+}
+
 function recalculateAllFromHistory(){
   let fresh={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:1},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:2}};
   store.history.forEach(m=>{
