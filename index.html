@@ -42,7 +42,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
     </div>
   </div>
   <div class="header-right-box">
-    <div class="version-tag">v1.0 Live</div>
+    <div class="version-tag">v111.0 Live</div>
     <button onclick="exportBackup()" class="btn-backup">💾 Respaldar</button>
     <button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button>
   </div>
@@ -92,18 +92,21 @@ const CLOUD_HEADERS = {
   'Authorization': 'Bearer sb_publishable_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidHF1c2JxbGNjaGdhZGprcnJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0Nzc0MDMsImV4cCI6MjA3NzA1MzQwM30.7rreIisT0f0t4P6wYOfg7q3fJqN0E4l246A1_7f-C48'
 };
 
-async function pullFromCloud(){
+aasync function pullFromCloud(){
   try {
     let res = await fetch(CLOUD_URL, { method: 'GET', headers: CLOUD_HEADERS });
     let data = await res.json();
-    let row = Array.isArray(data) ? data[0] : data;
+    let row = Array.isArray(data) ? data : data;
+    
     if (row && row.history) {
       store.history = row.history;
       store.matchIdx = store.history.length;
       recalculateAllFromHistory();
+    } else {
+      alert("Supabase respondió pero sin historial: " + JSON.stringify(data));
     }
   } catch(e) {
-    console.log("Error de red:", e);
+    alert("Error leyendo datos: " + e.message);
   }
 }
 
