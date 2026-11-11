@@ -42,7 +42,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
     </div>
   </div>
   <div class="header-right-box">
-    <div class="version-tag">v100.0 Live</div>
+    <div class="version-tag">v1.0 Live</div>
     <button onclick="exportBackup()" class="btn-backup">💾 Respaldar</button>
     <button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button>
   </div>
@@ -109,22 +109,31 @@ async function pullFromCloud(){
 
 async function pushToCloud(){
   try {
-    await fetch(CLOUD_URL, {
+    let res = await fetch(CLOUD_URL, {
       method: 'PATCH',
       headers: CLOUD_HEADERS,
       body: JSON.stringify({ history: store.history })
     });
-    recalculateAllFromHistory();
+    if (res.ok) {
+      recalculateAllFromHistory();
+      alert("✅ ¡Partida guardada y sincronizada en Supabase!");
+    } else {
+      let err = await res.json();
+      alert("❌ Error al guardar en Supabase: " + (err.message || res.status));
+    }
   } catch(e) {
-    console.log("Error al guardar:", e);
+    alert("❌ Fallo de red al conectar con Supabase.");
   }
 }
+
 
 async function executeReset(){
   localStorage.removeItem(KEY_DATA);
   closeResetModal();
   await pullFromCloud();
+  alert("✅ ¡Datos descargados de Supabase con éxito!");
 }
+
 
 window.addEventListener('DOMContentLoaded', () => {
   pullFromCloud();
