@@ -42,7 +42,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
     </div>
   </div>
   <div class="header-right-box">
-    <div class="version-tag">v1.0 Live</div>
+    <div class="version-tag">v100.0 Live</div>
     <button onclick="exportBackup()" class="btn-backup">💾 Respaldar</button>
     <button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button>
   </div>
@@ -131,8 +131,6 @@ window.addEventListener('DOMContentLoaded', () => {
   setInterval(pullFromCloud, 3000);
 });
 
-  
-});
 function recalculateAllFromHistory(){
   let fresh={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:1},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:2}};
   if(Array.isArray(store.history)){
