@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title>El Equipo de las Bolas</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+
 <style>
 :root{--bg-gradient:linear-gradient(145deg, #0b2518, #071a10);--border:#123d27;--gold:#f1c40f}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg-gradient);background-attachment:fixed;color:#fff;margin:0;padding:10px;box-sizing:border-box}
@@ -42,7 +42,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
     </div>
   </div>
   <div class="header-right-box">
-    <div class="version-tag">v11.0 Live</div>
+    <div class="version-tag">v110.0 Live</div>
     <button onclick="exportBackup()" class="btn-backup">💾 Respaldar</button>
     <button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button>
   </div>
@@ -84,25 +84,40 @@ function handleModalYes(){
   if(resetStep===1){resetStep=2;document.getElementById("modalText").innerText="¿Seguro? Se recargará la tabla oficial.";renderModalButtons();}
   else{executeReset();}
 }
+const CLOUD_URL = 'https:// bbtqusbqlcchgadjkrrn . supabase . co / rest / v1 / liga_billar ? id=eq.1';
+const CLOUD_HEADERS = {
+  'Content-Type': 'application/json',
+  'Prefer': 'return=representation',
+  'apikey': 'sb_publishable_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidHF1c2JxbGNjaGdhZGprcnJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0Nzc0MDMsImV4cCI6MjA3NzA1MzQwM30.7rreIisT0f0t4P6wYOfg7q3fJqN0E4l246A1_7f-C48',
+  'Authorization': 'Bearer sb_publishable_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidHF1c2JxbGNjaGdhZGprcnJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0Nzc0MDMsImV4cCI6MjA3NzA1MzQwM30.7rreIisT0f0t4P6wYOfg7q3fJqN0E4l246A1_7f-C48'
+};
 
 async function pullFromCloud(){
-  if(!_sb) return;
-  try{
-    let {data,error}=await _sb.from('liga_billar').select('history').eq('id',1).single();
-    if(data && data.history){
-      store.history=data.history;
-      store.matchIdx=data.history.length;
+  try {
+    let res = await fetch(CLOUD_URL, { method: 'GET', headers: CLOUD_HEADERS });
+    let data = await res.json();
+    let row = Array.isArray(data) ? data[0] : data;
+    if (row && row.history) {
+      store.history = row.history;
+      store.matchIdx = store.history.length;
       recalculateAllFromHistory();
     }
-  } catch(e){console.log("Error leyendo nube");}
+  } catch(e) {
+    console.log("Error de red:", e);
+  }
 }
 
 async function pushToCloud(){
-  if(!_sb) return;
-  try{
-    await _sb.from('liga_billar').update({history:store.history}).eq('id',1);
+  try {
+    await fetch(CLOUD_URL, {
+      method: 'PATCH',
+      headers: CLOUD_HEADERS,
+      body: JSON.stringify({ history: store.history })
+    });
     recalculateAllFromHistory();
-  } catch(e){console.log("Error subiendo nube");}
+  } catch(e) {
+    console.log("Error al guardar:", e);
+  }
 }
 
 async function executeReset(){
@@ -112,11 +127,11 @@ async function executeReset(){
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  if (window.supabase) {
-    _sb=window.supabase.createClient('https://bbtqusbqlcchgadjkrrn.supabase.co', 'sb_publishable_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJidHF1c2JxbGNjaGdhZGprcnJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0Nzc0MDMsImV4cCI6MjA3NzA1MzQwM30.7rreIisT0f0t4P6wYOfg7q3fJqN0E4l246A1_7f-C48');
-    pullFromCloud();
-    setInterval(pullFromCloud, 3000);
-  }
+  pullFromCloud();
+  setInterval(pullFromCloud, 3000);
+});
+
+  
 });
 function recalculateAllFromHistory(){
   let fresh={"Ignatius":{pts:0,pj:0,v:0,b:"#fff",rac:0,rec:2},"Marcelo":{pts:0,pj:0,v:0,b:"#f1c40f",rac:0,rec:1},"Jorge":{pts:0,pj:0,v:0,b:"#e74c3c",rac:0,rec:1},"Bertus":{pts:0,pj:0,v:0,b:"#95a5a6",rac:0,rec:2}};
