@@ -42,7 +42,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
     </div>
   </div>
     <div class="header-right-box">
-    <div class="version-tag">v113.0 Admin</div>
+    <div class="version-tag">v2.1 Admin</div>
     <button onclick="toggleAdminMode()" id="btn-admin-mode" class="btn-backup" style="background:#2c1307; color:var(--gold); border:1px solid var(--gold);">🔒 Admin</button>
     <button onclick="exportBackup()" class="btn-backup">💾 Respaldar</button>
     <button onclick="openResetModal()" id="btn-reset-main" class="btn-reset-top" style="display:none;">⟲ Reiniciar</button>
@@ -176,8 +176,11 @@ async function pullFromCloud(){
   }
 }
 
-
 async function pushToCloud(){
+  if (!isAdmin) {
+    alert("🔒 Modo solo lectura. Activa el botón Admin con tu PIN para guardar cambios.");
+    return;
+  }
   try {
     let res = await fetch(CLOUD_URL, {
       method: 'PATCH',
@@ -196,6 +199,7 @@ async function pushToCloud(){
 }
 
 
+
 async function executeReset(){
   localStorage.removeItem(KEY_DATA);
   closeResetModal();
@@ -205,6 +209,14 @@ async function executeReset(){
 
 
 window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
+  updateAdminUI();
+  pullFromCloud();
+  setInterval(pullFromCloud, 3000);
+});
+
+function recalculateAllFromHistory(){
+
   pullFromCloud();
   setInterval(pullFromCloud, 3000);
 });
