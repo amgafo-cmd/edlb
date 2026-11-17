@@ -42,7 +42,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
     </div>
   </div>
   <div class="header-right-box">
-    <div class="version-tag">v2.1 Final</div>
+    <div class="version-tag">v10.1 Final</div>
     <button onclick="exportBackup()" class="btn-backup">💾 Respaldar</button>
     <button onclick="openResetModal()" class="btn-reset-top">⟲ Reiniciar</button>
   </div>
@@ -65,25 +65,53 @@ const KEY_DATA = "b_liga_final_v101_live";
 const playerProfiles={"Bertus":{desc:"Destaca su aguante en partidas largas, acechando al contrincante hasta dar el golpe final. Sostiene la presión sin pestañear."},"Ignatius":{desc:"Estratega nato de la mesa. Analiza cada ángulo de carambola antes de armar el taco. Sin duda, el más salao del equipo de las bolas."},"Jorge":{desc:"El jugador impredecible del torneo. Cuando encuentra el toque del billar es completamente imparable en la mesa de tres bandas."},"Marcelo":{desc:"Jugador con gran visión de juego. Si se agacha y no le fallan las gafas, hace carambolas increíbles bajo los insultos de sus compañeros."}};
 
 let store={players:structuredClone(def),matchIdx:0,history:[]};
-let resetStep=1;
-let _sb = null;
+let resetStep = 1;
+let modalAction = 'reset';
+let pendingWinTeam = null;
+let pendingDeleteIdx = null;
 
 function tab(t,e){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));document.getElementById('t-'+t).classList.add('active');if(e&&e.target)e.target.classList.add('active')}
 
-function renderModalButtons(){
-  const c=document.getElementById("modalBtnsContainer");
-  if(resetStep===1){
-    c.innerHTML=`<button style="flex:1; padding:12px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer; background:#f7f5ee; color:#06160e; border:none;" onclick="handleModalYes()">SÍ</button><button style="flex:1; padding:12px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer; background:#dc3545; color:#fff; border:none;" onclick="closeResetModal()">CANCELAR</button>`;
+function renderModalButtons() {
+  const c = document.getElementById("modalBtnsContainer");
+  if (resetStep === 1) {
+    c.innerHTML = `<button style="flex:1; padding:12px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer; background:#f7f5ee; color:#06160e; border:none;" onclick="handleModalYes()">SÍ</button><button style="flex:1; padding:12px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer; background:#dc3545; color:#fff; border:none;" onclick="closeResetModal()">CANCELAR</button>`;
   } else {
-    c.innerHTML=`<button style="flex:1; padding:12px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer; background:#dc3545; color:#fff; border:none;" onclick="closeResetModal()">CANCELAR</button><button style="flex:1; padding:12px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer; background:#f7f5ee; color:#06160e; border:none;" onclick="handleModalYes()">SÍ</button>`;
+    c.innerHTML = `<button style="flex:1; padding:12px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer; background:#dc3545; color:#fff; border:none;" onclick="closeResetModal()">CANCELAR</button><button style="flex:1; padding:12px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer; background:#f7f5ee; color:#06160e; border:none;" onclick="handleModalYes()">SÍ</button>`;
   }
 }
-function openResetModal(){resetStep=1;document.getElementById("modalText").innerText="¿Restaurar datos reales desde Supabase?";renderModalButtons();document.getElementById("resetModal").style.display="flex"}
-function closeResetModal(){document.getElementById("resetModal").style.display="none"}
-function handleModalYes(){
-  if(resetStep===1){resetStep=2;document.getElementById("modalText").innerText="¿Seguro? Se recargará la tabla oficial.";renderModalButtons();}
-  else{executeReset();}
+
+function openConfirmModal(action, msg1) {
+  modalAction = action;
+  resetStep = 1;
+  document.getElementById("modalText").innerText = msg1;
+  renderModalButtons();
+  document.getElementById("resetModal").style.display = "flex";
 }
+
+function openResetModal() {
+  openConfirmModal('reset', "¿Restaurar datos reales desde Supabase?");
+}
+
+function closeResetModal() {
+  document.getElementById("resetModal").style.display = "none";
+}
+
+function handleModalYes() {
+  if (resetStep === 1) {
+    resetStep = 2;
+    if (modalAction === 'reset') document.getElementById("modalText").innerText = "¿Seguro? Se recargará la tabla oficial.";
+    if (modalAction === 'win') document.getElementById("modalText").innerText = "¿Confirmas añadir este segundo resultado hoy?";
+    if (modalAction === 'delete') document.getElementById("modalText").innerText = "¿Seguro? Se borrará esta ronda para todos.";
+    renderModalButtons();
+  } else {
+    closeResetModal();
+    if (modalAction === 'reset') executeReset();
+    if (modalAction === 'win') recordMatch(pendingWinTeam);
+    if (modalAction === 'delete') executeDeleteMatch(pendingDeleteIdx);
+  }
+}
+
 const CLOUD_URL = 'https://bbtqusbqlcchgadjkrrn.supabase.co/rest/v1/liga_billar?id=eq.1';
 const CLOUD_HEADERS = {
   'Content-Type': 'application/json',
@@ -203,12 +231,12 @@ function renderProfiles(){
 }
 
 function render(){
-let s = Object.entries(store.players).sort((x, y) => {
-  if (y[1].pts !== x[1].pts) return y[1].pts - x[1].pts;
-  let pctX = x[1].pj > 0 ? x[1].v / x[1].pj : 0;
-  let pctY = y[1].pj > 0 ? y[1].v / y[1].pj : 0;
-  return pctY - pctX;
-});
+  let s = Object.entries(store.players).sort((x, y) => {
+    if (y[1].pts !== x[1].pts) return y[1].pts - x[1].pts;
+    let pctX = x[1].pj > 0 ? x[1].v / x[1].pj : 0;
+    let pctY = y[1].pj > 0 ? y[1].v / y[1].pj : 0;
+    return pctY - pctX;
+  });
   let h=document.getElementById("p-cont");h.innerHTML="";
   s.forEach(([n,d],i)=>{
     let iconHTML=(["👑","🏆","🏅","🎯"])[i]||"🎯",activeStreak=d.rac>0?'on':'';
@@ -223,19 +251,56 @@ let s = Object.entries(store.players).sort((x, y) => {
   if(Array.isArray(store.history)){
     let rev=[...store.history].reverse();
     rev.forEach(m=>{
-      h.innerHTML+=`<div class='h-item'><div style='display:flex;align-items:flex-start;gap:4px;flex-direction:column'><b style='color:var(--gold);font-size:13px'>Ronda ${m.r} <span style='color:#8da497;font-weight:normal;font-size:11px;margin-left:6px'>${m.t}</span></b><div><span style='color:#2ecc71;font-weight:bold'>🏆 ${m.w}</span><span style='color:#8da497;font-size:11px'> venció a </span><span style='color:#e74c3c;text-decoration:line-through;opacity:0.7'>${m.l}</span></div></div><button class='btn-correct' onclick='toggleMatchResult(${(store.history.length-1-rev.indexOf(m))})'>Corregir</button></div>`;
+      let realIdx = store.history.length - 1 - rev.indexOf(m);
+      h.innerHTML+=`<div class='h-item'><div style='display:flex;align-items:flex-start;gap:4px;flex-direction:column'><b style='color:var(--gold);font-size:13px'>Ronda ${m.r} <span style='color:#8da497;font-weight:normal;font-size:11px;margin-left:6px'>${m.t}</span></b><div><span style='color:#2ecc71;font-weight:bold'>🏆 ${m.w}</span><span style='color:#8da497;font-size:11px'> venció a </span><span style='color:#e74c3c;text-decoration:line-through;opacity:0.7'>${m.l}</span></div></div><div style='display:flex;gap:6px;align-items:center'><button class='btn-correct' onclick='toggleMatchResult(${realIdx})'>Corregir</button><button style='background:#58131a;color:#f8d7da;border:1px solid #721c24;padding:6px 10px;border-radius:4px;font-size:10px;font-weight:bold;cursor:pointer;' onclick='deleteMatch(${realIdx})'>Borrar</button></div></div>`;
     });
   }
   renderAfinity();renderProfiles();
 }
 
-function win(t){
-  let c=cyc[store.matchIdx%3],w=t==='A'?c.a:c.b,l=t==='A'?c.b:c.a;
-  let now=new Date(),day=String(now.getDate()).padStart(2,'0'),m=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],dateStr=day+"-"+m[now.getMonth()];
-  store.history.push({r:store.history.length+1,w:w.join(" + "),l:l.join(" + "),t:dateStr});
+
+function getTodayStr() {
+  let now = new Date();
+  let day = String(now.getDate()).padStart(2, '0');
+  let m = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
+  return day + "-" + m[now.getMonth()];
+}
+
+function win(t) {
+  let todayStr = getTodayStr();
+  let alreadyPlayedToday = Array.isArray(store.history) && store.history.some(m => m.t === todayStr);
+  
+  if (alreadyPlayedToday) {
+    pendingWinTeam = t;
+    openConfirmModal('win', "⚠️ Ya hay una partida registrada hoy (" + todayStr + "). ¿Añadir otra?");
+  } else {
+    recordMatch(t);
+  }
+}
+
+function recordMatch(t) {
+  let c = cyc[store.matchIdx % 3];
+  let w = t === 'A' ? c.a : c.b;
+  let l = t === 'A' ? c.b : c.a;
+  store.history.push({ r: store.history.length + 1, w: w.join(" + "), l: l.join(" + "), t: getTodayStr() });
   store.matchIdx++;
   pushToCloud();
 }
+
+function deleteMatch(index) {
+  pendingDeleteIdx = index;
+  let ronda = store.history[index] ? store.history[index].r : (index + 1);
+  openConfirmModal('delete', "¿Eliminar la Ronda " + ronda + " del historial?");
+}
+
+function executeDeleteMatch(index) {
+  if (index === null || !Array.isArray(store.history)) return;
+  store.history.splice(index, 1);
+  store.history.forEach((m, i) => { m.r = i + 1; });
+  store.matchIdx = store.history.length;
+  pushToCloud();
+}
+
 
 document.getElementById("main-logo-asset").src="https://raw.githubusercontent.com/amgafo-cmd/edlb/main/bolas.png?v="+new Date().getTime();
 </script></body></html>
